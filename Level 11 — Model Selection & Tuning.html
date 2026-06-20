@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level 11 — Expert Knowledge: Model Selection & Tuning</title>
+    <style>
+        /* ── Reset & Base ── */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #f1f5f9;
+            color: #0f172a;
+            line-height: 1.6;
+            padding: 30px 20px;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 45px 55px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+        }
+        h1 {
+            font-size: 2.4rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: #0f172a;
+            border-bottom: 4px solid #0284c7;
+            padding-bottom: 12px;
+            margin-bottom: 6px;
+        }
+        .doc-subtitle {
+            font-size: 1.05rem;
+            color: #475569;
+            margin-bottom: 28px;
+            border-left: 4px solid #0284c7;
+            padding-left: 18px;
+            background: #f8fafc;
+            padding: 12px 20px;
+            border-radius: 8px;
+        }
+        h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-top: 38px;
+            margin-bottom: 14px;
+            color: #0f172a;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 6px;
+        }
+        h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 24px;
+            margin-bottom: 8px;
+            color: #1e293b;
+        }
+        h4 {
+            font-size: 1.0rem;
+            font-weight: 600;
+            margin-top: 18px;
+            margin-bottom: 4px;
+            color: #334155;
+        }
+        p {
+            margin-bottom: 14px;
+        }
+        ul,
+        ol {
+            margin: 10px 0 16px 24px;
+        }
+        li {
+            margin-bottom: 6px;
+        }
+        .card {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 18px 22px;
+            margin: 16px 0;
+            border-left: 5px solid #94a3b8;
+        }
+        .card.blue {
+            border-left-color: #3b82f6;
+            background: #eff6ff;
+        }
+        .card.green {
+            border-left-color: #22c55e;
+            background: #f0fdf4;
+        }
+        .card.amber {
+            border-left-color: #f59e0b;
+            background: #fffbeb;
+        }
+        .card.red {
+            border-left-color: #ef4444;
+            background: #fef2f2;
+        }
+        .card.purple {
+            border-left-color: #7c3aed;
+            background: #f5f3ff;
+        }
+        .card.sky {
+            border-left-color: #0284c7;
+            background: #f0f9ff;
+        }
+        .card.teal {
+            border-left-color: #14b8a6;
+            background: #f0fdfa;
+        }
+        .callout {
+            padding: 14px 20px;
+            border-radius: 10px;
+            margin: 16px 0;
+            font-weight: 500;
+        }
+        .callout.info {
+            background: #dbeafe;
+            color: #1e3a8a;
+        }
+        .callout.warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        .callout.danger {
+            background: #fecaca;
+            color: #991b1b;
+        }
+        .callout.success {
+            background: #bbf7d0;
+            color: #166534;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0 20px;
+            font-size: 0.95rem;
+        }
+        th {
+            background: #1e293b;
+            color: #f8fafc;
+            padding: 10px 14px;
+            text-align: left;
+            font-weight: 600;
+        }
+        td {
+            padding: 10px 14px;
+            border-bottom: 1px solid #e2e8f0;
+            vertical-align: top;
+        }
+        tr:nth-child(even) {
+            background: #f8fafc;
+        }
+        tr:hover {
+            background: #f1f5f9;
+        }
+        .code-block {
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 16px 22px;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            font-size: 0.88rem;
+            overflow-x: auto;
+            margin: 14px 0;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        .inline-code {
+            background: #e2e8f0;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        .tag {
+            display: inline-block;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .tag.bad {
+            background: #fecaca;
+            color: #991b1b;
+        }
+        .tag.good {
+            background: #fde68a;
+            color: #92400e;
+        }
+        .tag.expert {
+            background: #93c5fd;
+            color: #1e3a5f;
+        }
+        .tag.production {
+            background: #6ee7b7;
+            color: #064e3b;
+        }
+        .tag.master {
+            background: #c4b5fd;
+            color: #4c1d95;
+        }
+        .prompt-ladder {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 16px 0;
+        }
+        .prompt-item {
+            padding: 14px 20px;
+            border-radius: 10px;
+            border-left: 6px solid;
+        }
+        .prompt-item.bad {
+            background: #fef2f2;
+            border-color: #ef4444;
+        }
+        .prompt-item.good {
+            background: #fffbeb;
+            border-color: #f59e0b;
+        }
+        .prompt-item.expert {
+            background: #eff6ff;
+            border-color: #3b82f6;
+        }
+        .prompt-item.production {
+            background: #ecfdf5;
+            border-color: #10b981;
+        }
+        .prompt-item.master {
+            background: #f5f3ff;
+            border-color: #8b5cf6;
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+        }
+        @media (max-width: 760px) {
+            .grid-2,
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+            .container {
+                padding: 24px 18px;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+        .mermaid {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            white-space: pre;
+            overflow-x: auto;
+            margin: 16px 0;
+            border: 1px solid #e2e8f0;
+        }
+        .hr-divider {
+            border: 0;
+            height: 2px;
+            background: linear-gradient(to right, #e2e8f0, #94a3b8, #e2e8f0);
+            margin: 30px 0;
+        }
+        .small {
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+        details {
+            margin: 12px 0;
+            padding: 10px 16px;
+            background: #f8fafc;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+        }
+        details summary {
+            font-weight: 600;
+            cursor: pointer;
+            color: #1e293b;
+        }
+        details summary:hover {
+            color: #0284c7;
+        }
+        details .content {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #e2e8f0;
+        }
+        .model-card {
+            background: #f0f9ff;
+            border: 2px solid #0284c7;
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin: 12px 0;
+        }
+        .model-card h4 {
+            color: #0369a1;
+            margin-top: 0;
+        }
+        .param-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+        }
+        .param-table th {
+            background: #0f172a;
+            color: white;
+            padding: 8px 14px;
+            text-align: left;
+        }
+        .param-table td {
+            padding: 8px 14px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .param-table tr:nth-child(even) {
+            background: #f8fafc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- ============================================= -->
+        <!-- 1. EXECUTIVE SUMMARY                         -->
+        <!-- ============================================= -->
+        <h1>⚙️ Level 11 — Model Selection & Tuning</h1>
+        <div class="doc-subtitle">
+            <strong>Permanent Knowledge Base</strong> &bull; BIM Automation Specialist &bull; Choosing the Right Engine
+        </div>
+
+        <div class="card sky">
+            <h3 style="margin-top:0;">📌 Executive Summary</h3>
+            <p>
+                <strong>Model Selection</strong> is the process of choosing the optimal AI model for a specific task
+                based on capability, cost, speed, and reliability. <strong>Model Tuning</strong> is the adjustment
+                of parameters (Temperature, Top-P, Max Tokens, Penalties) that control how the model generates text.
+            </p>
+            <p>
+                The core principle is: <strong>"The right model and the right settings can double the quality of
+                your output—and halve your costs."</strong>
+            </p>
+            <ul>
+                <li><strong>GPT-4:</strong> Best for complex reasoning and production code.</li>
+                <li><strong>Claude 3.5:</strong> Best for long-context analysis and documentation.</li>
+                <li><strong>DeepSeek-V3:</strong> Best for cost-effective bulk generation.</li>
+                <li><strong>Gemini 2.0:</strong> Best for multimodal tasks.</li>
+                <li><strong>Local LLMs:</strong> Best for privacy and offline use.</li>
+            </ul>
+            <p>
+                <strong>Key Insight:</strong> For BIM automation, a multi-model strategy—using DeepSeek for bulk
+                generation and Claude or GPT-4 for validation—is the most cost-effective and reliable approach.
+            </p>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 2. LEARNING HIGHLIGHTS                       -->
+        <!-- ============================================= -->
+        <h2>📚 Learning Highlights</h2>
+        <div class="grid-2">
+            <div class="card">
+                <strong>🔹 Model Selection</strong>
+                <ul>
+                    <li>Choosing the right model for the task</li>
+                    <li>Balancing capability, cost, and speed</li>
+                    <li>Multi-model strategies</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>🔹 Temperature</strong>
+                <ul>
+                    <li>Controls randomness (0.0–2.0)</li>
+                    <li>Low = deterministic, High = creative</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>🔹 Top-P (Nucleus Sampling)</strong>
+                <ul>
+                    <li>Controls token selection range</li>
+                    <li>Low = focused, High = diverse</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>🔹 Penalties &amp; Max Tokens</strong>
+                <ul>
+                    <li>Frequency Penalty: Reduces repetition</li>
+                    <li>Presence Penalty: Encourages new topics</li>
+                    <li>Max Tokens: Controls cost and verbosity</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 3. KEY CONCEPTS                              -->
+        <!-- ============================================= -->
+        <h2>🧩 Key Concepts</h2>
+
+        <h3>1. Major Models Compared</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Model</th>
+                    <th>Best For</th>
+                    <th>Strengths</th>
+                    <th>Weaknesses</th>
+                    <th>Cost</th>
+                    <th>Context Window</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>GPT-4</strong></td>
+                    <td>Complex reasoning, production code</td>
+                    <td>Excellent reasoning, broad knowledge</td>
+                    <td>Expensive, slower</td>
+                    <td>High</td>
+                    <td>128K</td>
+                </tr>
+                <tr>
+                    <td><strong>GPT-4o</strong></td>
+                    <td>General purpose, multimodal</td>
+                    <td>Fast, good reasoning, vision</td>
+                    <td>Less deep than GPT-4</td>
+                    <td>Medium</td>
+                    <td>128K</td>
+                </tr>
+                <tr>
+                    <td><strong>Claude 3.5 Sonnet</strong></td>
+                    <td>Analysis, long context, structured outputs</td>
+                    <td>Excellent instruction following, large context</td>
+                    <td>Less creative</td>
+                    <td>Medium</td>
+                    <td>200K</td>
+                </tr>
+                <tr>
+                    <td><strong>Claude 3 Opus</strong></td>
+                    <td>Complex reasoning, analysis</td>
+                    <td>Excellent reasoning, structured outputs</td>
+                    <td>Expensive</td>
+                    <td>High</td>
+                    <td>200K</td>
+                </tr>
+                <tr>
+                    <td><strong>DeepSeek-V3</strong></td>
+                    <td>Code generation, technical tasks</td>
+                    <td>Excellent code, cost-effective</td>
+                    <td>Less creative</td>
+                    <td>Low</td>
+                    <td>128K</td>
+                </tr>
+                <tr>
+                    <td><strong>Gemini 2.0</strong></td>
+                    <td>Multimodal, Google integration</td>
+                    <td>Strong vision, YouTube/Drive integration</td>
+                    <td>Less general reasoning</td>
+                    <td>Medium</td>
+                    <td>1M+</td>
+                </tr>
+                <tr>
+                    <td><strong>Local LLMs (Llama 3, Mistral)</strong></td>
+                    <td>Privacy, fine-tuning, offline</td>
+                    <td>Full control, privacy</td>
+                    <td>Requires expertise, less capable</td>
+                    <td>Free (hardware)</td>
+                    <td>Varies</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>2. Parameter Tuning</h3>
+        <table class="param-table">
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>What It Controls</th>
+                    <th>Typical Range</th>
+                    <th>Effect</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Temperature</strong></td>
+                    <td>Randomness/Creativity</td>
+                    <td>0.0 – 2.0</td>
+                    <td>Low = deterministic; High = creative</td>
+                </tr>
+                <tr>
+                    <td><strong>Top-P (Nucleus Sampling)</strong></td>
+                    <td>Focus of the probability distribution</td>
+                    <td>0.0 – 1.0</td>
+                    <td>Low = focused; High = diverse</td>
+                </tr>
+                <tr>
+                    <td><strong>Max Tokens</strong></td>
+                    <td>Maximum response length</td>
+                    <td>Varies</td>
+                    <td>Limits cost and verbosity</td>
+                </tr>
+                <tr>
+                    <td><strong>Frequency Penalty</strong></td>
+                    <td>Penalizes repetition</td>
+                    <td>-2.0 – 2.0</td>
+                    <td>Reduces repetitive outputs</td>
+                </tr>
+                <tr>
+                    <td><strong>Presence Penalty</strong></td>
+                    <td>Penalizes new topics</td>
+                    <td>-2.0 – 2.0</td>
+                    <td>Encourages topic diversity</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>3. Choosing the Right Model</h3>
+        <div class="mermaid">
+┌─────────────────────────────────────┐
+│ What is the primary task?          │
+└──────────────┬──────────────────────┘
+               │
+       ┌───────┼───────────────┐
+       │       │               │
+       ▼       ▼               ▼
+┌───────────┐ ┌───────────┐ ┌───────────┐
+│ Complex   │ │ Code      │ │ Multi-    │
+│ Reasoning │ │ Generation│ │ Modal     │
+└─────┬─────┘ └─────┬─────┘ └─────┬─────┘
+      │             │             │
+      ▼             ▼             ▼
+┌───────────┐ ┌───────────┐ ┌───────────┐
+│ Claude    │ │ DeepSeek  │ │ Gemini    │
+│ 3.5       │ │ or GPT-4  │ │ 2.0       │
+└───────────┘ └───────────┘ └───────────┘
+        </div>
+
+        <h3>4. The M.O.D.E.L. Framework</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Letter</th>
+                    <th>Meaning</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>M</strong></td><td>Match</td><td>Match the model to the task.</td></tr>
+                <tr><td><strong>O</strong></td><td>Optimize</td><td>Optimize parameters (temperature, penalties).</td></tr>
+                <tr><td><strong>D</strong></td><td>Define</td><td>Define token limits to control cost.</td></tr>
+                <tr><td><strong>E</strong></td><td>Evaluate</td><td>Evaluate cost and quality.</td></tr>
+                <tr><td><strong>L</strong></td><td>Learn</td><td>Learn from results and iterate.</td></tr>
+            </tbody>
+        </table>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 4. EXPERT MENTAL MODEL                       -->
+        <!-- ============================================= -->
+        <h2>🧠 Expert Mental Model</h2>
+
+        <div class="card purple">
+            <h4 style="margin-top:0;">🧩 Mental Model: The Toolbox</h4>
+            <p>
+                Imagine you are a master craftsman. You don't have one tool—you have a toolbox. You choose:
+            </p>
+            <ul>
+                <li>A <strong>sledgehammer</strong> for demolition (heavy work).</li>
+                <li>A <strong>fine chisel</strong> for delicate carving (precision work).</li>
+                <li>A <strong>power drill</strong> for speed (routine work).</li>
+                <li>A <strong>hand plane</strong> for finishing (polishing).</li>
+            </ul>
+            <p>
+                Each tool has a specific purpose. You wouldn't use a sledgehammer to carve a delicate detail,
+                and you wouldn't use a fine chisel to demolish a wall. The same applies to AI models.
+            </p>
+        </div>
+
+        <h3>How an Expert Thinks</h3>
+        <ul>
+            <li><strong>Match the Model to the Task:</strong> "For code generation, I'll use DeepSeek. For reasoning, I'll use Claude."</li>
+            <li><strong>Tune for Consistency:</strong> "I'll set Temperature to 0.0 for deterministic code."</li>
+            <li><strong>Optimize for Cost:</strong> "I'll use a cheaper model for bulk generation and a more capable model for validation."</li>
+            <li><strong>Iterate Based on Results:</strong> "If the output is too repetitive, I'll increase Frequency Penalty."</li>
+        </ul>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 5. HIDDEN KNOWLEDGE                          -->
+        <!-- ============================================= -->
+        <h2>🔮 Hidden Knowledge (Rarely Written in Tutorials)</h2>
+
+        <div class="grid-2">
+            <div class="card teal">
+                <strong>🎯 The "Multi-Model" Strategy</strong>
+                <p>Use DeepSeek for the first draft (cheap), then use Claude or GPT-4 to review and improve
+                (capable). This gives you the best of both worlds: cost and quality.</p>
+            </div>
+            <div class="card teal">
+                <strong>🎯 Temperature as a "Creativity Dial"</strong>
+                <p>For BIM reports, use Temperature 0.3–0.5. This gives you enough creativity to sound
+                human-written but not so much that it becomes unreliable.</p>
+            </div>
+            <div class="card teal">
+                <strong>🎯 Max Tokens = Cost Control</strong>
+                <p>Setting Max Tokens lower than the model's maximum is the single most effective way to
+                control costs. You can always ask for more if needed.</p>
+            </div>
+            <div class="card teal">
+                <strong>🎯 The "Frequency Penalty" for Long Documents</strong>
+                <p>For long BIM reports, always use Frequency Penalty 0.5–1.0. It prevents the AI from
+                repeating the same keywords ("clash", "model", "element") and improves readability.</p>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 6. BEGINNER MISTAKES                         -->
+        <!-- ============================================= -->
+        <h2>⚠️ Beginner Mistakes</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Mistake</th>
+                    <th>Consequence</th>
+                    <th>How to Avoid</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Using the most expensive model for everything</strong></td>
+                    <td>Cost overruns</td>
+                    <td>Match the model to the task.</td>
+                </tr>
+                <tr>
+                    <td><strong>Not tuning temperature</strong></td>
+                    <td>Output is too creative or too rigid</td>
+                    <td>Adjust temperature based on task.</td>
+                </tr>
+                <tr>
+                    <td><strong>Setting temperature too high for code</strong></td>
+                    <td>Code may contain errors</td>
+                    <td>Use low temperature for deterministic tasks.</td>
+                </tr>
+                <tr>
+                    <td><strong>Not using frequency penalty</strong></td>
+                    <td>Output repeats itself</td>
+                    <td>Add frequency penalty for long responses.</td>
+                </tr>
+                <tr>
+                    <td><strong>Using the same model for all tasks</strong></td>
+                    <td>Suboptimal quality for some tasks</td>
+                    <td>Use different models for different tasks.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 7. THINGS PEOPLE USUALLY SKIP               -->
+        <!-- ============================================= -->
+        <h2>📌 Things People Usually Skip (But Experts Don't)</h2>
+        <div class="grid-2">
+            <div class="card">
+                <strong>🔸 The "Multi-Model" Workflow</strong>
+                <p>Experts don't use one model—they use different models for different stages of a workflow.</p>
+            </div>
+            <div class="card">
+                <strong>🔸 The "Temperature Calibration"</strong>
+                <p>Experts test different temperature settings on a sample before committing to production.</p>
+            </div>
+            <div class="card">
+                <strong>🔸 The "Cost Tracking"</strong>
+                <p>Experts track token usage and cost per task, not just total cost.</p>
+            </div>
+            <div class="card">
+                <strong>🔸 The "Frequency Penalty" for Long Documents</strong>
+                <p>Experts always use Frequency Penalty for long reports to reduce repetition.</p>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 8. CRITICAL THINKING CHALLENGES             -->
+        <!-- ============================================= -->
+        <h2>🧩 Critical Thinking Challenges</h2>
+
+        <details>
+            <summary><strong>Challenge 1: The Cost-Conscious Project</strong></summary>
+            <div class="content">
+                <p><strong>Scenario:</strong> You have a budget of $100/month and need to generate 500 Revit API
+                methods per month.</p>
+                <p><strong>Question:</strong> What is your strategy for model selection and cost optimization?</p>
+                <details>
+                    <summary><strong>🔍 Expert Reasoning</strong></summary>
+                    <div class="content">
+                        <p><strong>Solution:</strong> Use DeepSeek-V3 for bulk generation (cost-effective).
+                        Use GPT-4 or Claude only for validation of the most complex methods (5-10% of tasks).
+                        Set Max Tokens to 1500 to control cost. Use Temperature 0.0 for deterministic code.
+                        This keeps costs low while maintaining quality.</p>
+                    </div>
+                </details>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Challenge 2: The Repetitive Report</strong></summary>
+            <div class="content">
+                <p><strong>Scenario:</strong> Your AI-generated project reports are repetitive, using the same
+                words and phrases over and over.</p>
+                <p><strong>Question:</strong> How would you tune parameters to fix this?</p>
+                <details>
+                    <summary><strong>🔍 Expert Reasoning</strong></summary>
+                    <div class="content">
+                        <p><strong>Solution:</strong> Increase Frequency Penalty to 0.5–1.0 to penalize repetition.
+                        Increase Presence Penalty to 0.3–0.5 to encourage new topics. Lower Temperature to 0.3–0.5
+                        to reduce randomness while keeping some creativity.</p>
+                    </div>
+                </details>
+            </div>
+        </details>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 9. PRACTICAL WORKFLOW                        -->
+        <!-- ============================================= -->
+        <h2>🔄 Practical Workflow: Model Selection &amp; Tuning</h2>
+
+        <div class="mermaid">
+1. DEFINE THE TASK
+   └── What is the goal? (Code generation, report writing, analysis)
+
+2. SELECT THE MODEL
+   └── Match the model to the task:
+         └── Code → DeepSeek or GPT-4
+         └── Reasoning → Claude
+         └── Multimodal → Gemini
+
+3. SET TEMPERATURE
+   └── Code: 0.0–0.3
+   └── Reports: 0.3–0.7
+   └── Creative: 0.7–1.0
+
+4. SET TOKEN LIMITS
+   └── Max Tokens to control cost and verbosity
+
+5. SET PENALTIES
+   └── Frequency Penalty for long documents
+   └── Presence Penalty for diverse topics
+
+6. TEST & ITERATE
+   └── Run a sample. Adjust parameters based on results.
+        </div>
+
+        <div class="callout info">
+            <strong>💡 Expert Checkpoint:</strong> If your output quality is high and your costs are within budget,
+            your model selection and tuning are optimized.
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 10. EXECUTION CHECKLIST                      -->
+        <!-- ============================================= -->
+        <h2>✅ Execution Checklist</h2>
+
+        <div class="grid-2">
+            <div class="card blue">
+                <strong>📋 Model Selection</strong>
+                <ul>
+                    <li>☐ Model matched to task</li>
+                    <li>☐ Cost considered</li>
+                    <li>☐ Multi-model strategy defined</li>
+                </ul>
+            </div>
+            <div class="card blue">
+                <strong>📋 Parameter Tuning</strong>
+                <ul>
+                    <li>☐ Temperature set appropriately</li>
+                    <li>☐ Max Tokens defined</li>
+                    <li>☐ Frequency Penalty set (if needed)</li>
+                    <li>☐ Presence Penalty set (if needed)</li>
+                </ul>
+            </div>
+            <div class="card green">
+                <strong>📋 Testing &amp; Validation</strong>
+                <ul>
+                    <li>☐ Sample tested</li>
+                    <li>☐ Cost tracked</li>
+                    <li>☐ Quality validated</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 11. RULES TO ALWAYS REMEMBER                -->
+        <!-- ============================================= -->
+        <h2>📜 Rules to Always Remember</h2>
+        <div class="grid-2">
+            <div class="card green">
+                <strong>🏆 Golden Rules</strong>
+                <ul>
+                    <li><strong>Match the model to the task.</strong></li>
+                    <li><strong>Temperature = Creativity Dial.</strong> Low for code, high for creative.</li>
+                    <li><strong>Max Tokens = Cost Control.</strong> Set it to the minimum needed.</li>
+                    <li><strong>Frequency Penalty for Long Documents.</strong> Reduces repetition.</li>
+                    <li><strong>Use a Multi-Model Strategy.</strong> Cheap for bulk, capable for validation.</li>
+                </ul>
+            </div>
+            <div class="card red">
+                <strong>🚫 Never Do This</strong>
+                <ul>
+                    <li>Use the most expensive model for everything.</li>
+                    <li>Skip tuning parameters.</li>
+                    <li>Forget to track costs.</li>
+                    <li>Use the same model for all tasks.</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 12. DECISION TREE                           -->
+        <!-- ============================================= -->
+        <h2>🌳 Decision Tree: Which Model to Use?</h2>
+
+        <div class="mermaid">
+┌─────────────────────────────────────┐
+│ What is the primary task?          │
+└──────────────┬──────────────────────┘
+               │
+       ┌───────┼───────────────┐
+       │       │               │
+       ▼       ▼               ▼
+┌───────────┐ ┌───────────┐ ┌───────────┐
+│ Code      │ │ Analysis  │ │ Multi-    │
+│ Generation│ │ & Reports │ │ Modal     │
+└─────┬─────┘ └─────┬─────┘ └─────┬─────┘
+      │             │             │
+      ▼             ▼             ▼
+┌───────────┐ ┌───────────┐ ┌───────────┐
+│ DeepSeek  │ │ Claude    │ │ Gemini    │
+│ or GPT-4  │ │ 3.5       │ │ 2.0       │
+└───────────┘ └───────────┘ └───────────┘
+      │             │
+      │             │
+      └──────┬──────┘
+             ▼
+┌─────────────────────────────────────┐
+│ Is budget a constraint?            │
+└──────────────┬──────────────────────┘
+               │
+       ┌───────┴───────┐
+       │               │
+       ▼               ▼
+┌───────────┐   ┌───────────┐
+│ Yes       │   │ No        │
+├───────────┤   ├───────────┤
+│ DeepSeek  │   │ GPT-4     │
+└───────────┘   └───────────┘
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 13. PATTERN RECOGNITION                     -->
+        <!-- ============================================= -->
+        <h2>🔍 Pattern Recognition: When to Apply This</h2>
+        <div class="grid-2">
+            <div class="card">
+                <strong>🚦 Signals This Applies</strong>
+                <ul>
+                    <li>You are starting a new AI project</li>
+                    <li>You are optimizing for cost</li>
+                    <li>You are getting inconsistent outputs</li>
+                    <li>You are generating long documents</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>⚠️ Warning Signs You're Forgetting This</strong>
+                <ul>
+                    <li>You are using the same model for everything</li>
+                    <li>You are not tracking costs</li>
+                    <li>You are not adjusting parameters</li>
+                    <li>You are getting repetitive outputs</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 14. PROFESSIONAL TIPS                       -->
+        <!-- ============================================= -->
+        <h2>💼 Professional Tips: What Seniors Do Differently</h2>
+        <ul>
+            <li><strong>They use a multi-model strategy.</strong> Cheap models for bulk, capable models for validation.</li>
+            <li><strong>They track cost per task.</strong> They know exactly how much each AI call costs.</li>
+            <li><strong>They tune parameters systematically.</strong> They test different settings on samples.</li>
+            <li><strong>They set Max Tokens tightly.</strong> They don't waste tokens on unnecessary verbosity.</li>
+            <li><strong>They use Frequency Penalty for all long documents.</strong> They know it improves readability.</li>
+        </ul>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 15. OPTIMIZATION OPPORTUNITIES              -->
+        <!-- ============================================= -->
+        <h2>⚡ Optimization Opportunities</h2>
+        <div class="grid-2">
+            <div class="card teal">
+                <strong>🚀 Performance</strong>
+                <ul>
+                    <li>Use DeepSeek for faster, cheaper generation</li>
+                    <li>Use Claude for better long-context understanding</li>
+                    <li>Use GPT-4 for complex reasoning</li>
+                </ul>
+            </div>
+            <div class="card teal">
+                <strong>📊 Quality</strong>
+                <ul>
+                    <li>Tune Temperature for the task</li>
+                    <li>Use Frequency Penalty to reduce repetition</li>
+                    <li>Use Presence Penalty to encourage new topics</li>
+                </ul>
+            </div>
+            <div class="card teal">
+                <strong>💰 Cost</strong>
+                <ul>
+                    <li>Set Max Tokens to the minimum needed</li>
+                    <li>Use a cheaper model for bulk generation</li>
+                    <li>Track token usage per task</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 16. EDGE CASES                              -->
+        <!-- ============================================= -->
+        <h2>🔀 Edge Cases</h2>
+        <ul>
+            <li><strong>Very long context:</strong> Claude 3.5 (200K) or Gemini (1M+) are best.</li>
+            <li><strong>Multimodal tasks:</strong> Gemini 2.0 is the best choice.</li>
+            <li><strong>Privacy-sensitive tasks:</strong> Use a local LLM.</li>
+            <li><strong>Real-time applications:</strong> Choose a faster model (e.g., GPT-4o).</li>
+            <li><strong>Complex reasoning:</strong> GPT-4 or Claude 3 Opus are best.</li>
+        </ul>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 17. VALIDATION & QA                         -->
+        <!-- ============================================= -->
+        <h2>✅ Validation &amp; Quality Assurance</h2>
+
+        <h3>How to Verify Model Selection &amp; Tuning</h3>
+        <ul>
+            <li><strong>Quality Check:</strong> Is the output accurate and complete?</li>
+            <li><strong>Cost Check:</strong> Is the cost within budget?</li>
+            <li><strong>Consistency Check:</strong> Are outputs consistent across runs?</li>
+            <li><strong>Parameter Check:</strong> Are the parameters optimal for the task?</li>
+            <li><strong>Model Check:</strong> Is the model the best fit for the task?</li>
+        </ul>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 18. FREQUENTLY ASKED QUESTIONS              -->
+        <!-- ============================================= -->
+        <h2>❓ Frequently Asked Questions</h2>
+
+        <details>
+            <summary><strong>Q: What is the difference between Temperature and Top-P?</strong></summary>
+            <div class="content">
+                <p><strong>A:</strong> Temperature controls the <em>strength</em> of randomness. Top-P controls
+                the <em>range</em> of token selection. Temperature = randomness strength; Top-P = vocabulary
+                selection range.</p>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Q: Which model is best for code generation?</strong></summary>
+            <div class="content">
+                <p><strong>A:</strong> DeepSeek-V3 is the best cost-performance ratio for code. GPT-4 is the
+                most capable. For production, use DeepSeek for bulk and GPT-4 for validation.</p>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Q: How do I reduce repetition in AI outputs?</strong></summary>
+            <div class="content">
+                <p><strong>A:</strong> Increase Frequency Penalty (0.5–1.0). This penalizes tokens that have
+                already appeared, encouraging the AI to use a wider vocabulary.</p>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Q: Should I use the same model for all BIM tasks?</strong></summary>
+            <div class="content">
+                <p><strong>A:</strong> No. Different models excel at different tasks. Use Claude for analysis,
+                DeepSeek for code, and Gemini for multimodal tasks. A multi-model strategy is more cost-effective
+                and yields better quality.</p>
+            </div>
+        </details>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 19. KNOWLEDGE CONNECTIONS                   -->
+        <!-- ============================================= -->
+        <h2>🔗 Knowledge Connections</h2>
+        <div class="grid-2">
+            <div class="card">
+                <strong>➡️ Prerequisites</strong>
+                <ul>
+                    <li>Level 0: What is AI? (Mental model)</li>
+                    <li>Level 1: Prompt Fundamentals (Structure)</li>
+                    <li>Level 2: Context Engineering (Grounding)</li>
+                    <li>Level 3: Prime Directives & Persona (Behavior)</li>
+                    <li>Level 4: Structured Prompting (Format)</li>
+                    <li>Level 5: Output Structuring (Constraints)</li>
+                    <li>Level 6: Few-Shot & Zero-Shot (Examples)</li>
+                    <li>Level 7: Reasoning Strategies (CoT, ToT)</li>
+                    <li>Level 8: Advanced Strategies (RAG, ReAct, Reflection)</li>
+                    <li>Level 9: Prompt Debugging</li>
+                    <li>Level 10: AI Agents</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>➡️ What This Leads To</strong>
+                <ul>
+                    <li><strong>Level 12:</strong> Enterprise Prompting</li>
+                    <li><strong>Level 13:</strong> Capstone Project</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 20. FUTURE LEARNING ROADMAP                 -->
+        <!-- ============================================= -->
+        <h2>🗺️ Future Learning Roadmap</h2>
+        <div class="mermaid">
+BEGINNER
+├── Level 0: What is AI? ✅
+├── Level 1: Prompt Fundamentals ✅
+├── Level 2: Context Engineering ✅
+├── Level 3: Prime Directives & Persona ✅
+├── Level 4: Structured Prompting ✅
+├── Level 5: Output Structuring & Constraints ✅
+├── Level 6: Few-Shot & Zero-Shot ✅
+├── Level 7: Reasoning Strategies ✅
+├── Level 8: Advanced Strategies ✅
+├── Level 9: Prompt Debugging ✅
+├── Level 10: AI Agents ✅
+└── Level 11: Model Selection & Tuning  ◄── YOU ARE HERE
+
+ADVANCED
+└── Level 12: Enterprise Prompting
+
+MASTER
+└── Level 13: Capstone Project
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 21. AI PROMPT ENGINEERING INSIGHTS          -->
+        <!-- ============================================= -->
+        <h2>✍️ AI Prompt Engineering Insights</h2>
+
+        <div class="prompt-ladder">
+            <div class="prompt-item bad">
+                <strong><span class="tag bad">BAD</span></strong><br>
+                <em>"Generate a Revit API method using GPT-4."</em>
+                <div class="small" style="color:#991b1b;">Expensive. No parameter tuning.</div>
+            </div>
+            <div class="prompt-item good">
+                <strong><span class="tag good">GOOD</span></strong><br>
+                <em>"Generate a Revit API method using DeepSeek. Temperature 0.0."</em>
+                <div class="small" style="color:#92400e;">Cost-effective. Temperature tuned.</div>
+            </div>
+            <div class="prompt-item expert">
+                <strong><span class="tag expert">EXPERT</span></strong><br>
+                <em>"Generate a Revit API method using DeepSeek (draft) then review with Claude (validation).
+                DeepSeek: Temp 0.0, Max Tokens 1500. Claude: Temp 0.3."</em>
+                <div class="small" style="color:#1e3a5f;">Multi-model strategy. Fine-tuned parameters.</div>
+            </div>
+            <div class="prompt-item production">
+                <strong><span class="tag production">PRODUCTION</span></strong><br>
+                <em><strong>Model Pipeline:</strong><br>
+                1. DeepSeek-V3 → Draft code (Temp 0.0, Max Tokens 2000, Freq Penalty 0.5)<br>
+                2. Claude 3.5 → Review and improve (Temp 0.3, Max Tokens 3000)<br>
+                3. GPT-4 → Final validation for critical methods (Temp 0.0)<br>
+                <strong>Cost Tracking:</strong> $0.02 per draft, $0.05 per review, $0.15 per validation.<br>
+                <strong>Output:</strong> Production-ready code.</em>
+                <div class="small" style="color:#064e3b;">Full production pipeline with cost tracking.</div>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 22. PROMPT IMPROVEMENT SUGGESTIONS          -->
+        <!-- ============================================= -->
+        <h2>📝 Prompt Improvement Suggestions</h2>
+
+        <h3>Your Level 10 Expert Prompt (Without Model/Tuning Specification)</h3>
+        <div class="code-block">
+"Act as a Senior BIM Automation Architect. Generate a Revit API plugin to create views from an Excel list."
+        </div>
+        <p><strong>Weaknesses:</strong> No model specified. No parameters tuned.</p>
+
+        <h3>Production-Level with Model Selection &amp; Tuning</h3>
+        <div class="code-block">
+<strong>Task:</strong> Generate a Revit API plugin to create views from an Excel list.
+<strong>Model Pipeline:</strong>
+- Draft: DeepSeek-V3 (Temp: 0.0, Max Tokens: 2000, Freq Penalty: 0.5)
+- Review: Claude 3.5 (Temp: 0.3, Max Tokens: 3000)
+- Final Validation: GPT-4 (Temp: 0.0, for critical methods only)
+<strong>Cost:</strong> Estimated $0.10 per plugin.
+<strong>Output:</strong> Production-ready code with full documentation.
+        </div>
+        <p><strong>Why it's better:</strong> Cost-optimized, quality-assured, and reproducible.</p>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 23. MY LEARNING ANALYSIS                   -->
+        <!-- ============================================= -->
+        <h2>📊 Your Learning Analysis</h2>
+        <div class="grid-2">
+            <div class="card green">
+                <strong>✅ Strengths Demonstrated</strong>
+                <ul>
+                    <li>You accurately distinguished the strengths of GPT-4, Claude, and DeepSeek.</li>
+                    <li>You explained the difference between Temperature and Top-P.</li>
+                    <li>You recommended the correct temperature for Revit API generation.</li>
+                    <li>You made the right economic decision for a budget-constrained project.</li>
+                    <li>You explained how to use Frequency and Presence Penalties for reports.</li>
+                </ul>
+            </div>
+            <div class="card amber">
+                <strong>🔶 Areas for Growth</strong>
+                <ul>
+                    <li>Practice building multi-model pipelines for different BIM tasks.</li>
+                    <li>Experiment with different parameter combinations on samples.</li>
+                    <li>Track costs for your AI usage to optimize further.</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 24. FINAL EXPERT TAKEAWAY                  -->
+        <!-- ============================================= -->
+        <h2>🎯 Final Expert Takeaway</h2>
+        <div class="card sky" style="border-left-color:#0284c7;">
+            <h3 style="margin-top:0; color:#0369a1;">📄 One Page of Advice from a 30-Year Mentor</h3>
+            <p>
+                <strong>"The right tool for the right job."</strong>
+            </p>
+            <p>
+                You wouldn't use a sledgehammer to carve a delicate detail, and you wouldn't use a fine chisel
+                to demolish a wall. The same applies to AI models. Choosing the right model and tuning its
+                parameters is not just about quality—it is about economics.
+            </p>
+            <p>
+                A master craftsman knows their tools. They know which tool to use for which task, how to
+                sharpen it, and when to replace it. Be that master craftsman for AI. Match the model to the
+                task, tune it for consistency, and optimize it for cost.
+            </p>
+            <p style="margin-top:12px; font-weight:600; color:#0369a1;">
+                🔥 Know your models. Tune your parameters. Control your costs.
+            </p>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 25. MEMORY REVISION SHEET                   -->
+        <!-- ============================================= -->
+        <h2>📄 Memory Revision Sheet (5-Minute Review)</h2>
+        <div class="card" style="border-left-color:#0284c7; background:#f0f9ff;">
+            <div class="grid-2" style="gap:8px;">
+                <div>
+                    <strong>🧠 Model Selection</strong>
+                    <ul style="margin:4px 0 0 18px; font-size:0.9rem;">
+                        <li>GPT-4: Complex reasoning</li>
+                        <li>Claude 3.5: Analysis & docs</li>
+                        <li>DeepSeek: Code & bulk</li>
+                        <li>Gemini: Multimodal</li>
+                    </ul>
+                </div>
+                <div>
+                    <strong>🧠 Temperature</strong>
+                    <ul style="margin:4px 0 0 18px; font-size:0.9rem;">
+                        <li>0.0–0.3: Code (deterministic)</li>
+                        <li>0.3–0.7: Reports (balanced)</li>
+                        <li>0.7–1.0: Creative (diverse)</li>
+                    </ul>
+                </div>
+                <div>
+                    <strong>🧠 Penalties</strong>
+                    <ul style="margin:4px 0 0 18px; font-size:0.9rem;">
+                        <li>Frequency: Reduces repetition</li>
+                        <li>Presence: Encourages new topics</li>
+                    </ul>
+                </div>
+                <div>
+                    <strong>🧠 Cost Control</strong>
+                    <ul style="margin:4px 0 0 18px; font-size:0.9rem;">
+                        <li>Max Tokens = Cost Control</li>
+                        <li>Multi-model strategy</li>
+                        <li>Track cost per task</li>
+                    </ul>
+                </div>
+            </div>
+            <hr style="margin:10px 0; border-color:#bae6fd;">
+            <div style="font-size:0.85rem;">
+                <strong>Production secret:</strong> Multi-model + tuned parameters = cost-effective quality.
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 26. INTERVIEW PERSPECTIVE                   -->
+        <!-- ============================================= -->
+        <h2>🎤 Interview Perspective</h2>
+
+        <details>
+            <summary><strong>Technical Interview</strong></summary>
+            <div class="content">
+                <p><strong>Q:</strong> "You need to generate 500 Revit API methods per month with a budget of
+                $100. What is your strategy?"</p>
+                <p><strong>A:</strong> "I would use a multi-model strategy. DeepSeek-V3 for bulk generation
+                because it is cost-effective and excellent at code. I would use GPT-4 or Claude for validation
+                of the most complex methods (5-10% of tasks). I would set Temperature to 0.0 for deterministic
+                code, Max Tokens to 1500, and track costs per method. This would keep costs under $100 while
+                maintaining quality."</p>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Management Interview</strong></summary>
+            <div class="content">
+                <p><strong>Q:</strong> "How do you control AI costs while maintaining quality?"</p>
+                <p><strong>A:</strong> "We match the model to the task. For simple tasks, we use cost-effective
+                models like DeepSeek. For complex tasks, we use more capable models like Claude. We also set
+                appropriate token limits and use Frequency Penalty to reduce unnecessary repetition. We track
+                token usage and adjust our strategy based on cost and quality metrics."</p>
+            </div>
+        </details>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 27. REAL-WORLD CASE STUDY                   -->
+        <!-- ============================================= -->
+        <h2>🏗️ Real-World Case Study</h2>
+
+        <h3>Scenario: The Cost-Optimized Automation Pipeline</h3>
+        <p>
+            You need to generate 1000 Dynamo scripts per month for a large BIM project. Your budget is $200/month.
+            You also need to ensure the scripts are production-ready.
+        </p>
+
+        <div class="model-card">
+            <h4>Solution: Multi-Model Pipeline</h4>
+            <p><strong>Stage 1: Bulk Generation (DeepSeek-V3)</strong></p>
+            <ul>
+                <li>Temperature: 0.0 (deterministic)</li>
+                <li>Max Tokens: 1500</li>
+                <li>Frequency Penalty: 0.5</li>
+                <li>Cost: ~$0.02 per script</li>
+            </ul>
+            <p><strong>Stage 2: Quality Assurance (Claude 3.5)</strong></p>
+            <ul>
+                <li>Review 10% of scripts (100 scripts)</li>
+                <li>Temperature: 0.3 (balanced)</li>
+                <li>Max Tokens: 2000</li>
+                <li>Cost: ~$0.05 per review</li>
+            </ul>
+            <p><strong>Stage 3: Final Validation (GPT-4)</strong></p>
+            <ul>
+                <li>Validate only the most complex scripts (5 scripts)</li>
+                <li>Temperature: 0.0</li>
+                <li>Cost: ~$0.15 per validation</li>
+            </ul>
+        </div>
+
+        <h4>Outcome</h4>
+        <p>
+            Total cost: (1000 × $0.02) + (100 × $0.05) + (5 × $0.15) = $20 + $5 + $0.75 = <strong>$25.75/month</strong>.
+            Well within the $200 budget. The quality is high because 10% of scripts are reviewed and the most
+            complex ones are validated.
+        </p>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 28. CONTINUOUS IMPROVEMENT NOTES            -->
+        <!-- ============================================= -->
+        <h2>🔄 Continuous Improvement Notes</h2>
+        <ul>
+            <li><strong>Review:</strong> After each month, review the cost and quality metrics. Adjust the
+            percentage of scripts sent to QA.</li>
+            <li><strong>Metrics:</strong> Track cost per script, error rate, and validation time.</li>
+            <li><strong>Automation:</strong> Automate the pipeline so scripts are automatically sent to the
+            appropriate model based on complexity.</li>
+            <li><strong>Next Step:</strong> Level 12 — Enterprise Prompting.</li>
+        </ul>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- FOOTER                                       -->
+        <!-- ============================================= -->
+        <div style="text-align:center; font-size:0.8rem; color:#94a3b8; padding-top:20px; border-top:1px solid #e2e8f0;">
+            <strong>Level 11 — Model Selection & Tuning</strong><br>
+            Expert Knowledge Document &bull; Prompt Engineering for BIM &amp; Construction Technology<br>
+            Created: 2026 &bull; Permanent Reference &bull; Version 1.0
+        </div>
+
+    </div>
+</body>
+</html>

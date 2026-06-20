@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level 12 — Expert Knowledge: Enterprise Prompting</title>
+    <style>
+        /* ── Reset & Base ── */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #f1f5f9;
+            color: #0f172a;
+            line-height: 1.6;
+            padding: 30px 20px;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 45px 55px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+        }
+        h1 {
+            font-size: 2.4rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: #0f172a;
+            border-bottom: 4px solid #dc2626;
+            padding-bottom: 12px;
+            margin-bottom: 6px;
+        }
+        .doc-subtitle {
+            font-size: 1.05rem;
+            color: #475569;
+            margin-bottom: 28px;
+            border-left: 4px solid #dc2626;
+            padding-left: 18px;
+            background: #f8fafc;
+            padding: 12px 20px;
+            border-radius: 8px;
+        }
+        h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-top: 38px;
+            margin-bottom: 14px;
+            color: #0f172a;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 6px;
+        }
+        h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 24px;
+            margin-bottom: 8px;
+            color: #1e293b;
+        }
+        h4 {
+            font-size: 1.0rem;
+            font-weight: 600;
+            margin-top: 18px;
+            margin-bottom: 4px;
+            color: #334155;
+        }
+        p {
+            margin-bottom: 14px;
+        }
+        ul,
+        ol {
+            margin: 10px 0 16px 24px;
+        }
+        li {
+            margin-bottom: 6px;
+        }
+        .card {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 18px 22px;
+            margin: 16px 0;
+            border-left: 5px solid #94a3b8;
+        }
+        .card.blue {
+            border-left-color: #3b82f6;
+            background: #eff6ff;
+        }
+        .card.green {
+            border-left-color: #22c55e;
+            background: #f0fdf4;
+        }
+        .card.amber {
+            border-left-color: #f59e0b;
+            background: #fffbeb;
+        }
+        .card.red {
+            border-left-color: #dc2626;
+            background: #fef2f2;
+        }
+        .card.purple {
+            border-left-color: #7c3aed;
+            background: #f5f3ff;
+        }
+        .card.teal {
+            border-left-color: #14b8a6;
+            background: #f0fdfa;
+        }
+        .callout {
+            padding: 14px 20px;
+            border-radius: 10px;
+            margin: 16px 0;
+            font-weight: 500;
+        }
+        .callout.info {
+            background: #dbeafe;
+            color: #1e3a8a;
+        }
+        .callout.warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        .callout.danger {
+            background: #fecaca;
+            color: #991b1b;
+        }
+        .callout.success {
+            background: #bbf7d0;
+            color: #166534;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0 20px;
+            font-size: 0.95rem;
+        }
+        th {
+            background: #1e293b;
+            color: #f8fafc;
+            padding: 10px 14px;
+            text-align: left;
+            font-weight: 600;
+        }
+        td {
+            padding: 10px 14px;
+            border-bottom: 1px solid #e2e8f0;
+            vertical-align: top;
+        }
+        tr:nth-child(even) {
+            background: #f8fafc;
+        }
+        tr:hover {
+            background: #f1f5f9;
+        }
+        .code-block {
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 16px 22px;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            font-size: 0.88rem;
+            overflow-x: auto;
+            margin: 14px 0;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        .inline-code {
+            background: #e2e8f0;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        .tag {
+            display: inline-block;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .tag.bad {
+            background: #fecaca;
+            color: #991b1b;
+        }
+        .tag.good {
+            background: #fde68a;
+            color: #92400e;
+        }
+        .tag.expert {
+            background: #93c5fd;
+            color: #1e3a5f;
+        }
+        .tag.production {
+            background: #6ee7b7;
+            color: #064e3b;
+        }
+        .tag.master {
+            background: #c4b5fd;
+            color: #4c1d95;
+        }
+        .prompt-ladder {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 16px 0;
+        }
+        .prompt-item {
+            padding: 14px 20px;
+            border-radius: 10px;
+            border-left: 6px solid;
+        }
+        .prompt-item.bad {
+            background: #fef2f2;
+            border-color: #ef4444;
+        }
+        .prompt-item.good {
+            background: #fffbeb;
+            border-color: #f59e0b;
+        }
+        .prompt-item.expert {
+            background: #eff6ff;
+            border-color: #3b82f6;
+        }
+        .prompt-item.production {
+            background: #ecfdf5;
+            border-color: #10b981;
+        }
+        .prompt-item.master {
+            background: #f5f3ff;
+            border-color: #8b5cf6;
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+        }
+        @media (max-width: 760px) {
+            .grid-2,
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+            .container {
+                padding: 24px 18px;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+        .mermaid {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            white-space: pre;
+            overflow-x: auto;
+            margin: 16px 0;
+            border: 1px solid #e2e8f0;
+        }
+        .hr-divider {
+            border: 0;
+            height: 2px;
+            background: linear-gradient(to right, #e2e8f0, #94a3b8, #e2e8f0);
+            margin: 30px 0;
+        }
+        .small {
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+        details {
+            margin: 12px 0;
+            padding: 10px 16px;
+            background: #f8fafc;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+        }
+        details summary {
+            font-weight: 600;
+            cursor: pointer;
+            color: #1e293b;
+        }
+        details summary:hover {
+            color: #dc2626;
+        }
+        details .content {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #e2e8f0;
+        }
+        .standards-box {
+            background: #fef2f2;
+            border: 2px solid #dc2626;
+            border-radius: 12px;
+            padding: 18px 22px;
+            margin: 16px 0;
+        }
+        .standards-box h4 {
+            color: #991b1b;
+            margin-top: 0;
+        }
+        .framework-card {
+            background: #f0fdf4;
+            border: 2px solid #22c55e;
+            border-radius: 12px;
+            padding: 18px 22px;
+            margin: 16px 0;
+        }
+        .framework-card h4 {
+            color: #15803d;
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- ============================================= -->
+        <!-- 1. EXECUTIVE SUMMARY                         -->
+        <!-- ============================================= -->
+        <h1>🏢 Level 12 — Enterprise Prompting</h1>
+        <div class="doc-subtitle">
+            <strong>Permanent Knowledge Base</strong> &bull; BIM Automation Specialist &bull; Scaling AI Across the Organisation
+        </div>
+
+        <div class="card red">
+            <h3 style="margin-top:0;">📌 Executive Summary</h3>
+            <p>
+                <strong>Enterprise Prompting</strong> is the discipline of scaling prompt engineering across an
+                organisation. It involves creating standards, processes, and infrastructure that enable consistent,
+                reliable, and cost-effective AI usage at scale.
+            </p>
+            <p>
+                The core principle is: <strong>"A great prompt is a one-off. A great prompt system is a
+                competitive advantage."</strong>
+            </p>
+            <ul>
+                <li><strong>Prompt Library:</strong> Centralised repository of reusable prompt templates.</li>
+                <li><strong>Standards:</strong> Ensuring consistency and quality across teams.</li>
+                <li><strong>Governance:</strong> Managing risks and ensuring compliance.</li>
+                <li><strong>Cost Tracking:</strong> Controlling AI spending.</li>
+                <li><strong>Training:</strong> Building AI capability across the organisation.</li>
+            </ul>
+            <p>
+                <strong>Key Insight:</strong> Enterprise Prompting is not about writing "smart prompts." It is
+                about building a controlled AI workflow system where prompts behave like code—versioned, tested,
+                standardised, reusable, and auditable.
+            </p>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 2. LEARNING HIGHLIGHTS                       -->
+        <!-- ============================================= -->
+        <h2>📚 Learning Highlights</h2>
+        <div class="grid-2">
+            <div class="card">
+                <strong>🔹 Enterprise Prompting</strong>
+                <ul>
+                    <li>Scaling prompt engineering across an organisation</li>
+                    <li>Creating standards, processes, and infrastructure</li>
+                    <li>Enabling consistent, reliable, and cost-effective AI usage</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>🔹 Prompt Library</strong>
+                <ul>
+                    <li>Centralised repository of reusable templates</li>
+                    <li>Version-controlled and reviewed</li>
+                    <li>Enables consistency and knowledge retention</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>🔹 Governance &amp; Standards</strong>
+                <ul>
+                    <li>Ensuring quality and compliance</li>
+                    <li>Managing risks</li>
+                    <li>Controlling costs</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>🔹 The E.N.T.E.R.P.R.I.S.E. Framework</strong>
+                <ul>
+                    <li>Establish, Normalise, Track, Educate</li>
+                    <li>Review, Protect, Reuse, Iterate, Scale, Evaluate</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 3. KEY CONCEPTS                              -->
+        <!-- ============================================= -->
+        <h2>🧩 Key Concepts</h2>
+
+        <h3>1. Enterprise Prompting Defined</h3>
+        <p>
+            <strong>Definition:</strong> The discipline of scaling prompt engineering across an organisation
+            through standards, processes, and infrastructure.
+        </p>
+        <ul>
+            <li><strong>Goal:</strong> Standardise AI usage so outputs are consistent, compliant, and production-ready.</li>
+            <li><strong>In BIM terms:</strong> Reducing variation, ensuring ISO 19650 compliance, turning prompts into repeatable workflows.</li>
+            <li><strong>Core insight:</strong> Enterprise Prompting = Prompting as a governed system, not individual skill.</li>
+        </ul>
+
+        <h3>2. Components of an Enterprise Prompting System</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Component</th>
+                    <th>Description</th>
+                    <th>BIM Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Prompt Library</strong></td>
+                    <td>Centralised repository of approved prompts</td>
+                    <td>Revit automation, BIM reports, clash summaries</td>
+                </tr>
+                <tr>
+                    <td><strong>Prompt Templates</strong></td>
+                    <td>Structured reusable formats</td>
+                    <td>Role + Context + Task + Constraints + Output</td>
+                </tr>
+                <tr>
+                    <td><strong>Context Layer (RAG)</strong></td>
+                    <td>Standards and project data</td>
+                    <td>ISO 19650, BEP, naming conventions</td>
+                </tr>
+                <tr>
+                    <td><strong>Output Standards</strong></td>
+                    <td>Formatting and style rules</td>
+                    <td>Tables for schedules, JSON for automation</td>
+                </tr>
+                <tr>
+                    <td><strong>Governance</strong></td>
+                    <td>Approval, version control, audit</td>
+                    <td>Who approves prompts, change tracking</td>
+                </tr>
+                <tr>
+                    <td><strong>Feedback Loop</strong></td>
+                    <td>Continuous improvement</td>
+                    <td>User ratings, error tracking, prompt updates</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>3. The E.N.T.E.R.P.R.I.S.E. Framework</h3>
+        <div class="framework-card">
+            <h4>🏢 Enterprise Prompting Framework</h4>
+            <table>
+                <thead>
+                    <tr><th>Letter</th><th>Meaning</th><th>Description</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>E</strong></td><td>Establish</td><td>Standards and templates.</td></tr>
+                    <tr><td><strong>N</strong></td><td>Normalise</td><td>Processes for common tasks.</td></tr>
+                    <tr><td><strong>T</strong></td><td>Track</td><td>Costs and quality metrics.</td></tr>
+                    <tr><td><strong>E</strong></td><td>Educate</td><td>Train the team.</td></tr>
+                    <tr><td><strong>R</strong></td><td>Review</td><td>Validate all outputs.</td></tr>
+                    <tr><td><strong>P</strong></td><td>Protect</td><td>Data and compliance.</td></tr>
+                    <tr><td><strong>R</strong></td><td>Reuse</td><td>Prompts across the organisation.</td></tr>
+                    <tr><td><strong>I</strong></td><td>Iterate</td><td>Improve continuously.</td></tr>
+                    <tr><td><strong>S</strong></td><td>Scale</td><td>Across teams and projects.</td></tr>
+                    <tr><td><strong>E</strong></td><td>Evaluate</td><td>Performance and outcomes.</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 4. EXPERT MENTAL MODEL                       -->
+        <!-- ============================================= -->
+        <h2>🧠 Expert Mental Model</h2>
+
+        <div class="card purple">
+            <h4 style="margin-top:0;">🧩 Mental Model: The BIM Department</h4>
+            <p>
+                Imagine you are the head of a BIM department. You don't just tell people to "do BIM." You have:
+            </p>
+            <ul>
+                <li><strong>Standards:</strong> ISO 19650, company BIM Execution Plans.</li>
+                <li><strong>Processes:</strong> Workflows for model coordination, clash detection, QA/QC.</li>
+                <li><strong>Templates:</strong> Reusable content libraries, family templates.</li>
+                <li><strong>Training:</strong> How to use Revit, Dynamo, and other tools.</li>
+                <li><strong>Quality Control:</strong> Reviews and audits.</li>
+            </ul>
+            <p>
+                Enterprise prompting is the <em>same thing</em>—but for AI.
+            </p>
+        </div>
+
+        <h3>How an Expert Thinks</h3>
+        <ul>
+            <li><strong>System Over Individuals:</strong> "I don't rely on individual prompt-writing skill—I build a system that makes everyone effective."</li>
+            <li><strong>Prompts as Code:</strong> "Prompts should be versioned, tested, standardised, reusable, and auditable."</li>
+            <li><strong>Governance First:</strong> "Before we scale, we need governance—who approves prompts, how are they reviewed?"</li>
+            <li><strong>Continuous Improvement:</strong> "We track usage, quality, and costs, and we iterate based on the data."</li>
+        </ul>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 5. HIDDEN KNOWLEDGE                          -->
+        <!-- ============================================= -->
+        <h2>🔮 Hidden Knowledge (Rarely Written in Tutorials)</h2>
+
+        <div class="grid-2">
+            <div class="card teal">
+                <strong>🎯 The "Prompt as Code" Philosophy</strong>
+                <p>Treat prompts like software code—version-controlled, reviewed, tested, and documented.
+                This is the single most important shift for enterprise adoption.</p>
+            </div>
+            <div class="card teal">
+                <strong>🎯 The "Role-Based Access" Principle</strong>
+                <p>Not everyone should be able to edit prompts. Junior team members use locked templates.
+                Senior members can create new prompts. Managers approve changes.</p>
+            </div>
+            <div class="card teal">
+                <strong>🎯 The "Automated Validation" Layer</strong>
+                <p>Before an AI output is accepted, it should be automatically validated for:
+                format, compliance, and completeness. This catches errors before they reach the client.</p>
+            </div>
+            <div class="card teal">
+                <strong>🎯 The "Cost Per Task" Metric</strong>
+                <p>Track cost per task (e.g., cost per Dynamo script, cost per BEP). This helps you
+                optimise model selection and identify cost outliers.</p>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 6. BEGINNER MISTAKES                         -->
+        <!-- ============================================= -->
+        <h2>⚠️ Beginner Mistakes</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Mistake</th>
+                    <th>Consequence</th>
+                    <th>How to Avoid</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>No standardisation</strong></td>
+                    <td>Inconsistent outputs across teams</td>
+                    <td>Create a prompt template library.</td>
+                </tr>
+                <tr>
+                    <td><strong>No quality control</strong></td>
+                    <td>Errors propagate</td>
+                    <td>Review all AI-generated outputs.</td>
+                </tr>
+                <tr>
+                    <td><strong>No cost tracking</strong></td>
+                    <td>Costs spiral out of control</td>
+                    <td>Track token usage and cost per task.</td>
+                </tr>
+                <tr>
+                    <td><strong>No governance</strong></td>
+                    <td>Compliance and security risks</td>
+                    <td>Establish governance policies.</td>
+                </tr>
+                <tr>
+                    <td><strong>No training</strong></td>
+                    <td>Inconsistent skills and quality</td>
+                    <td>Provide training and support.</td>
+                </tr>
+                <tr>
+                    <td><strong>No knowledge sharing</strong></td>
+                    <td>Knowledge is siloed</td>
+                    <td>Create a centralised prompt library.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 7. THINGS PEOPLE USUALLY SKIP               -->
+        <!-- ============================================= -->
+        <h2>📌 Things People Usually Skip (But Experts Don't)</h2>
+        <div class="grid-2">
+            <div class="card">
+                <strong>🔸 The "Prompt as Code" Philosophy</strong>
+                <p>Experts treat prompts as code—version-controlled, reviewed, tested, and documented.</p>
+            </div>
+            <div class="card">
+                <strong>🔸 The "Role-Based Access" Principle</strong>
+                <p>Experts restrict who can edit prompts based on role and expertise.</p>
+            </div>
+            <div class="card">
+                <strong>🔸 The "Automated Validation" Layer</strong>
+                <p>Experts build automated validation into their AI pipeline.</p>
+            </div>
+            <div class="card">
+                <strong>🔸 The "Cost Per Task" Metric</strong>
+                <p>Experts track cost per task to optimise model selection.</p>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 8. CRITICAL THINKING CHALLENGES             -->
+        <!-- ============================================= -->
+        <h2>🧩 Critical Thinking Challenges</h2>
+
+        <details>
+            <summary><strong>Challenge 1: The "Wild West" Team</strong></summary>
+            <div class="content">
+                <p><strong>Scenario:</strong> Your BIM team of 20 people is using AI in inconsistent ways.
+                Some write good prompts; others write bad ones. Output quality varies widely.</p>
+                <p><strong>Question:</strong> How would you implement enterprise prompting to fix this?</p>
+                <details>
+                    <summary><strong>🔍 Expert Reasoning</strong></summary>
+                    <div class="content">
+                        <p><strong>Solution:</strong></p>
+                        <ol>
+                            <li><strong>Create a prompt library</strong> with approved templates for common tasks.</li>
+                            <li><strong>Establish standards</strong> for prompt structure, quality, and compliance.</li>
+                            <li><strong>Implement role-based access</strong>—juniors use locked templates, seniors can create new ones.</li>
+                            <li><strong>Provide training</strong> to teach the team how to use the templates effectively.</li>
+                            <li><strong>Track usage and quality</strong> to identify gaps and continuously improve.</li>
+                        </ol>
+                    </div>
+                </details>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Challenge 2: The Cost Spiral</strong></summary>
+            <div class="content">
+                <p><strong>Scenario:</strong> Your AI costs have doubled in the last quarter. No one is tracking usage.</p>
+                <p><strong>Question:</strong> How would you implement cost control in your enterprise prompting system?</p>
+                <details>
+                    <summary><strong>🔍 Expert Reasoning</strong></summary>
+                    <div class="content">
+                        <p><strong>Solution:</strong></p>
+                        <ol>
+                            <li><strong>Track cost per task</strong> (e.g., cost per Dynamo script, cost per BEP).</li>
+                            <li><strong>Set limits</strong> on token usage per task.</li>
+                            <li><strong>Use cheaper models</strong> for bulk generation and capable models only for validation.</li>
+                            <li><strong>Implement a review process</strong> for high-cost tasks.</li>
+                            <li><strong>Optimise prompts</strong> for token efficiency.</li>
+                        </ol>
+                    </div>
+                </details>
+            </div>
+        </details>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 9. PRACTICAL WORKFLOW                        -->
+        <!-- ============================================= -->
+        <h2>🔄 Practical Workflow: Building an Enterprise Prompting System</h2>
+
+        <div class="mermaid">
+1. ASSESS CURRENT STATE
+   └── What prompts are being used? How are they being used?
+         └── Who is using AI? What tasks are they automating?
+
+2. DESIGN THE SYSTEM
+   └── Prompt library structure, standards, governance
+         └── Templates, approval workflows, cost tracking
+
+3. BUILD THE LIBRARY
+   └── Create 5-10 high-quality templates for common tasks
+         └── Include: Role, Task, Constraints, Output Format, Examples
+
+4. TRAIN THE TEAM
+   └── How to use the templates and standards
+         └── Onboarding, workshops, documentation
+
+5. IMPLEMENT GOVERNANCE
+   └── Review process, version control, approval workflow
+         └── Role-based access, audit logs
+
+6. MONITOR & IMPROVE
+   └── Track usage, costs, quality
+         └── Iterate based on feedback and data
+        </div>
+
+        <div class="callout info">
+            <strong>💡 Expert Checkpoint:</strong> If your enterprise prompting system is being used consistently
+            across teams, costs are controlled, and outputs meet quality standards, you have successfully scaled AI.
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 10. EXECUTION CHECKLIST                      -->
+        <!-- ============================================= -->
+        <h2>✅ Execution Checklist</h2>
+
+        <div class="grid-2">
+            <div class="card blue">
+                <strong>📋 System Design</strong>
+                <ul>
+                    <li>☐ Prompt library structure defined</li>
+                    <li>☐ Standards document created</li>
+                    <li>☐ Governance policies established</li>
+                </ul>
+            </div>
+            <div class="card blue">
+                <strong>📋 Implementation</strong>
+                <ul>
+                    <li>☐ Templates created for common tasks</li>
+                    <li>☐ Team trained on usage</li>
+                    <li>☐ Review process implemented</li>
+                </ul>
+            </div>
+            <div class="card green">
+                <strong>📋 Monitoring</strong>
+                <ul>
+                    <li>☐ Cost tracking implemented</li>
+                    <li>☐ Quality metrics defined</li>
+                    <li>☐ Feedback loop established</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 11. RULES TO ALWAYS REMEMBER                -->
+        <!-- ============================================= -->
+        <h2>📜 Rules to Always Remember</h2>
+        <div class="grid-2">
+            <div class="card green">
+                <strong>🏆 Golden Rules</strong>
+                <ul>
+                    <li><strong>Prompts are code.</strong> Version, review, and test them.</li>
+                    <li><strong>Standardise everything.</strong> Consistency is key.</li>
+                    <li><strong>Track costs.</strong> You can't optimise what you don't measure.</li>
+                    <li><strong>Train your team.</strong> AI capability is a skill, not a tool.</li>
+                    <li><strong>Govern and audit.</strong> Compliance and risk management are essential.</li>
+                </ul>
+            </div>
+            <div class="card red">
+                <strong>🚫 Never Do This</strong>
+                <ul>
+                    <li>Let everyone write prompts without standards.</li>
+                    <li>Skip quality reviews.</li>
+                    <li>Ignore costs.</li>
+                    <li>Assume knowledge will be shared organically.</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 12. DECISION TREE                           -->
+        <!-- ============================================= -->
+        <h2>🌳 Decision Tree: Enterprise Prompting Implementation</h2>
+
+        <div class="mermaid">
+┌─────────────────────────────────────┐
+│ Has the organisation adopted AI?   │
+└──────────────┬──────────────────────┘
+               │
+       ┌───────┴───────┐
+       │               │
+       ▼               ▼
+┌───────────┐   ┌───────────┐
+│ No        │   │ Yes       │
+├───────────┤   ├───────────┤
+│ Start     │   │ Assess    │
+│ with      │   │ current   │
+│ training  │   │ state     │
+└───────────┘   └───────────┘
+      │               │
+      └───────┬───────┘
+              ▼
+┌─────────────────────────────────────┐
+│ Is there a prompt library?         │
+└──────────────┬──────────────────────┘
+               │
+       ┌───────┴───────┐
+       │               │
+       ▼               ▼
+┌───────────┐   ┌───────────┐
+│ No        │   │ Yes       │
+├───────────┤   ├───────────┤
+│ Build     │   │ Audit     │
+│ library   │   │ content   │
+└───────────┘   └───────────┘
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 13. PATTERN RECOGNITION                     -->
+        <!-- ============================================= -->
+        <h2>🔍 Pattern Recognition: When to Apply This</h2>
+        <div class="grid-2">
+            <div class="card">
+                <strong>🚦 Signals This Applies</strong>
+                <ul>
+                    <li>Multiple teams are using AI</li>
+                    <li>Outputs are inconsistent</li>
+                    <li>Costs are growing</li>
+                    <li>Knowledge is siloed</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>⚠️ Warning Signs You're Forgetting This</strong>
+                <ul>
+                    <li>Everyone writes their own prompts</li>
+                    <li>No one is tracking costs</li>
+                    <li>Quality varies widely</li>
+                    <li>Knowledge is not shared</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 14. PROFESSIONAL TIPS                       -->
+        <!-- ============================================= -->
+        <h2>💼 Professional Tips: What Seniors Do Differently</h2>
+        <ul>
+            <li><strong>They build systems, not just prompts.</strong> They think about the entire workflow.</li>
+            <li><strong>They treat prompts as code.</strong> They version, review, and test them.</li>
+            <li><strong>They track costs rigorously.</strong> They know exactly how much each task costs.</li>
+            <li><strong>They train and empower.</strong> They build capability across the team, not dependency on individuals.</li>
+            <li><strong>They iterate based on data.</strong> They use feedback loops to continuously improve.</li>
+        </ul>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 15. OPTIMIZATION OPPORTUNITIES              -->
+        <!-- ============================================= -->
+        <h2>⚡ Optimization Opportunities</h2>
+        <div class="grid-2">
+            <div class="card teal">
+                <strong>🚀 Performance</strong>
+                <ul>
+                    <li>Automate validation of AI outputs</li>
+                    <li>Use cheaper models for bulk generation</li>
+                    <li>Optimise prompts for token efficiency</li>
+                </ul>
+            </div>
+            <div class="card teal">
+                <strong>📊 Quality</strong>
+                <ul>
+                    <li>Standardise output formats</li>
+                    <li>Implement automated validation</li>
+                    <li>Use feedback loops to improve prompts</li>
+                </ul>
+            </div>
+            <div class="card teal">
+                <strong>🤖 Automation</strong>
+                <ul>
+                    <li>Automate prompt testing</li>
+                    <li>Automate cost tracking</li>
+                    <li>Automate validation of outputs</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 16. EDGE CASES                              -->
+        <!-- ============================================= -->
+        <h2>🔀 Edge Cases</h2>
+        <ul>
+            <li><strong>Resistance to change:</strong> Some team members may resist using standardised templates.</li>
+            <li><strong>Compliance requirements:</strong> GDPR, data privacy, and other regulations may impact AI usage.</li>
+            <li><strong>Model updates:</strong> When models are updated, prompts may need to be revised.</li>
+            <li><strong>Scalability:</strong> The system must be designed to scale as the team grows.</li>
+        </ul>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 17. VALIDATION & QA                         -->
+        <!-- ============================================= -->
+        <h2>✅ Validation &amp; Quality Assurance</h2>
+
+        <h3>How to Verify Enterprise Prompting</h3>
+        <ul>
+            <li><strong>Usage Check:</strong> Are team members using the prompt library?</li>
+            <li><strong>Consistency Check:</strong> Are outputs consistent across team members?</li>
+            <li><strong>Cost Check:</strong> Are costs under control?</li>
+            <li><strong>Quality Check:</strong> Do outputs meet quality standards?</li>
+            <li><strong>Feedback Check:</strong> Is the feedback loop being used to improve prompts?</li>
+        </ul>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 18. FREQUENTLY ASKED QUESTIONS              -->
+        <!-- ============================================= -->
+        <h2>❓ Frequently Asked Questions</h2>
+
+        <details>
+            <summary><strong>Q: Is Enterprise Prompting only for large organisations?</strong></summary>
+            <div class="content">
+                <p><strong>A:</strong> No. The principles apply to organisations of any size.
+                Even a team of 5 can benefit from standardisation, shared templates, and cost tracking.</p>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Q: How do I get buy-in from the team?</strong></summary>
+            <div class="content">
+                <p><strong>A:</strong> Show them the benefits: consistency, faster onboarding, reduced rework,
+                and knowledge retention. Also, involve them in creating the templates—ownership drives adoption.</p>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Q: How do I handle model updates?</strong></summary>
+            <div class="content">
+                <p><strong>A:</strong> Regularly review prompts for compatibility with the latest models.
+                Establish a process for testing prompts when models are updated.</p>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Q: What if team members prefer their own prompts?</strong></summary>
+            <div class="content">
+                <p><strong>A:</strong> Encourage them to submit their effective prompts to the library.
+                If a personal prompt consistently works better than the standard template, use it as a case
+                study to improve the standard.</p>
+            </div>
+        </details>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 19. KNOWLEDGE CONNECTIONS                   -->
+        <!-- ============================================= -->
+        <h2>🔗 Knowledge Connections</h2>
+        <div class="grid-2">
+            <div class="card">
+                <strong>➡️ Prerequisites</strong>
+                <ul>
+                    <li>Level 0: What is AI? (Mental model)</li>
+                    <li>Level 1: Prompt Fundamentals (Structure)</li>
+                    <li>Level 2: Context Engineering (Grounding)</li>
+                    <li>Level 3: Prime Directives & Persona (Behavior)</li>
+                    <li>Level 4: Structured Prompting (Format)</li>
+                    <li>Level 5: Output Structuring (Constraints)</li>
+                    <li>Level 6: Few-Shot & Zero-Shot (Examples)</li>
+                    <li>Level 7: Reasoning Strategies (CoT, ToT)</li>
+                    <li>Level 8: Advanced Strategies (RAG, ReAct, Reflection)</li>
+                    <li>Level 9: Prompt Debugging</li>
+                    <li>Level 10: AI Agents</li>
+                    <li>Level 11: Model Selection & Tuning</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>➡️ What This Leads To</strong>
+                <ul>
+                    <li><strong>Level 13:</strong> Capstone Project</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 20. FUTURE LEARNING ROADMAP                 -->
+        <!-- ============================================= -->
+        <h2>🗺️ Future Learning Roadmap</h2>
+        <div class="mermaid">
+BEGINNER
+├── Level 0: What is AI? ✅
+├── Level 1: Prompt Fundamentals ✅
+├── Level 2: Context Engineering ✅
+├── Level 3: Prime Directives & Persona ✅
+├── Level 4: Structured Prompting ✅
+├── Level 5: Output Structuring & Constraints ✅
+├── Level 6: Few-Shot & Zero-Shot ✅
+├── Level 7: Reasoning Strategies ✅
+├── Level 8: Advanced Strategies ✅
+├── Level 9: Prompt Debugging ✅
+├── Level 10: AI Agents ✅
+├── Level 11: Model Selection & Tuning ✅
+└── Level 12: Enterprise Prompting  ◄── YOU ARE HERE
+
+MASTER
+└── Level 13: Capstone Project
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 21. AI PROMPT ENGINEERING INSIGHTS          -->
+        <!-- ============================================= -->
+        <h2>✍️ AI Prompt Engineering Insights</h2>
+
+        <div class="prompt-ladder">
+            <div class="prompt-item bad">
+                <strong><span class="tag bad">BAD</span></strong><br>
+                <em>"Everyone uses AI however they want."</em>
+                <div class="small" style="color:#991b1b;">No standards. Inconsistent quality.</div>
+            </div>
+            <div class="prompt-item good">
+                <strong><span class="tag good">GOOD</span></strong><br>
+                <em>"We have a shared Google Doc with some prompt templates."</em>
+                <div class="small" style="color:#92400e;">Basic standards. Some consistency.</div>
+            </div>
+            <div class="prompt-item expert">
+                <strong><span class="tag expert">EXPERT</span></strong><br>
+                <em>"We have a centralised prompt library with version control and review processes."</em>
+                <div class="small" style="color:#1e3a5f;">Governance and standardisation.</div>
+            </div>
+            <div class="prompt-item production">
+                <strong><span class="tag production">PRODUCTION</span></strong><br>
+                <em><strong>Enterprise Prompting System:</strong><br>
+                1. Centralised prompt library (version-controlled)<br>
+                2. Standards document (structure, quality, compliance, cost)<br>
+                3. Governance (role-based access, approval workflows)<br>
+                4. Cost tracking (cost per task)<br>
+                5. Feedback loop (continuous improvement)<br>
+                6. Training program (onboarding and ongoing)</em>
+                <div class="small" style="color:#064e3b;">Full enterprise system with governance, cost control, and continuous improvement.</div>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 22. PROMPT IMPROVEMENT SUGGESTIONS          -->
+        <!-- ============================================= -->
+        <h2>📝 Prompt Improvement Suggestions</h2>
+
+        <h3>Your Level 11 Expert Prompt (Without Enterprise Structure)</h3>
+        <div class="code-block">
+"Act as a Senior BIM Automation Architect. Generate a Revit API plugin to create views from an Excel list."
+        </div>
+        <p><strong>Weaknesses:</strong> No enterprise standards. Not reusable across the team.</p>
+
+        <h3>Production-Level with Enterprise Prompting</h3>
+        <div class="code-block">
+<strong>Enterprise Template ID:</strong> BIM-REVIT-API-002
+<strong>Version:</strong> 2.3
+<strong>Approved By:</strong> BIM Manager
+<strong>Category:</strong> Revit API Plugin Generation
+
+<strong>Structure:</strong>
+1. System Message (Persona + Prime Directives)
+2. Task (Specific action)
+3. Context (Project type, Revit version, standards)
+4. Constraints (Performance, error handling, compliance)
+5. Output Format (Code, documentation, test cases)
+6. Examples (Few-shot)
+
+<strong>Usage Notes:</strong>
+- Only senior team members can modify this template.
+- All generated outputs must be validated.
+- Cost per task is tracked.
+        </div>
+        <p><strong>Why it's better:</strong> The template is version-controlled, approved, and reusable across the team.</p>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 23. MY LEARNING ANALYSIS                   -->
+        <!-- ============================================= -->
+        <h2>📊 Your Learning Analysis</h2>
+        <div class="grid-2">
+            <div class="card green">
+                <strong>✅ Strengths Demonstrated</strong>
+                <ul>
+                    <li>You defined the primary goal of Enterprise Prompting as standardisation and consistency.</li>
+                    <li>You listed the key components of a complete enterprise prompting system.</li>
+                    <li>You explained the importance of a prompt library for BIM teams.</li>
+                    <li>You described a comprehensive standards document with seven sections.</li>
+                    <li>You provided a practical strategy for ensuring consistency across a team of 20 professionals.</li>
+                </ul>
+            </div>
+            <div class="card amber">
+                <strong>🔶 Areas for Growth</strong>
+                <ul>
+                    <li>Practice implementing a prompt library in a real team context.</li>
+                    <li>Experiment with automated validation of AI outputs.</li>
+                    <li>Design a cost tracking system for your team.</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 24. FINAL EXPERT TAKEAWAY                  -->
+        <!-- ============================================= -->
+        <h2>🎯 Final Expert Takeaway</h2>
+        <div class="card red" style="border-left-color:#dc2626;">
+            <h3 style="margin-top:0; color:#991b1b;">📄 One Page of Advice from a 30-Year Mentor</h3>
+            <p>
+                <strong>"A great prompt is a one-off. A great prompt system is a competitive advantage."</strong>
+            </p>
+            <p>
+                You have journeyed from a beginner to an enterprise leader. You now understand that AI is not
+                just a tool—it is a capability that must be built, standardised, and governed across the organisation.
+            </p>
+            <p>
+                The principles you have learned—standardisation, governance, cost control, and continuous
+                improvement—are the foundations of enterprise AI maturity. These are the practices that separate
+                organisations that use AI from organisations that are transformed by AI.
+            </p>
+            <p style="margin-top:12px; font-weight:600; color:#991b1b;">
+                🔥 Build systems, not just prompts. Govern, standardise, and scale.
+            </p>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 25. MEMORY REVISION SHEET                   -->
+        <!-- ============================================= -->
+        <h2>📄 Memory Revision Sheet (5-Minute Review)</h2>
+        <div class="card" style="border-left-color:#dc2626; background:#fef2f2;">
+            <div class="grid-2" style="gap:8px;">
+                <div>
+                    <strong>🧠 Enterprise Prompting</strong>
+                    <ul style="margin:4px 0 0 18px; font-size:0.9rem;">
+                        <li>Scaling AI across the organisation</li>
+                        <li>Standards, processes, infrastructure</li>
+                    </ul>
+                </div>
+                <div>
+                    <strong>🧠 Prompt Library</strong>
+                    <ul style="margin:4px 0 0 18px; font-size:0.9rem;">
+                        <li>Centralised, version-controlled</li>
+                        <li>Approved templates</li>
+                    </ul>
+                </div>
+                <div>
+                    <strong>🧠 Governance</strong>
+                    <ul style="margin:4px 0 0 18px; font-size:0.9rem;">
+                        <li>Role-based access</li>
+                        <li>Approval workflows</li>
+                        <li>Audit logs</li>
+                    </ul>
+                </div>
+                <div>
+                    <strong>🧠 Cost Control</strong>
+                    <ul style="margin:4px 0 0 18px; font-size:0.9rem;">
+                        <li>Cost per task</li>
+                        <li>Token limits</li>
+                        <li>Multi-model strategy</li>
+                    </ul>
+                </div>
+            </div>
+            <hr style="margin:10px 0; border-color:#fca5a5;">
+            <div style="font-size:0.85rem;">
+                <strong>Production secret:</strong> Enterprise Prompting is about systems, not individual skill.
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 26. INTERVIEW PERSPECTIVE                   -->
+        <!-- ============================================= -->
+        <h2>🎤 Interview Perspective</h2>
+
+        <details>
+            <summary><strong>Technical Interview</strong></summary>
+            <div class="content">
+                <p><strong>Q:</strong> "How would you build a prompt library for a BIM team of 20 people?"</p>
+                <p><strong>A:</strong> "I would start by categorising common tasks: Dynamo scripts, Revit API
+                plugins, project reports, and client proposals. For each category, I would create a prompt template
+                with a standard structure: System Message, Task, Constraints, Output Format, and Examples. I would
+                store these in a centralised repository with version control and a review process. I would also
+                establish role-based access—juniors use locked templates, seniors can create new ones."</p>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Management Interview</strong></summary>
+            <div class="content">
+                <p><strong>Q:</strong> "How do you ensure AI-generated outputs are consistent and compliant
+                across your team?"</p>
+                <p><strong>A:</strong> "We use enterprise prompting standards. All team members use the same
+                prompt templates for common tasks. We have a review process where AI-generated outputs are
+                checked for quality and compliance before being finalised. We also track costs and model usage
+                to ensure we are staying within budget. Finally, we provide regular training to keep the team
+                up to date with best practices."</p>
+            </div>
+        </details>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 27. REAL-WORLD CASE STUDY                   -->
+        <!-- ============================================= -->
+        <h2>🏗️ Real-World Case Study</h2>
+
+        <h3>Scenario: Implementing Enterprise Prompting at a Large BIM Firm</h3>
+        <p>
+            A large BIM firm with 50+ engineers is struggling with inconsistent AI usage. Some engineers
+            are using AI effectively; others are not. Quality varies widely, and costs are growing.
+        </p>
+
+        <div class="standards-box">
+            <h4>Solution: Enterprise Prompting Implementation</h4>
+
+            <p><strong>Step 1: Assessment</strong></p>
+            <ul>
+                <li>Audited current AI usage across the team.</li>
+                <li>Identified 15 common tasks (Dynamo scripts, reports, clash detection, etc.).</li>
+                <li>Measured current costs and quality levels.</li>
+            </ul>
+
+            <p><strong>Step 2: Design</strong></p>
+            <ul>
+                <li>Created a prompt library with 15 templates.</li>
+                <li>Established standards for prompt structure, quality, compliance, and cost.</li>
+                <li>Designed a governance model with role-based access.</li>
+            </ul>
+
+            <p><strong>Step 3: Implementation</strong></p>
+            <ul>
+                <li>Trained the team on the new templates and standards.</li>
+                <li>Implemented a review process for AI-generated outputs.</li>
+                <li>Set up cost tracking and monitoring.</li>
+            </ul>
+
+            <p><strong>Step 4: Results</strong></p>
+            <ul>
+                <li><strong>Consistency:</strong> Outputs are now consistent across the team.</li>
+                <li><strong>Quality:</strong> Error rates dropped by 60%.</li>
+                <li><strong>Cost:</strong> Costs decreased by 40% through model optimisation and token limits.</li>
+                <li><strong>Adoption:</strong> 95% of the team is using the prompt library.</li>
+            </ul>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 28. CONTINUOUS IMPROVEMENT NOTES            -->
+        <!-- ============================================= -->
+        <h2>🔄 Continuous Improvement Notes</h2>
+        <ul>
+            <li><strong>Review:</strong> After each quarter, review the usage data, costs, and quality metrics.</li>
+            <li><strong>Metrics:</strong> Track adoption rate, error rate, cost per task, and time saved.</li>
+            <li><strong>Automation:</strong> Automate validation of AI outputs and cost tracking.</li>
+            <li><strong>Next Step:</strong> Level 13 — Capstone Project.</li>
+        </ul>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- FOOTER                                       -->
+        <!-- ============================================= -->
+        <div style="text-align:center; font-size:0.8rem; color:#94a3b8; padding-top:20px; border-top:1px solid #e2e8f0;">
+            <strong>Level 12 — Enterprise Prompting</strong><br>
+            Expert Knowledge Document &bull; Prompt Engineering for BIM &amp; Construction Technology<br>
+            Created: 2026 &bull; Permanent Reference &bull; Version 1.0
+        </div>
+
+    </div>
+</body>
+</html>

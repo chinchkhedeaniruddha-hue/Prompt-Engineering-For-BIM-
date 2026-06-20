@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level 3 — Expert Knowledge: Prime Directives & Persona Prompting</title>
+    <style>
+        /* ── Reset & Base ── */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #f1f5f9;
+            color: #0f172a;
+            line-height: 1.6;
+            padding: 30px 20px;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 45px 55px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+        }
+        h1 {
+            font-size: 2.4rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: #0f172a;
+            border-bottom: 4px solid #8b5cf6;
+            padding-bottom: 12px;
+            margin-bottom: 6px;
+        }
+        .doc-subtitle {
+            font-size: 1.05rem;
+            color: #475569;
+            margin-bottom: 28px;
+            border-left: 4px solid #8b5cf6;
+            padding-left: 18px;
+            background: #f8fafc;
+            padding: 12px 20px;
+            border-radius: 8px;
+        }
+        h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-top: 38px;
+            margin-bottom: 14px;
+            color: #0f172a;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 6px;
+        }
+        h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 24px;
+            margin-bottom: 8px;
+            color: #1e293b;
+        }
+        h4 {
+            font-size: 1.0rem;
+            font-weight: 600;
+            margin-top: 18px;
+            margin-bottom: 4px;
+            color: #334155;
+        }
+        p {
+            margin-bottom: 14px;
+        }
+        ul,
+        ol {
+            margin: 10px 0 16px 24px;
+        }
+        li {
+            margin-bottom: 6px;
+        }
+        .card {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 18px 22px;
+            margin: 16px 0;
+            border-left: 5px solid #94a3b8;
+        }
+        .card.blue {
+            border-left-color: #3b82f6;
+            background: #eff6ff;
+        }
+        .card.green {
+            border-left-color: #22c55e;
+            background: #f0fdf4;
+        }
+        .card.amber {
+            border-left-color: #f59e0b;
+            background: #fffbeb;
+        }
+        .card.red {
+            border-left-color: #ef4444;
+            background: #fef2f2;
+        }
+        .card.purple {
+            border-left-color: #8b5cf6;
+            background: #f5f3ff;
+        }
+        .card.teal {
+            border-left-color: #14b8a6;
+            background: #f0fdfa;
+        }
+        .callout {
+            padding: 14px 20px;
+            border-radius: 10px;
+            margin: 16px 0;
+            font-weight: 500;
+        }
+        .callout.info {
+            background: #dbeafe;
+            color: #1e3a8a;
+        }
+        .callout.warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        .callout.danger {
+            background: #fecaca;
+            color: #991b1b;
+        }
+        .callout.success {
+            background: #bbf7d0;
+            color: #166534;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0 20px;
+            font-size: 0.95rem;
+        }
+        th {
+            background: #1e293b;
+            color: #f8fafc;
+            padding: 10px 14px;
+            text-align: left;
+            font-weight: 600;
+        }
+        td {
+            padding: 10px 14px;
+            border-bottom: 1px solid #e2e8f0;
+            vertical-align: top;
+        }
+        tr:nth-child(even) {
+            background: #f8fafc;
+        }
+        tr:hover {
+            background: #f1f5f9;
+        }
+        .code-block {
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 16px 22px;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            font-size: 0.88rem;
+            overflow-x: auto;
+            margin: 14px 0;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        .inline-code {
+            background: #e2e8f0;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        .tag {
+            display: inline-block;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .tag.bad {
+            background: #fecaca;
+            color: #991b1b;
+        }
+        .tag.good {
+            background: #fde68a;
+            color: #92400e;
+        }
+        .tag.expert {
+            background: #93c5fd;
+            color: #1e3a5f;
+        }
+        .tag.production {
+            background: #6ee7b7;
+            color: #064e3b;
+        }
+        .tag.master {
+            background: #c4b5fd;
+            color: #4c1d95;
+        }
+        .prompt-ladder {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 16px 0;
+        }
+        .prompt-item {
+            padding: 14px 20px;
+            border-radius: 10px;
+            border-left: 6px solid;
+        }
+        .prompt-item.bad {
+            background: #fef2f2;
+            border-color: #ef4444;
+        }
+        .prompt-item.good {
+            background: #fffbeb;
+            border-color: #f59e0b;
+        }
+        .prompt-item.expert {
+            background: #eff6ff;
+            border-color: #3b82f6;
+        }
+        .prompt-item.production {
+            background: #ecfdf5;
+            border-color: #10b981;
+        }
+        .prompt-item.master {
+            background: #f5f3ff;
+            border-color: #8b5cf6;
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+        }
+        @media (max-width: 760px) {
+            .grid-2,
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+            .container {
+                padding: 24px 18px;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+        .mermaid {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            white-space: pre;
+            overflow-x: auto;
+            margin: 16px 0;
+            border: 1px solid #e2e8f0;
+        }
+        .hr-divider {
+            border: 0;
+            height: 2px;
+            background: linear-gradient(to right, #e2e8f0, #94a3b8, #e2e8f0);
+            margin: 30px 0;
+        }
+        .small {
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+        details {
+            margin: 12px 0;
+            padding: 10px 16px;
+            background: #f8fafc;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+        }
+        details summary {
+            font-weight: 600;
+            cursor: pointer;
+            color: #1e293b;
+        }
+        details summary:hover {
+            color: #8b5cf6;
+        }
+        details .content {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #e2e8f0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- ============================================= -->
+        <!-- 1. EXECUTIVE SUMMARY                         -->
+        <!-- ============================================= -->
+        <h1>👤 Level 3 — Prime Directives &amp; Persona Prompting</h1>
+        <div class="doc-subtitle">
+            <strong>Permanent Knowledge Base</strong> &bull; BIM Automation Specialist &bull; Shaping Identity and Enforcing Unbreakable Rules
+        </div>
+
+        <div class="card purple">
+            <h3 style="margin-top:0;">📌 Executive Summary</h3>
+            <p>
+                <strong>Prime Directives</strong> are the "constitution" of your prompt—unbreakable, high-level rules
+                that govern everything the AI does. Placed at the very top of the System message, they override all
+                other instructions and enforce safety, accuracy, and honesty.
+            </p>
+            <p>
+                <strong>Personas</strong> are rich, multi-dimensional identities that shape the AI's mindset,
+                expertise, values, and style. Unlike simple Roles (job titles), Personas define <em>how</em> the AI
+                thinks and behaves, turning it from a generic assistant into a domain-specific specialist.
+            </p>
+            <p>
+                <strong>Key Insight:</strong> The combination of a Prime Directive (safety) and a strong Persona
+                (expertise) creates an AI that is both <em>trustworthy</em> and <em>effective</em>—two qualities
+                essential for production-grade BIM automation.
+            </p>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 2. LEARNING HIGHLIGHTS                       -->
+        <!-- ============================================= -->
+        <h2>📚 Learning Highlights</h2>
+        <div class="grid-2">
+            <div class="card">
+                <strong>🔹 Prime Directives (The "Constitution")</strong>
+                <ul>
+                    <li>Unbreakable, high-level rules</li>
+                    <li>Placed at the top of the System message</li>
+                    <li>Enforce safety, accuracy, and honesty</li>
+                    <li>Example: "Never invent APIs. Always state uncertainty."</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>🔹 Personas (The "Identity")</strong>
+                <ul>
+                    <li>Rich, multi-dimensional identities</li>
+                    <li>Include expertise, values, style, and cognitive traits</li>
+                    <li>Drive consistent, professional behaviour</li>
+                    <li>Example: "Senior BIM Architect with 20 years of experience."</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>🔹 P.E.R.S.O.N.A. Framework</strong>
+                <ul>
+                    <li>Purpose, Expertise, Values, Style, Outlook, Narrative, Assumptions</li>
+                    <li>Tool for crafting rich, actionable personas</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>🔹 Multi-Persona Prompting</strong>
+                <ul>
+                    <li>Using multiple personas for complex tasks</li>
+                    <li>Example: Developer + QA + Manager</li>
+                    <li>Creates a "team" of AI experts</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 3. KEY CONCEPTS                              -->
+        <!-- ============================================= -->
+        <h2>🧩 Key Concepts</h2>
+
+        <h3>1. Prime Directive</h3>
+        <p>
+            <strong>Definition:</strong> A definitive, immutable rule placed at the top of the System message that
+            governs all AI behaviour. It is the AI's "constitution."
+        </p>
+        <ul>
+            <li><strong>D - Definitive:</strong> Unambiguous and absolute.</li>
+            <li><strong>I - Immutable:</strong> Cannot be overridden.</li>
+            <li><strong>R - Relevant:</strong> Directly related to task risks.</li>
+            <li><strong>E - Enforceable:</strong> You can verify compliance.</li>
+            <li><strong>C - Concise:</strong> Short and memorable.</li>
+            <li><strong>T - Top-Level:</strong> Placed at the very beginning.</li>
+        </ul>
+
+        <h3>2. Persona</h3>
+        <p>
+            <strong>Definition:</strong> A consistent identity with expertise, values, style, and cognitive traits.
+            Unlike a simple Role, a Persona defines <em>how</em> the AI thinks and behaves.
+        </p>
+        <ul>
+            <li><strong>Role vs. Persona:</strong> Role is a job title; Persona is a mindset.</li>
+            <li><strong>Components:</strong> Identity, Expertise, Values, Style, Cognitive Traits.</li>
+            <li><strong>Outcome:</strong> Consistent, professional, domain-specific output.</li>
+        </ul>
+
+        <h3>3. The P.E.R.S.O.N.A. Framework</h3>
+        <table>
+            <thead>
+                <tr><th>Letter</th><th>Meaning</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>P</strong></td><td>Purpose</td><td>Why does this persona exist?</td></tr>
+                <tr><td><strong>E</strong></td><td>Expertise</td><td>What do they know deeply?</td></tr>
+                <tr><td><strong>R</strong></td><td>Values</td><td>What do they care about?</td></tr>
+                <tr><td><strong>S</strong></td><td>Style</td><td>How do they communicate?</td></tr>
+                <tr><td><strong>O</strong></td><td>Outlook</td><td>How do they think?</td></tr>
+                <tr><td><strong>N</strong></td><td>Narrative</td><td>What is their story?</td></tr>
+                <tr><td><strong>A</strong></td><td>Assumptions</td><td>What do they assume about the user?</td></tr>
+            </tbody>
+        </table>
+
+        <h3>4. Multi-Persona Prompting</h3>
+        <p>
+            Assigning multiple personas within a single prompt (e.g., Developer + QA + Manager) to handle complex,
+            multi-stage tasks. Each persona brings a distinct perspective, and the workflow defines how they interact.
+        </p>
+        <div class="callout info">
+            <strong>💡 Expert Tip:</strong> Multi-persona prompting is a lightweight form of "agentic" workflow.
+            You are simulating a team of experts within a single conversation.
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 4. EXPERT MENTAL MODEL                       -->
+        <!-- ============================================= -->
+        <h2>🧠 Expert Mental Model</h2>
+
+        <div class="card purple">
+            <h4 style="margin-top:0;">🧩 Mental Model: The CEO, CLO, and Division Head</h4>
+            <p>
+                Imagine you are the CEO of a company. You have a <strong>Chief Legal Officer (CLO)</strong> who sets
+                the unbreakable rules—the "Prime Directive." The CLO ensures that no matter what project you work on,
+                you never break the law, never compromise safety, and never misrepresent facts.
+            </p>
+            <p>
+                Then, you have a <strong>Division Head</strong>—the "Persona." The Division Head brings deep expertise,
+                a specific approach, and a consistent style to every project. They know their domain inside out and
+                apply their knowledge with professionalism.
+            </p>
+            <p>
+                You, the CEO, set the "Task." The CLO ensures safety. The Division Head ensures quality and expertise.
+            </p>
+            <p>
+                <strong>The Prime Directive is the CLO. The Persona is the Division Head. You are the CEO.</strong>
+            </p>
+        </div>
+
+        <h3>How an Expert Thinks</h3>
+        <ul>
+            <li><strong>Safety First:</strong> "What is the worst thing the AI could do? I'll write a Prime Directive to prevent that."</li>
+            <li><strong>Identity Shapes Behavior:</strong> "If I want a thorough QA report, I need a meticulous QA persona, not just a generic 'expert'."</li>
+            <li><strong>Test the Persona:</strong> "Does the AI's output sound like a 20-year veteran or a junior assistant? If it sounds like a junior, the persona is too weak."</li>
+        </ul>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 5. HIDDEN KNOWLEDGE                          -->
+        <!-- ============================================= -->
+        <h2>🔮 Hidden Knowledge (Rarely Written in Tutorials)</h2>
+
+        <div class="grid-2">
+            <div class="card teal">
+                <strong>🎯 The "Negative Persona"</strong>
+                <p>Define what the persona is <em>not</em>. Example: "You are not a junior engineer. You never rely on quick fixes. You never skip error handling." This reinforces the desired behaviour.</p>
+            </div>
+            <div class="card teal">
+                <strong>🎯 Persona as "Role-Playing" for the AI</strong>
+                <p>The AI is literally simulating a character. A rich persona triggers the AI's training data on similar characters. "Senior BIM Architect" activates a different neural pathway than "Assistant."</p>
+            </div>
+            <div class="card teal">
+                <strong>🎯 Prime Directives as "Trap Doors"</strong>
+                <p>If the AI encounters a situation where it cannot satisfy the Prime Directive, it should stop and ask for clarification. This prevents it from "forcing" a solution that breaks the rule.</p>
+            </div>
+            <div class="card teal">
+                <strong>🎯 The "Reviewer" Persona Trick</strong>
+                <p>Always add a "Reviewer" persona for critical tasks. Even if you don't use multi-persona, the act of defining a reviewer's expectations forces you to think about QA upfront.</p>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 6. BEGINNER MISTAKES                         -->
+        <!-- ============================================= -->
+        <h2>⚠️ Beginner Mistakes</h2>
+        <table>
+            <thead>
+                <tr><th>Mistake</th><th>Consequence</th><th>How to Avoid</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Prime Directive is too vague</strong></td>
+                    <td>AI has no real guardrails</td>
+                    <td>Be specific: "Never invent APIs. Always state uncertainty."</td>
+                </tr>
+                <tr>
+                    <td><strong>Persona is too generic</strong></td>
+                    <td>AI's output lacks depth and consistency</td>
+                    <td>Use the P.E.R.S.O.N.A. framework to add richness.</td>
+                </tr>
+                <tr>
+                    <td><strong>Conflicting Persona and Task</strong></td>
+                    <td>AI is confused; output is incoherent</td>
+                    <td>Ensure Persona aligns with the Task's requirements.</td>
+                </tr>
+                <tr>
+                    <td><strong>No Prime Directive for safety</strong></td>
+                    <td>AI may use dangerous or incorrect methods</td>
+                    <td>Always include safety directives for production tasks.</td>
+                </tr>
+                <tr>
+                    <td><strong>Overly restrictive Persona</strong></td>
+                    <td>AI becomes rigid and unhelpful</td>
+                    <td>Balance: define priorities, not every detail.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 7. THINGS PEOPLE USUALLY SKIP               -->
+        <!-- ============================================= -->
+        <h2>📌 Things People Usually Skip (But Experts Don't)</h2>
+        <div class="grid-2">
+            <div class="card">
+                <strong>🔸 The "If Uncertain" Clause</strong>
+                <p>Prime Directives should always include a fallback: "If uncertain, state the limitation and ask for clarification." This prevents the AI from guessing.</p>
+            </div>
+            <div class="card">
+                <strong>🔸 The "User Assumption"</strong>
+                <p>Who is the user? A junior coordinator? A senior engineer? This shapes the Persona's style and level of explanation.</p>
+            </div>
+            <div class="card">
+                <strong>🔸 The "Why" Behind the Persona</strong>
+                <p>Explain <em>why</em> this persona exists. "This persona ensures code quality because we release to clients." This gives the AI context for its behaviour.</p>
+            </div>
+            <div class="card">
+                <strong>🔸 The "Hard Stop" Rule</strong>
+                <p>If the Prime Directive is violated, the AI must stop and report the violation. This is a safety net for critical tasks.</p>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 8. CRITICAL THINKING CHALLENGES             -->
+        <!-- ============================================= -->
+        <h2>🧩 Critical Thinking Challenges</h2>
+
+        <details>
+            <summary><strong>Challenge 1: The Conflicting Directive</strong></summary>
+            <div class="content">
+                <p><strong>Scenario:</strong> Your User message says: "Write the script as fast as possible."
+                Your Prime Directive says: "Never compromise on safety."</p>
+                <p><strong>Question:</strong> Which instruction wins, and why?</p>
+                <details>
+                    <summary><strong>🔍 Expert Reasoning</strong></summary>
+                    <div class="content">
+                        <p><strong>The Prime Directive wins.</strong> It is immutable and at the top of the hierarchy.
+                        The AI should prioritise safety over speed. If the User message conflicts, the AI should
+                        follow the Prime Directive and perhaps note the trade-off: "I prioritised safety, which may
+                        have impacted speed."</p>
+                    </div>
+                </details>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Challenge 2: The Weak Persona</strong></summary>
+            <div class="content">
+                <p><strong>Scenario:</strong> You write: "Act as a Revit expert." The output is generic and lacks
+                the depth you expected.</p>
+                <p><strong>Question:</strong> Using the P.E.R.S.O.N.A. framework, rewrite this persona to make it rich and specific.</p>
+                <details>
+                    <summary><strong>🔍 Expert Reasoning</strong></summary>
+                    <div class="content">
+                        <p><strong>Rewritten Persona:</strong></p>
+                        <p>"<em>Purpose:</em> You are a Revit API Developer writing production-ready code.
+                        <em>Expertise:</em> You specialise in C# and Dynamo for large-scale healthcare projects.
+                        <em>Values:</em> You prioritise safety, readability, and transaction integrity.
+                        <em>Style:</em> You write concise, well-commented code.
+                        <em>Outlook:</em> You are a defensive programmer—you assume the worst-case input.
+                        <em>Narrative:</em> 15 years of experience, 50+ projects.
+                        <em>Assumptions:</em> The user is a professional BIM Coordinator."</p>
+                    </div>
+                </details>
+            </div>
+        </details>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 9. PRACTICAL WORKFLOW                        -->
+        <!-- ============================================= -->
+        <h2>🔄 Practical Workflow: Crafting a Persona &amp; Prime Directive</h2>
+
+        <div class="mermaid">
+1. IDENTIFY RISKS
+   └── What could go wrong? (e.g., hallucinations, corrupted data)
+         └── Write Prime Directive to prevent risks.
+
+2. DEFINE THE EXPERT
+   └── Who is the ideal person for this task?
+         └── Use P.E.R.S.O.N.A. to craft the identity.
+
+3. ESTABLISH HIERARCHY
+   └── Prime Directive (Top) → Persona → Task → Constraints
+
+4. TEST THE PERSONA
+   └── Does the AI's output sound like this persona?
+         └── If not, refine the persona description.
+
+5. ADD FALLBACK
+   └── "If uncertain, state the limitation and ask."
+         └── This prevents the AI from guessing.
+
+6. ITERATE
+   └── Review outputs. Adjust persona and directives as needed.
+        </div>
+
+        <div class="callout info">
+            <strong>💡 Expert Checkpoint:</strong> After writing your Persona, ask: "If I met this person in real
+            life, would I trust them with my BIM project?" If the answer is "no," refine the Persona.
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 10. EXECUTION CHECKLIST                      -->
+        <!-- ============================================= -->
+        <h2>✅ Execution Checklist</h2>
+
+        <div class="grid-2">
+            <div class="card blue">
+                <strong>📋 Prime Directive</strong>
+                <ul>
+                    <li>☐ Is it definitive and unambiguous?</li>
+                    <li>☐ Is it immutable (cannot be overridden)?</li>
+                    <li>☐ Is it placed at the top of the System message?</li>
+                    <li>☐ Does it address the key risk of the task?</li>
+                </ul>
+            </div>
+            <div class="card blue">
+                <strong>📋 Persona</strong>
+                <ul>
+                    <li>☐ Is the persona rich (P.E.R.S.O.N.A.)?</li>
+                    <li>☐ Does it define expertise, values, and style?</li>
+                    <li>☐ Does it assume the correct user skill level?</li>
+                    <li>☐ Does it align with the task?</li>
+                </ul>
+            </div>
+            <div class="card green">
+                <strong>📋 Before Running</strong>
+                <ul>
+                    <li>☐ Read the Prime Directive and Persona together</li>
+                    <li>☐ Check for conflicts between Persona and Task</li>
+                    <li>☐ Test the fallback clause: "If uncertain..."</li>
+                </ul>
+            </div>
+            <div class="card green">
+                <strong>📋 After Running</strong>
+                <ul>
+                    <li>☐ Did the AI follow the Prime Directive?</li>
+                    <li>☐ Did the output match the Persona's style?</li>
+                    <li>☐ If multi-persona, did the workflow work as designed?</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 11. RULES TO ALWAYS REMEMBER                -->
+        <!-- ============================================= -->
+        <h2>📜 Rules to Always Remember</h2>
+        <div class="grid-2">
+            <div class="card green">
+                <strong>🏆 Golden Rules</strong>
+                <ul>
+                    <li><strong>The Prime Directive is the law.</strong> Nothing overrides it.</li>
+                    <li><strong>A Persona is not a Role.</strong> It is a full identity.</li>
+                    <li><strong>Safety first.</strong> A good Prime Directive prevents disaster.</li>
+                    <li><strong>Test your Persona.</strong> Does the output sound like the expert you described?</li>
+                </ul>
+            </div>
+            <div class="card red">
+                <strong>🚫 Never Do This</strong>
+                <ul>
+                    <li>Place the Prime Directive in the User message (it belongs in System).</li>
+                    <li>Write a weak Persona like "Act as an expert."</li>
+                    <li>Assume the AI will be safe without a Prime Directive.</li>
+                    <li>Skip the fallback clause for uncertain situations.</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 12. DECISION TREE                           -->
+        <!-- ============================================= -->
+        <h2>🌳 Decision Tree: Persona Depth</h2>
+
+        <div class="mermaid">
+┌─────────────────────────────────────┐
+│ Is the task critical?              │
+│ (Production, Client, Safety)       │
+└──────────────┬──────────────────────┘
+               │
+       ┌───────┴───────┐
+       │               │
+       ▼               ▼
+┌───────────┐   ┌───────────┐
+│ No        │   │ Yes       │
+│ (Casual)  │   │ (Critical)│
+└─────┬─────┘   └─────┬─────┘
+      │               │
+      ▼               ▼
+┌───────────┐   ┌───────────┐
+│ Simple    │   │ Rich      │
+│ Persona   │   │ Persona   │
+│           │   │           │
+│ ✅ Role   │   │ ✅ P.E.R.S.O.N.A.│
+│ ✅ Task   │   │ ✅ Prime  │
+└───────────┘   │ ✅ Multi  │
+                │   Persona │
+                └───────────┘
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 13. PATTERN RECOGNITION                     -->
+        <!-- ============================================= -->
+        <h2>🔍 Pattern Recognition: When to Apply This</h2>
+        <div class="grid-2">
+            <div class="card">
+                <strong>🚦 Signals This Applies</strong>
+                <ul>
+                    <li>You are generating production code</li>
+                    <li>You need the AI to adopt a specific professional tone</li>
+                    <li>You are working on safety-critical tasks</li>
+                    <li>You need consistent, high-quality output</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>⚠️ Warning Signs You're Forgetting This</strong>
+                <ul>
+                    <li>Your System message only has a Task, no Persona</li>
+                    <li>You trust the AI to be "safe" without a directive</li>
+                    <li>You're getting inconsistent tones in the output</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 14. PROFESSIONAL TIPS                       -->
+        <!-- ============================================= -->
+        <h2>💼 Professional Tips: What Seniors Do Differently</h2>
+        <ul>
+            <li><strong>They lead with the Prime Directive.</strong> They don't bury safety rules in the middle of the prompt.</li>
+            <li><strong>They build a Persona library.</strong> They have pre-written personas for common roles (Developer, QA, Manager).</li>
+            <li><strong>They use Multi-Persona for complex tasks.</strong> They don't just ask for code; they ask for code + review.</li>
+            <li><strong>They test the Persona.</strong> They read the output and ask: "Does this sound like a 20-year veteran?"</li>
+            <li><strong>They include the "If Uncertain" fallback.</strong> This prevents the AI from guessing when it doesn't know the answer.</li>
+        </ul>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 15. OPTIMIZATION OPPORTUNITIES              -->
+        <!-- ============================================= -->
+        <h2>⚡ Optimization Opportunities</h2>
+        <div class="grid-2">
+            <div class="card teal">
+                <strong>🚀 Performance</strong>
+                <ul>
+                    <li>Use Persona templates to save time</li>
+                    <li>Reuse Prime Directives across tasks</li>
+                    <li>Automate Persona injection via system messages</li>
+                </ul>
+            </div>
+            <div class="card teal">
+                <strong>📊 Quality</strong>
+                <ul>
+                    <li>Add a "Reviewer" persona to every production prompt</li>
+                    <li>Include a "Self-Critique" instruction: "Review your own work before outputting."</li>
+                    <li>Use the "Negative Persona" technique to define what not to do</li>
+                </ul>
+            </div>
+            <div class="card teal">
+                <strong>🤖 Automation</strong>
+                <ul>
+                    <li>Build a person-a template generator</li>
+                    <li>Use AI to generate personas based on task descriptions</li>
+                    <li>Create a Prime Directive library for common risks</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 16. EDGE CASES                              -->
+        <!-- ============================================= -->
+        <h2>🔀 Edge Cases</h2>
+        <ul>
+            <li><strong>Overly restrictive Prime Directive:</strong> If the directive is too strict, the AI may become unable to complete the task. Balance safety with feasibility.</li>
+            <li><strong>Conflicting Personas:</strong> If two personas have conflicting values (e.g., speed vs. quality), the AI may get stuck. Define a clear order of priority.</li>
+            <li><strong>Persona vs. Reality:</strong> If the Persona expects data that doesn't exist, the AI may hallucinate. Provide the necessary context.</li>
+            <li><strong>Prime Directive "Bypass":</strong> Some models may deprioritise the System message. Reinforce the Prime Directive in the User message if needed.</li>
+        </ul>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 17. VALIDATION & QA                         -->
+        <!-- ============================================= -->
+        <h2>✅ Validation &amp; Quality Assurance</h2>
+
+        <h3>How to Verify a Persona &amp; Prime Directive</h3>
+        <ul>
+            <li><strong>Compliance Test:</strong> Does the AI's output violate the Prime Directive? If yes, refine the directive or reinforce it.</li>
+            <li><strong>Consistency Test:</strong> Does the output consistently sound like the Persona? If it shifts tone, the Persona is too weak.</li>
+            <li><strong>Fallback Test:</strong> If you ask the AI something ambiguous, does it ask for clarification (as per the fallback rule)?</li>
+            <li><strong>User Test:</strong> Would a real user trust this output? If not, add more safety or richness to the Persona.</li>
+        </ul>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 18. FREQUENTLY ASKED QUESTIONS              -->
+        <!-- ============================================= -->
+        <h2>❓ Frequently Asked Questions</h2>
+
+        <details>
+            <summary><strong>Q: Can I have more than one Prime Directive?</strong></summary>
+            <div class="content">
+                <p><strong>A:</strong> Yes, but keep them concise (2-3 maximum). Too many directives dilute the focus.
+                Group them logically. Example: "Never invent APIs. Always verify code. If uncertain, ask."</p>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Q: How detailed should a Persona be?</strong></summary>
+            <div class="content">
+                <p><strong>A:</strong> As detailed as needed to drive the desired behaviour. For a simple task, 2-3 sentences.
+                For a complex production task, use the full P.E.R.S.O.N.A. framework (8-10 sentences).</p>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Q: What if the AI ignores my Persona?</strong></summary>
+            <div class="content">
+                <p><strong>A:</strong> Some models deprioritize the System message. Reinforce the Persona in the User message:
+                <em>"As a Senior BIM Architect (per system instructions), generate..."</em> You can also try a different model.</p>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Q: Can I use multiple personas in one prompt?</strong></summary>
+            <div class="content">
+                <p><strong>A:</strong> Yes. This is called Multi-Persona Prompting. It's powerful for complex tasks
+                (e.g., Developer + Reviewer). We will explore this further in Level 10 (AI Agents).</p>
+            </div>
+        </details>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 19. KNOWLEDGE CONNECTIONS                   -->
+        <!-- ============================================= -->
+        <h2>🔗 Knowledge Connections</h2>
+        <div class="grid-2">
+            <div class="card">
+                <strong>➡️ Prerequisites</strong>
+                <ul>
+                    <li>Level 0: What is AI? (Mental model)</li>
+                    <li>Level 1: Prompt Fundamentals (Structure)</li>
+                    <li>Level 2: Context Engineering (Grounding)</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>➡️ What This Leads To</strong>
+                <ul>
+                    <li><strong>Level 4:</strong> Structured Prompting (JSON, XML)</li>
+                    <li><strong>Level 5:</strong> Output Structuring</li>
+                    <li><strong>Level 10:</strong> AI Agents (Multi-Persona workflows)</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 20. FUTURE LEARNING ROADMAP                 -->
+        <!-- ============================================= -->
+        <h2>🗺️ Future Learning Roadmap</h2>
+        <div class="mermaid">
+BEGINNER
+├── Level 0: What is AI? ✅
+├── Level 1: Prompt Fundamentals ✅
+├── Level 2: Context Engineering ✅
+└── Level 3: Prime Directives & Persona  ◄── YOU ARE HERE
+
+INTERMEDIATE
+├── Level 4: Structured Prompting
+├── Level 5: Output Structuring
+└── Level 6: Few-Shot & Zero-Shot
+
+ADVANCED
+├── Level 7: Reasoning Strategies
+├── Level 8: RAG, ReAct, Reflection
+└── Level 9: Prompt Debugging
+
+EXPERT
+├── Level 10: AI Agents
+└── Level 11: Model Selection & Tuning
+
+MASTER
+├── Level 12: Enterprise Prompting
+└── Level 13: Capstone Project
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 21. AI PROMPT ENGINEERING INSIGHTS          -->
+        <!-- ============================================= -->
+        <h2>✍️ AI Prompt Engineering Insights</h2>
+
+        <div class="prompt-ladder">
+            <div class="prompt-item bad">
+                <strong><span class="tag bad">BAD</span></strong><br>
+                <em>"Write a script to rename sheets."</em>
+                <div class="small" style="color:#991b1b;">No Persona. No Prime Directive. The AI operates with no guardrails.</div>
+            </div>
+            <div class="prompt-item good">
+                <strong><span class="tag good">GOOD</span></strong><br>
+                <em>"Act as a Revit expert. Write a script to rename sheets."</em>
+                <div class="small" style="color:#92400e;">Simple Role. No safety directives.</div>
+            </div>
+            <div class="prompt-item expert">
+                <strong><span class="tag expert">EXPERT</span></strong><br>
+                <em>"You are a Senior BIM Automation Specialist who values safety and clarity. Never invent APIs. Generate a script to rename sheets."</em>
+                <div class="small" style="color:#1e3a5f;">Persona with values. Prime Directive included.</div>
+            </div>
+            <div class="prompt-item production">
+                <strong><span class="tag production">PRODUCTION</span></strong><br>
+                <em><strong>Prime Directive:</strong> Never modify the model without user confirmation. Always verify code before output.<br>
+                <strong>Persona:</strong> Senior BIM Architect, 20 years, defensive programmer.<br>
+                <strong>Task:</strong> Generate script to rename sheets.</em>
+                <div class="small" style="color:#064e3b;">Rich Persona + specific, unbreakable Prime Directive at the top. Safety and expertise are baked in.</div>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 22. PROMPT IMPROVEMENT SUGGESTIONS          -->
+        <!-- ============================================= -->
+        <h2>📝 Prompt Improvement Suggestions</h2>
+
+        <h3>Your Initial Expert Prompt (Without Persona/Prime Directive)</h3>
+        <div class="code-block">
+"Act as a Senior BIM Automation Specialist. Generate a Dynamo script to rename sheets."
+        </div>
+        <p><strong>Weaknesses:</strong> The Persona is shallow. No Prime Directive for safety.</p>
+
+        <h3>Production-Level with Persona &amp; Prime Directive</h3>
+        <div class="code-block">
+<strong>System:</strong>
+<strong>Prime Directive:</strong> Never use deprecated methods. Always verify code for syntax errors. If uncertain, state the limitation and ask.
+<strong>Persona:</strong> You are a Senior BIM Automation Architect with 20 years of experience. You are a defensive programmer who assumes the worst-case input. You value safety, readability, and production-quality code. You write scripts that can be run by junior coordinators without supervision.
+<strong>Task:</strong> Generate a Dynamo script to rename sheets using 'OriginalName N'.
+        </div>
+        <p><strong>Why it's better:</strong> The Prime Directive enforces safety. The Persona drives a defensive, high-quality mindset.</p>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 23. MY LEARNING ANALYSIS                   -->
+        <!-- ============================================= -->
+        <h2>📊 Your Learning Analysis</h2>
+        <div class="grid-2">
+            <div class="card green">
+                <strong>✅ Strengths Demonstrated</strong>
+                <ul>
+                    <li>You correctly placed the Prime Directive at the top of the System message.</li>
+                    <li>You distinguished Role (functional) from Persona (behavioral/mindset).</li>
+                    <li>You applied the P.E.R.S.O.N.A. framework with precision and depth.</li>
+                    <li>You wrote a production-grade safety Prime Directive for modifying Revit elements.</li>
+                    <li>You designed a sophisticated multi-persona workflow (Developer + Reviewer) with a clear decision gate.</li>
+                </ul>
+            </div>
+            <div class="card amber">
+                <strong>🔶 Areas for Growth</strong>
+                <ul>
+                    <li>Practice building a library of reusable Personas for your team.</li>
+                    <li>Experiment with "negative personas" (what the persona is not).</li>
+                    <li>Try adding a "Self-Critique" instruction to your personas.</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 24. FINAL EXPERT TAKEAWAY                  -->
+        <!-- ============================================= -->
+        <h2>🎯 Final Expert Takeaway</h2>
+        <div class="card purple" style="border-left-color:#8b5cf6;">
+            <h3 style="margin-top:0; color:#4c1d95;">📄 One Page of Advice from a 30-Year Mentor</h3>
+            <p>
+                <strong>"Identity is everything."</strong>
+            </p>
+            <p>
+                A generic AI is a tool. A well-defined Persona is a specialist. A specialist with unbreakable
+                safety rules is a partner you can trust.
+            </p>
+            <p>
+                Your job is not just to give the AI instructions—it is to <strong>define its character</strong>
+                and <strong>establish its boundaries</strong>. When you do this, the AI stops being a random
+                guesser and becomes a consistent, reliable expert.
+            </p>
+            <p style="margin-top:12px; font-weight:600; color:#4c1d95;">
+                🔥 Don't just tell the AI what to do. Tell it who to be.
+            </p>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 25. MEMORY REVISION SHEET                   -->
+        <!-- ============================================= -->
+        <h2>📄 Memory Revision Sheet (5-Minute Review)</h2>
+        <div class="card" style="border-left-color:#8b5cf6; background:#f5f3ff;">
+            <div class="grid-2" style="gap:8px;">
+                <div>
+                    <strong>🧠 Prime Directive</strong>
+                    <ul style="margin:4px 0 0 18px; font-size:0.9rem;">
+                        <li>Unbreakable rule (Constitution)</li>
+                        <li>Top of System message</li>
+                        <li>D.I.R.E.C.T. framework</li>
+                    </ul>
+                </div>
+                <div>
+                    <strong>👤 Persona</strong>
+                    <ul style="margin:4px 0 0 18px; font-size:0.9rem;">
+                        <li>Rich identity (≠ Role)</li>
+                        <li>Expertise, Values, Style</li>
+                        <li>P.E.R.S.O.N.A. framework</li>
+                    </ul>
+                </div>
+                <div>
+                    <strong>📩 Hierarchy</strong>
+                    <ul style="margin:4px 0 0 18px; font-size:0.9rem;">
+                        <li>1. Prime Directive</li>
+                        <li>2. Persona</li>
+                        <li>3. Task</li>
+                        <li>4. Constraints</li>
+                    </ul>
+                </div>
+                <div>
+                    <strong>✅ Multi-Persona</strong>
+                    <ul style="margin:4px 0 0 18px; font-size:0.9rem;">
+                        <li>Developer + Reviewer + Manager</li>
+                        <li>Simulates a team</li>
+                        <li>Clear decision gates</li>
+                    </ul>
+                </div>
+            </div>
+            <hr style="margin:10px 0; border-color:#e2e8f0;">
+            <div style="font-size:0.85rem;">
+                <strong>Production secret:</strong> A weak Persona = generic output. A rich Persona = expert output.
+                A Prime Directive = safe output.
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 26. INTERVIEW PERSPECTIVE                   -->
+        <!-- ============================================= -->
+        <h2>🎤 Interview Perspective</h2>
+
+        <details>
+            <summary><strong>Technical Interview</strong></summary>
+            <div class="content">
+                <p><strong>Q:</strong> "How do you ensure the AI never uses unsafe methods?"</p>
+                <p><strong>A:</strong> "I include a Prime Directive in the System message: 'Never use deprecated methods. Always use transactions with rollback.' This is placed at the very top of the prompt, ensuring it cannot be overridden. I also define a defensive Persona—a Senior Developer who assumes the worst-case input and writes safe code."</p>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Management Interview</strong></summary>
+            <div class="content">
+                <p><strong>Q:</strong> "How do you ensure consistency in AI-generated output across your team?"</p>
+                <p><strong>A:</strong> "We have a Persona library. Every team member uses the same Persona templates for their tasks—e.g., 'Production Developer' or 'QA Specialist.' This ensures the AI's tone, depth, and quality are consistent. We also include the same Prime Directives for safety across all prompts."</p>
+            </div>
+        </details>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 27. REAL-WORLD CASE STUDY                   -->
+        <!-- ============================================= -->
+        <h2>🏗️ Real-World Case Study</h2>
+
+        <h3>Scenario: The Multi-Persona QA Automation</h3>
+        <p>
+            You need to generate a Dynamo script that checks 1000+ sheets for QA issues. The script must be safe,
+            thorough, and well-reviewed.
+        </p>
+
+        <h4>Step 1: Define the Prime Directive</h4>
+        <div class="code-block">
+Prime Directive: Never invent QA rules. Only use rules explicitly stated in the prompt.
+Never skip a check. Always report all issues found.
+        </div>
+
+        <h4>Step 2: Define the Developer Persona</h4>
+        <div class="code-block">
+Persona 1 (Developer): Senior BIM Automation Developer. Values efficiency and readability.
+Writes clean, well-commented Python code.
+        </div>
+
+        <h4>Step 3: Define the Reviewer Persona</h4>
+        <div class="code-block">
+Persona 2 (Reviewer): Strict BIM QA/QC Engineer. Reviews for logic errors, edge cases,
+and performance. Must explicitly state Pass/Fail and list all issues.
+        </div>
+
+        <h4>Step 4: Set the Workflow</h4>
+        <div class="code-block">
+Workflow:
+1. Developer generates the script.
+2. Reviewer evaluates it.
+3. Reviewer provides a Pass/Fail decision.
+4. If Fail, list required fixes.
+5. No solution is final without Reviewer approval.
+        </div>
+
+        <h4>Outcome</h4>
+        <p>
+            The Developer generated a script that passed 90% of checks. The Reviewer identified two missing
+            edge cases (sheets with no views, duplicate names). The Developer fixed the issues. The final script
+            passed all checks and was deployed to production.
+        </p>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 28. CONTINUOUS IMPROVEMENT NOTES            -->
+        <!-- ============================================= -->
+        <h2>🔄 Continuous Improvement Notes</h2>
+        <ul>
+            <li><strong>Review:</strong> After each prompt, ask: "Did the Persona drive the right behaviour? Did the Prime Directive prevent errors?"</li>
+            <li><strong>Metrics:</strong> Track how often the AI asks for clarification (a sign of a good fallback clause).</li>
+            <li><strong>Automation:</strong> Build a Persona generator that asks you for Purpose, Expertise, Values, etc., and outputs a rich Persona description.</li>
+            <li><strong>Next Step:</strong> Level 4 — Structured Prompting (JSON, XML, Markdown).</li>
+        </ul>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- FOOTER                                       -->
+        <!-- ============================================= -->
+        <div style="text-align:center; font-size:0.8rem; color:#94a3b8; padding-top:20px; border-top:1px solid #e2e8f0;">
+            <strong>Level 3 — Prime Directives &amp; Persona Prompting</strong><br>
+            Expert Knowledge Document &bull; Prompt Engineering for BIM &amp; Construction Technology<br>
+            Created: 2026 &bull; Permanent Reference &bull; Version 1.0
+        </div>
+
+    </div>
+</body>
+</html>

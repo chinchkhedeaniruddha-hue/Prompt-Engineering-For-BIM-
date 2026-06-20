@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level 7 — Expert Knowledge: Reasoning Strategies</title>
+    <style>
+        /* ── Reset & Base ── */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #f1f5f9;
+            color: #0f172a;
+            line-height: 1.6;
+            padding: 30px 20px;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 45px 55px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+        }
+        h1 {
+            font-size: 2.4rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: #0f172a;
+            border-bottom: 4px solid #4f46e5;
+            padding-bottom: 12px;
+            margin-bottom: 6px;
+        }
+        .doc-subtitle {
+            font-size: 1.05rem;
+            color: #475569;
+            margin-bottom: 28px;
+            border-left: 4px solid #4f46e5;
+            padding-left: 18px;
+            background: #f8fafc;
+            padding: 12px 20px;
+            border-radius: 8px;
+        }
+        h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-top: 38px;
+            margin-bottom: 14px;
+            color: #0f172a;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 6px;
+        }
+        h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 24px;
+            margin-bottom: 8px;
+            color: #1e293b;
+        }
+        h4 {
+            font-size: 1.0rem;
+            font-weight: 600;
+            margin-top: 18px;
+            margin-bottom: 4px;
+            color: #334155;
+        }
+        p {
+            margin-bottom: 14px;
+        }
+        ul, ol {
+            margin: 10px 0 16px 24px;
+        }
+        li {
+            margin-bottom: 6px;
+        }
+        .card {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 18px 22px;
+            margin: 16px 0;
+            border-left: 5px solid #94a3b8;
+        }
+        .card.blue {
+            border-left-color: #3b82f6;
+            background: #eff6ff;
+        }
+        .card.green {
+            border-left-color: #22c55e;
+            background: #f0fdf4;
+        }
+        .card.amber {
+            border-left-color: #f59e0b;
+            background: #fffbeb;
+        }
+        .card.red {
+            border-left-color: #ef4444;
+            background: #fef2f2;
+        }
+        .card.purple {
+            border-left-color: #8b5cf6;
+            background: #f5f3ff;
+        }
+        .card.indigo {
+            border-left-color: #4f46e5;
+            background: #eef2ff;
+        }
+        .card.teal {
+            border-left-color: #14b8a6;
+            background: #f0fdfa;
+        }
+        .callout {
+            padding: 14px 20px;
+            border-radius: 10px;
+            margin: 16px 0;
+            font-weight: 500;
+        }
+        .callout.info {
+            background: #dbeafe;
+            color: #1e3a8a;
+        }
+        .callout.warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        .callout.danger {
+            background: #fecaca;
+            color: #991b1b;
+        }
+        .callout.success {
+            background: #bbf7d0;
+            color: #166534;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0 20px;
+            font-size: 0.95rem;
+        }
+        th {
+            background: #1e293b;
+            color: #f8fafc;
+            padding: 10px 14px;
+            text-align: left;
+            font-weight: 600;
+        }
+        td {
+            padding: 10px 14px;
+            border-bottom: 1px solid #e2e8f0;
+            vertical-align: top;
+        }
+        tr:nth-child(even) {
+            background: #f8fafc;
+        }
+        tr:hover {
+            background: #f1f5f9;
+        }
+        .code-block {
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 16px 22px;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            font-size: 0.88rem;
+            overflow-x: auto;
+            margin: 14px 0;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        .inline-code {
+            background: #e2e8f0;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        .tag {
+            display: inline-block;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .tag.bad { background: #fecaca; color: #991b1b; }
+        .tag.good { background: #fde68a; color: #92400e; }
+        .tag.expert { background: #93c5fd; color: #1e3a5f; }
+        .tag.production { background: #6ee7b7; color: #064e3b; }
+        .tag.master { background: #c4b5fd; color: #4c1d95; }
+        .prompt-ladder {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 16px 0;
+        }
+        .prompt-item {
+            padding: 14px 20px;
+            border-radius: 10px;
+            border-left: 6px solid;
+        }
+        .prompt-item.bad { background: #fef2f2; border-color: #ef4444; }
+        .prompt-item.good { background: #fffbeb; border-color: #f59e0b; }
+        .prompt-item.expert { background: #eff6ff; border-color: #3b82f6; }
+        .prompt-item.production { background: #ecfdf5; border-color: #10b981; }
+        .prompt-item.master { background: #f5f3ff; border-color: #8b5cf6; }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+        }
+        @media (max-width: 760px) {
+            .grid-2, .grid-3 { grid-template-columns: 1fr; }
+            .container { padding: 24px 18px; }
+            h1 { font-size: 1.8rem; }
+        }
+        .mermaid {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            white-space: pre;
+            overflow-x: auto;
+            margin: 16px 0;
+            border: 1px solid #e2e8f0;
+        }
+        .hr-divider {
+            border: 0;
+            height: 2px;
+            background: linear-gradient(to right, #e2e8f0, #94a3b8, #e2e8f0);
+            margin: 30px 0;
+        }
+        .small { font-size: 0.85rem; color: #64748b; }
+        details {
+            margin: 12px 0;
+            padding: 10px 16px;
+            background: #f8fafc;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+        }
+        details summary {
+            font-weight: 600;
+            cursor: pointer;
+            color: #1e293b;
+        }
+        details summary:hover { color: #4f46e5; }
+        details .content {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #e2e8f0;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <!-- ============================================= -->
+    <!-- 1. EXECUTIVE SUMMARY                         -->
+    <!-- ============================================= -->
+    <h1>🧠 Level 7 — Reasoning Strategies</h1>
+    <div class="doc-subtitle">
+        <strong>Permanent Knowledge Base</strong> &bull; BIM Automation Specialist &bull; Engineering the AI's Cognitive Process
+    </div>
+
+    <div class="card indigo">
+        <h3 style="margin-top:0;">📌 Executive Summary</h3>
+        <p>
+            <strong>Reasoning Strategies</strong> are techniques that guide the AI's internal problem-solving process.
+            They do not just ask for the answer—they ask for the <em>path</em> to the answer, the <em>consideration of
+            alternatives</em>, and the <em>verification</em> of the conclusion.
+        </p>
+        <p>
+            The core principle is: <strong>"The quality of the answer is a function of the quality of the reasoning."</strong>
+        </p>
+        <ul>
+            <li><strong>Chain of Thought (CoT):</strong> Step-by-step, linear reasoning.</li>
+            <li><strong>Tree of Thoughts (ToT):</strong> Exploring multiple reasoning paths.</li>
+            <li><strong>Self-Consistency:</strong> Sampling multiple outputs and choosing the most consistent.</li>
+            <li><strong>ReAct:</strong> Combining reasoning with action (tool use).</li>
+            <li><strong>Reflection:</strong> Self-critique and iterative improvement.</li>
+        </ul>
+        <p>
+            <strong>Key Insight:</strong> For BIM automation, these strategies transform the AI from a "guesser" into a
+            "consultant" that reasons, explores, verifies, and improves its own outputs.
+        </p>
+    </div>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 2. LEARNING HIGHLIGHTS                       -->
+    <!-- ============================================= -->
+    <h2>📚 Learning Highlights</h2>
+    <div class="grid-2">
+        <div class="card">
+            <strong>🔹 Chain of Thought (CoT)</strong>
+            <ul>
+                <li>Linear, step-by-step reasoning</li>
+                <li>Single path from input to output</li>
+                <li>Best for complex, multi-step logic</li>
+            </ul>
+        </div>
+        <div class="card">
+            <strong>🔹 Tree of Thoughts (ToT)</strong>
+            <ul>
+                <li>Multi-branch reasoning</li>
+                <li>Explores alternative paths</li>
+                <li>Best for design decisions and strategy</li>
+            </ul>
+        </div>
+        <div class="card">
+            <strong>🔹 Self-Consistency</strong>
+            <ul>
+                <li>Multiple outputs, choose the most consistent</li>
+                <li>Reduces logic errors and hallucinations</li>
+                <li>Best for ambiguous or multi-solution problems</li>
+            </ul>
+        </div>
+        <div class="card">
+            <strong>🔹 ReAct &amp; Reflection</strong>
+            <ul>
+                <li><strong>ReAct:</strong> Reason + Act (tool use, API calls)</li>
+                <li><strong>Reflection:</strong> Self-critique and iterative improvement</li>
+                <li>Best for production-ready, high-quality outputs</li>
+            </ul>
+        </div>
+    </div>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 3. KEY CONCEPTS                              -->
+    <!-- ============================================= -->
+    <h2>🧩 Key Concepts</h2>
+
+    <h3>1. Chain of Thought (CoT)</h3>
+    <p>
+        <strong>Definition:</strong> A linear reasoning process where the AI follows a single path step-by-step from
+        input to output. The AI shows its work, making the logic transparent.
+    </p>
+    <ul>
+        <li><strong>How it works:</strong> Input → Step 1 → Step 2 → ... → Final Answer.</li>
+        <li><strong>Why it's valuable:</strong> Reduces errors, makes logic transparent, and helps with debugging.</li>
+        <li><strong>BIM application:</strong> "Design a Dynamo graph step-by-step: Read Excel → Create curves → Assign types → Apply parameters → Validate."</li>
+    </ul>
+
+    <h3>2. Tree of Thoughts (ToT)</h3>
+    <p>
+        <strong>Definition:</strong> A multi-branch reasoning process where the AI explores multiple possible solution
+        paths in parallel and then selects the best one based on evaluation criteria.
+    </p>
+    <ul>
+        <li><strong>How it works:</strong> Path A, Path B, Path C → Evaluate pros/cons → Choose best.</li>
+        <li><strong>Why it's valuable:</strong> Finds optimal solutions, avoids getting stuck in local optima.</li>
+        <li><strong>BIM application:</strong> "Consider three approaches for clash resolution: priority-based, discipline-based, location-based. Evaluate and choose the best."</li>
+    </ul>
+
+    <h3>3. Self-Consistency</h3>
+    <p>
+        <strong>Definition:</strong> Generating multiple independent reasoning paths (often via CoT) and then choosing
+        the output that is most consistent across the paths.
+    </p>
+    <ul>
+        <li><strong>How it works:</strong> Generate 3-5 reasoning chains → Compare final answers → Choose the most frequent or consistent.</li>
+        <li><strong>Why it's valuable:</strong> Reduces hallucinations, filters out outliers, and increases reliability.</li>
+        <li><strong>BIM application:</strong> "Generate three different Dynamo scripts for the same task. Compare them and choose the best one based on performance, readability, and error handling."</li>
+    </ul>
+
+    <h3>4. ReAct (Reason + Act)</h3>
+    <p>
+        <strong>Definition:</strong> A strategy that interleaves reasoning (thinking) with action (tool use, API calls,
+        data fetching). The AI reasons, takes an action, observes the result, and reasons again.
+    </p>
+    <ul>
+        <li><strong>How it works:</strong> Reason → Act → Observe → Reason → Act → ... → Final Answer.</li>
+        <li><strong>Why it's valuable:</strong> Enables access to external data, tool execution, and iterative correction.</li>
+        <li><strong>BIM application:</strong> "Fetch all Revit sheets, check parameter values, modify names, and update the model."</li>
+    </ul>
+
+    <h3>5. Reflection</h3>
+    <p>
+        <strong>Definition:</strong> A process where the AI reviews its own output, identifies mistakes or missing logic,
+        and improves the solution before finalizing it. It acts as a "self-QA" stage.
+    </p>
+    <ul>
+        <li><strong>How it works:</strong> Draft → Review → Identify weaknesses → Rewrite → Finalize.</li>
+        <li><strong>Why it's valuable:</strong> Catches errors, improves quality, and adds polish.</li>
+        <li><strong>BIM application:</strong> "Write a proposal draft. Then review it from the client's perspective. Identify three weaknesses and rewrite."</li>
+    </ul>
+
+    <h3>6. The R.E.A.S.O.N. Framework</h3>
+    <table>
+        <thead>
+            <tr><th>Letter</th><th>Meaning</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+            <tr><td><strong>R</strong></td><td>Reason</td><td>Ask for Chain of Thought reasoning.</td></tr>
+            <tr><td><strong>E</strong></td><td>Explore</td><td>Use Tree of Thoughts to consider alternatives.</td></tr>
+            <tr><td><strong>A</strong></td><td>Analyze</td><td>Use Self-Consistency to verify the answer.</td></tr>
+            <tr><td><strong>S</strong></td><td>Synthesize</td><td>Combine the best elements from different approaches.</td></tr>
+            <tr><td><strong>O</strong></td><td>Optimize</td><td>Use Reflection to critique and improve the output.</td></tr>
+            <tr><td><strong>N</strong></td><td>Nurture</td><td>Iterate and refine the reasoning process.</td></tr>
+        </tbody>
+    </table>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 4. EXPERT MENTAL MODEL                       -->
+    <!-- ============================================= -->
+    <h2>🧠 Expert Mental Model</h2>
+
+    <div class="card purple">
+        <h4 style="margin-top:0;">🧩 Mental Model: The Architect's Sketchbook</h4>
+        <p>
+            Imagine you are an architect designing a building. You don't just draw the final design. You:
+        </p>
+        <ol>
+            <li><strong>Chain of Thought:</strong> Sketch the structural logic step-by-step.</li>
+            <li><strong>Tree of Thoughts:</strong> Explore 3-4 different structural systems (steel, concrete, timber, hybrid).</li>
+            <li><strong>Self-Consistency:</strong> Compare the estimates from different methods.</li>
+            <li><strong>ReAct:</strong> Run calculations using tools and data.</li>
+            <li><strong>Reflection:</strong> Review your design and identify flaws.</li>
+        </ol>
+        <p>That is <strong>Reasoning Strategies</strong>. You are not just producing an answer—you are exploring, testing, and refining.</p>
+    </div>
+
+    <h3>How an Expert Thinks</h3>
+    <ul>
+        <li><strong>Systematic Thinking:</strong> "I'll ask the AI to show its work step-by-step (CoT)."</li>
+        <li><strong>Exploring Alternatives:</strong> "I'll ask the AI to consider 3 different approaches (ToT)."</li>
+        <li><strong>Verification:</strong> "I'll ask the AI to generate 3 versions and compare them (Self-Consistency)."</li>
+        <li><strong>Action-Oriented:</strong> "If the task requires external data, I'll use ReAct."</li>
+        <li><strong>Iterative Improvement:</strong> "I'll ask the AI to self-critique and improve its work (Reflection)."</li>
+    </ul>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 5. HIDDEN KNOWLEDGE                          -->
+    <!-- ============================================= -->
+    <h2>🔮 Hidden Knowledge (Rarely Written in Tutorials)</h2>
+
+    <div class="grid-2">
+        <div class="card teal">
+            <strong>🎯 The "Chain of Thought as Debugging"</strong>
+            <p>CoT is not just for accuracy—it is for <em>debugging</em>. If the AI's final answer is wrong, the CoT
+            shows you exactly where the logic broke. This is invaluable for troubleshooting.</p>
+        </div>
+        <div class="card teal">
+            <strong>🎯 The "ToT for Stakeholder Alignment"</strong>
+            <p>Tree of Thoughts is perfect for presenting options to stakeholders. The AI generates multiple
+            approaches with pros and cons, helping you make a data-driven decision.</p>
+        </div>
+        <div class="card teal">
+            <strong>🎯 The "Self-Consistency as Quality Gate"</strong>
+            <p>Use Self-Consistency as a quality gate. If the AI generates 5 versions and 4 are consistent, you
+            can be confident in the answer. If they are all different, the task is ambiguous and needs refinement.</p>
+        </div>
+        <div class="card teal">
+            <strong>🎯 The "ReAct as Simulated Execution"</strong>
+            <p>ReAct is not just for real tools—it is also for <em>simulating</em> tools. The AI can "pretend" to run
+            a script and report the results, which is useful for testing logic before actual execution.</p>
+        </div>
+    </div>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 6. BEGINNER MISTAKES                         -->
+    <!-- ============================================= -->
+    <h2>⚠️ Beginner Mistakes</h2>
+    <table>
+        <thead>
+            <tr><th>Mistake</th><th>Consequence</th><th>How to Avoid</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Not asking for reasoning</strong></td>
+                <td>AI jumps to conclusions</td>
+                <td>Always ask for Chain of Thought.</td>
+            </tr>
+            <tr>
+                <td><strong>No alternative exploration</strong></td>
+                <td>Misses better solutions</td>
+                <td>Use Tree of Thoughts.</td>
+            </tr>
+            <tr>
+                <td><strong>No verification</strong></td>
+                <td>Errors and hallucinations</td>
+                <td>Use Self-Consistency.</td>
+            </tr>
+            <tr>
+                <td><strong>No self-critique</strong></td>
+                <td>Flawed outputs</td>
+                <td>Use Reflection.</td>
+            </tr>
+            <tr>
+                <td><strong>No tool integration</strong></td>
+                <td>Incomplete answers</td>
+                <td>Use ReAct for tool access.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 7. THINGS PEOPLE USUALLY SKIP               -->
+    <!-- ============================================= -->
+    <h2>📌 Things People Usually Skip (But Experts Don't)</h2>
+    <div class="grid-2">
+        <div class="card">
+            <strong>🔸 The "Comparison" Step</strong>
+            <p>Most people ask for one solution. Experts ask for 2-3 and compare them (Self-Consistency).</p>
+        </div>
+        <div class="card">
+            <strong>🔸 The "Self-Review" Step</strong>
+            <p>Most people stop at the first draft. Experts ask the AI to review and improve its own work (Reflection).</p>
+        </div>
+        <div class="card">
+            <strong>🔸 The "Trade-Off" Analysis</strong>
+            <p>Most people ask for "the best" approach. Experts ask for a trade-off analysis (pros, cons, costs).</p>
+        </div>
+        <div class="card">
+            <strong>🔸 The "Simulated Action"</strong>
+            <p>Experts use ReAct to simulate tool execution before actual implementation, catching errors early.</p>
+        </div>
+    </div>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 8. CRITICAL THINKING CHALLENGES             -->
+    <!-- ============================================= -->
+    <h2>🧩 Critical Thinking Challenges</h2>
+
+    <details>
+        <summary><strong>Challenge 1: The Hidden Assumption</strong></summary>
+        <div class="content">
+            <p><strong>Scenario:</strong> You ask the AI to generate a Dynamo script. It produces a working script,
+            but it uses a deprecated node that will break in the next Revit version.</p>
+            <p><strong>Question:</strong> How would you use Reflection to prevent this?</p>
+            <details>
+                <summary><strong>🔍 Expert Reasoning</strong></summary>
+                <div class="content">
+                    <p><strong>Solution:</strong> Add a Reflection step to the prompt: "After generating the script,
+                    review it for: (1) Use of deprecated nodes, (2) Compatibility with Revit 2025, (3) Error handling.
+                    If you find any issues, rewrite the script to address them." This forces the AI to self-audit
+                    for version compatibility and deprecated methods.</p>
+                </div>
+            </details>
+        </div>
+    </details>
+
+    <details>
+        <summary><strong>Challenge 2: The Ambiguous Requirement</strong></summary>
+        <div class="content">
+            <p><strong>Scenario:</strong> The client wants a "more efficient" BIM coordination workflow. "Efficient"
+            is ambiguous.</p>
+            <p><strong>Question:</strong> How would you use ToT and Self-Consistency to handle this ambiguity?</p>
+            <details>
+                <summary><strong>🔍 Expert Reasoning</strong></summary>
+                <div class="content">
+                    <p><strong>Solution:</strong> Use Tree of Thoughts to generate three different interpretations of
+                    "efficient": (1) Time-efficient, (2) Cost-efficient, (3) Quality-efficient. Then use
+                    Self-Consistency to evaluate which interpretation best aligns with the client's context.
+                    Finally, ask the AI to synthesize the best elements from each interpretation.</p>
+                </div>
+            </details>
+        </div>
+    </details>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 9. PRACTICAL WORKFLOW                        -->
+    <!-- ============================================= -->
+    <h2>🔄 Practical Workflow: Applying Reasoning Strategies</h2>
+
+    <div class="mermaid">
+1. DEFINE THE TASK
+   └── What is the core objective?
+
+2. APPLY CHAIN OF THOUGHT (CoT)
+   └── Ask for step-by-step reasoning
+         └── Makes logic transparent and debuggable
+
+3. APPLY TREE OF THOUGHTS (ToT) (Optional)
+   └── Ask for 2-3 alternative approaches
+         └── Ensures optimal solution selection
+
+4. APPLY SELF-CONSISTENCY (Optional)
+   └── Ask for multiple independent solutions
+         └── Choose the most consistent one
+
+5. APPLY REACT (If needed)
+   └── Ask for tool use or action execution
+         └── Enables external data and iterative correction
+
+6. APPLY REFLECTION
+   └── Ask the AI to self-critique and improve
+         └── Polishes the final output
+
+7. SYNTHESIZE & FINALIZE
+   └── Combine the best elements
+         └── Provide the final, production-ready output
+    </div>
+
+    <div class="callout info">
+        <strong>💡 Expert Checkpoint:</strong> If your prompt does not include at least CoT and Reflection, it is
+        likely missing a critical quality assurance step.
+    </div>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 10. EXECUTION CHECKLIST                      -->
+    <!-- ============================================= -->
+    <h2>✅ Execution Checklist</h2>
+
+    <div class="grid-2">
+        <div class="card blue">
+            <strong>📋 CoT &amp; ToT</strong>
+            <ul>
+                <li>☐ CoT requested (step-by-step)</li>
+                <li>☐ ToT requested (alternatives)</li>
+                <li>☐ Trade-off analysis included</li>
+            </ul>
+        </div>
+        <div class="card blue">
+            <strong>📋 Self-Consistency &amp; ReAct</strong>
+            <ul>
+                <li>☐ Multiple outputs requested</li>
+                <li>☐ Consistency check included</li>
+                <li>☐ ReAct (if needed) for tool use</li>
+            </ul>
+        </div>
+        <div class="card green">
+            <strong>📋 Reflection &amp; Finalization</strong>
+            <ul>
+                <li>☐ Self-critique requested</li>
+                <li>☐ Weaknesses identified and addressed</li>
+                <li>☐ Final output polished</li>
+            </ul>
+        </div>
+    </div>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 11. RULES TO ALWAYS REMEMBER                -->
+    <!-- ============================================= -->
+    <h2>📜 Rules to Always Remember</h2>
+    <div class="grid-2">
+        <div class="card green">
+            <strong>🏆 Golden Rules</strong>
+            <ul>
+                <li><strong>Always ask for CoT</strong> for complex tasks.</li>
+                <li><strong>Use ToT</strong> for design decisions and strategy.</li>
+                <li><strong>Use Self-Consistency</strong> to verify ambiguous outputs.</li>
+                <li><strong>Use ReAct</strong> for tasks requiring external actions.</li>
+                <li><strong>Always use Reflection</strong> for production-ready outputs.</li>
+            </ul>
+        </div>
+        <div class="card red">
+            <strong>🚫 Never Do This</strong>
+            <ul>
+                <li>Skip reasoning for complex tasks.</li>
+                <li>Trust the first answer without verification.</li>
+                <li>Assume the AI will self-correct without being asked.</li>
+            </ul>
+        </div>
+    </div>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 12. DECISION TREE                           -->
+    <!-- ============================================= -->
+    <h2>🌳 Decision Tree: Which Reasoning Strategy to Use?</h2>
+
+    <div class="mermaid">
+┌─────────────────────────────────────┐
+│ What is the task type?             │
+└──────────────┬──────────────────────┘
+               │
+       ┌───────┼───────────────┐
+       │       │               │
+       ▼       ▼               ▼
+┌───────────┐ ┌───────────┐ ┌───────────┐
+│ Linear    │ │ Design    │ │ Action-   │
+│ Logic     │ │ Decision  │ │ Oriented  │
+└─────┬─────┘ └─────┬─────┘ └─────┬─────┘
+      │             │             │
+      ▼             ▼             ▼
+┌───────────┐ ┌───────────┐ ┌───────────┐
+│ CoT       │ │ ToT       │ │ ReAct     │
+│ (Single   │ │ (Multiple │ │ (Tool Use)│
+│ Path)     │ │ Paths)    │ │           │
+└───────────┘ └─────┬─────┘ └───────────┘
+                    │
+                    ▼
+              ┌───────────┐
+              │ Self-     │
+              │ Consis.   │
+              │ (Verify)  │
+              └─────┬─────┘
+                    │
+                    ▼
+              ┌───────────┐
+              │ Reflect   │
+              │ (Polish)  │
+              └───────────┘
+    </div>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 13. PATTERN RECOGNITION                     -->
+    <!-- ============================================= -->
+    <h2>🔍 Pattern Recognition: When to Apply This</h2>
+    <div class="grid-2">
+        <div class="card">
+            <strong>🚦 Signals This Applies</strong>
+            <ul>
+                <li>You need a reliable, high-quality output</li>
+                <li>The task is complex or multi-step</li>
+                <li>There are multiple possible approaches</li>
+                <li>You need to verify the AI's logic</li>
+            </ul>
+        </div>
+        <div class="card">
+            <strong>⚠️ Warning Signs You're Forgetting This</strong>
+            <ul>
+                <li>You are getting inconsistent outputs</li>
+                <li>You are manually debugging the AI's logic</li>
+                <li>You are asking for the final answer without reasoning</li>
+            </ul>
+        </div>
+    </div>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 14. PROFESSIONAL TIPS                       -->
+    <!-- ============================================= -->
+    <h2>💼 Professional Tips: What Seniors Do Differently</h2>
+    <ul>
+        <li><strong>They always ask for CoT.</strong> They never trust a black-box answer.</li>
+        <li><strong>They explore alternatives (ToT).</strong> They don't settle for the first idea.</li>
+        <li><strong>They verify with Self-Consistency.</strong> They don't trust a single output.</li>
+        <li><strong>They use Reflection.</strong> They treat the first draft as a draft, not the final answer.</li>
+        <li><strong>They combine strategies.</strong> They use CoT + ToT + Self-Consistency + Reflection for production tasks.</li>
+    </ul>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 15. OPTIMIZATION OPPORTUNITIES              -->
+    <!-- ============================================= -->
+    <h2>⚡ Optimization Opportunities</h2>
+    <div class="grid-2">
+        <div class="card teal">
+            <strong>🚀 Performance</strong>
+            <ul>
+                <li>Use CoT to reduce debugging time</li>
+                <li>Use Self-Consistency to reduce manual verification</li>
+                <li>Use Reflection to reduce iteration cycles</li>
+            </ul>
+        </div>
+        <div class="card teal">
+            <strong>📊 Quality</strong>
+            <ul>
+                <li>ToT ensures optimal solutions</li>
+                <li>Self-Consistency filters hallucinations</li>
+                <li>Reflection polishes outputs to production quality</li>
+            </ul>
+        </div>
+        <div class="card teal">
+            <strong>🤖 Automation</strong>
+            <ul>
+                <li>Automate Self-Consistency by asking for 3 outputs</li>
+                <li>Automate Reflection by asking for self-review</li>
+                <li>Use ReAct to simulate tool execution in testing</li>
+            </ul>
+        </div>
+    </div>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 16. EDGE CASES                              -->
+    <!-- ============================================= -->
+    <h2>🔀 Edge Cases</h2>
+    <ul>
+        <li><strong>CoT too verbose:</strong> If CoT is too long, the AI may lose focus. Use bullet points for reasoning.</li>
+        <li><strong>ToT overwhelming:</strong> Too many paths can confuse the AI. Limit to 3-4 paths.</li>
+        <li><strong>Self-Consistency outliers:</strong> If one output is very different, investigate why—it may reveal an edge case.</li>
+        <li><strong>ReAct without tools:</strong> If the AI cannot actually use tools, ReAct becomes a simulation. This is still useful for logic testing.</li>
+    </ul>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 17. VALIDATION & QA                         -->
+    <!-- ============================================= -->
+    <h2>✅ Validation &amp; Quality Assurance</h2>
+
+    <h3>How to Verify Reasoning</h3>
+    <ul>
+        <li><strong>CoT Check:</strong> Does the step-by-step logic make sense?</li>
+        <li><strong>ToT Check:</strong> Were all plausible alternatives considered?</li>
+        <li><strong>Self-Consistency Check:</strong> Are the multiple outputs consistent?</li>
+        <li><strong>Reflection Check:</strong> Were weaknesses identified and fixed?</li>
+        <li><strong>ReAct Check:</strong> Were tools used correctly?</li>
+    </ul>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 18. FREQUENTLY ASKED QUESTIONS              -->
+    <!-- ============================================= -->
+    <h2>❓ Frequently Asked Questions</h2>
+
+    <details>
+        <summary><strong>Q: Do I always need to use all strategies?</strong></summary>
+        <div class="content">
+            <p><strong>A:</strong> No. Use CoT for complex logic, ToT for design decisions, Self-Consistency for
+            verification, ReAct for tool use, and Reflection for polishing. For simple tasks, CoT alone may be sufficient.</p>
+        </div>
+    </details>
+
+    <details>
+        <summary><strong>Q: How many paths should I use for ToT?</strong></summary>
+        <div class="content">
+            <p><strong>A:</strong> 3-4 paths is the sweet spot. Fewer than 3 may not cover the full space.
+            More than 4 may confuse the AI or hit token limits.</p>
+        </div>
+    </details>
+
+    <details>
+        <summary><strong>Q: Can I use CoT with Structured Outputs (JSON)?</strong></summary>
+        <div class="content">
+            <p><strong>A:</strong> Yes. Ask the AI to output the reasoning as a separate JSON field, e.g.,
+            <code>"reasoning": "Step 1... Step 2..."</code> and <code>"final_answer": ...</code>.</p>
+        </div>
+    </details>
+
+    <details>
+        <summary><strong>Q: What's the difference between Self-Consistency and Reflection?</strong></summary>
+        <div class="content">
+            <p><strong>A:</strong> Self-Consistency compares multiple independent outputs. Reflection critiques
+            a single output and improves it. Self-Consistency is about <em>selection</em>; Reflection is about
+            <em>improvement</em>.</p>
+        </div>
+    </details>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 19. KNOWLEDGE CONNECTIONS                   -->
+    <!-- ============================================= -->
+    <h2>🔗 Knowledge Connections</h2>
+    <div class="grid-2">
+        <div class="card">
+            <strong>➡️ Prerequisites</strong>
+            <ul>
+                <li>Level 0: What is AI? (Mental model)</li>
+                <li>Level 1: Prompt Fundamentals (Structure)</li>
+                <li>Level 2: Context Engineering (Grounding)</li>
+                <li>Level 3: Prime Directives & Persona (Behavior)</li>
+                <li>Level 4: Structured Prompting (Format)</li>
+                <li>Level 5: Output Structuring (Constraints)</li>
+                <li>Level 6: Few-Shot & Zero-Shot (Examples)</li>
+            </ul>
+        </div>
+        <div class="card">
+            <strong>➡️ What This Leads To</strong>
+            <ul>
+                <li><strong>Level 8:</strong> Advanced Strategies (RAG, ReAct in depth, Reflection)</li>
+                <li><strong>Level 9:</strong> Prompt Debugging</li>
+                <li><strong>Level 10:</strong> AI Agents (Multi-agent reasoning)</li>
+            </ul>
+        </div>
+    </div>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 20. FUTURE LEARNING ROADMAP                 -->
+    <!-- ============================================= -->
+    <h2>🗺️ Future Learning Roadmap</h2>
+    <div class="mermaid">
+BEGINNER
+├── Level 0: What is AI? ✅
+├── Level 1: Prompt Fundamentals ✅
+├── Level 2: Context Engineering ✅
+├── Level 3: Prime Directives & Persona ✅
+├── Level 4: Structured Prompting ✅
+├── Level 5: Output Structuring & Constraints ✅
+├── Level 6: Few-Shot & Zero-Shot ✅
+└── Level 7: Reasoning Strategies  ◄── YOU ARE HERE
+
+ADVANCED
+├── Level 8: Advanced Strategies (RAG, ReAct, Reflection)
+└── Level 9: Prompt Debugging
+
+EXPERT
+├── Level 10: AI Agents
+└── Level 11: Model Selection & Tuning
+
+MASTER
+├── Level 12: Enterprise Prompting
+└── Level 13: Capstone Project
+    </div>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 21. AI PROMPT ENGINEERING INSIGHTS          -->
+    <!-- ============================================= -->
+    <h2>✍️ AI Prompt Engineering Insights</h2>
+
+    <div class="prompt-ladder">
+        <div class="prompt-item bad">
+            <strong><span class="tag bad">BAD</span></strong><br>
+            <em>"Write a Dynamo script to rename sheets."</em>
+            <div class="small" style="color:#991b1b;">No reasoning. The AI jumps to the answer.</div>
+        </div>
+        <div class="prompt-item good">
+            <strong><span class="tag good">GOOD</span></strong><br>
+            <em>"Write a Dynamo script to rename sheets. Explain your logic step by step."</em>
+            <div class="small" style="color:#92400e;">CoT requested. Step-by-step logic.</div>
+        </div>
+        <div class="prompt-item expert">
+            <strong><span class="tag expert">EXPERT</span></strong><br>
+            <em>"Write a Dynamo script to rename sheets. Consider two approaches: Python vs. Pure Nodes.
+            List pros and cons (ToT). Generate two versions and compare them (Self-Consistency)."</em>
+            <div class="small" style="color:#1e3a5f;">ToT + Self-Consistency. Alternatives explored and verified.</div>
+        </div>
+        <div class="prompt-item production">
+            <strong><span class="tag production">PRODUCTION</span></strong><br>
+            <em><strong>Persona:</strong> Senior BIM Architect.<br>
+            <strong>Process:</strong> 1. Explain step-by-step logic (CoT). 2. Consider 3 approaches (ToT).
+            3. Generate 3 versions and compare (Self-Consistency). 4. Review and improve the chosen approach (Reflection).<br>
+            <strong>Constraints:</strong> Use transactions, handle 1000+ sheets.</em>
+            <div class="small" style="color:#064e3b;">CoT + ToT + Self-Consistency + Reflection. Full reasoning stack.</div>
+        </div>
+    </div>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 22. PROMPT IMPROVEMENT SUGGESTIONS          -->
+    <!-- ============================================= -->
+    <h2>📝 Prompt Improvement Suggestions</h2>
+
+    <h3>Your Level 6 Expert Prompt (Without Reasoning Strategies)</h3>
+    <div class="code-block">
+"Act as a Senior BIM Automation Specialist. Generate a Dynamo script to rename sheets. Use transactions."
+    </div>
+    <p><strong>Weaknesses:</strong> No reasoning. The AI jumps to the answer without showing its logic.</p>
+
+    <h3>Production-Level with Reasoning Strategies</h3>
+    <div class="code-block">
+<strong>System:</strong> Senior BIM Automation Architect. You reason systematically before writing code.
+<strong>Task:</strong> Generate a Dynamo script to rename sheets.
+<strong>Process:</strong>
+1. **Chain of Thought:** Explain the step-by-step logic (input → processing → output).
+2. **Tree of Thoughts:** Consider 3 approaches (Python, Pure Nodes, Custom Package). List pros and cons.
+3. **Self-Consistency:** Generate two versions of the chosen approach and compare them.
+4. **Reflection:** Review the chosen version for errors, edge cases, and performance. Improve it.
+<strong>Constraints:</strong> Use transactions, handle 1000+ sheets, provide CSV logs.
+<strong>Output:</strong> Provide the reasoning, the comparison, and the final script.
+    </div>
+    <p><strong>Why it's better:</strong> The AI shows its work, explores alternatives, verifies with multiple versions, and self-improves.</p>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 23. MY LEARNING ANALYSIS                   -->
+    <!-- ============================================= -->
+    <h2>📊 Your Learning Analysis</h2>
+    <div class="grid-2">
+        <div class="card green">
+            <strong>✅ Strengths Demonstrated</strong>
+            <ul>
+                <li>You correctly distinguished CoT (linear) from ToT (multi-branch).</li>
+                <li>You identified Self-Consistency as a tool for reducing hallucinations and logic errors.</li>
+                <li>You defined Reflection as a "self-QA stage" and applied it to BIM contexts.</li>
+                <li>You wrote a textbook-perfect CoT prompt for a Revit API method.</li>
+                <li>You correctly distinguished when to use CoT (pure reasoning) vs. ReAct (reasoning + action).</li>
+            </ul>
+        </div>
+        <div class="card amber">
+            <strong>🔶 Areas for Growth</strong>
+            <ul>
+                <li>Practice combining all strategies (CoT + ToT + Self-Consistency + Reflection) in a single prompt.</li>
+                <li>Experiment with ReAct for tasks that simulate tool execution.</li>
+                <li>Apply ToT to strategic decisions (BIM Execution Plans, project planning).</li>
+            </ul>
+        </div>
+    </div>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 24. FINAL EXPERT TAKEAWAY                  -->
+    <!-- ============================================= -->
+    <h2>🎯 Final Expert Takeaway</h2>
+    <div class="card indigo" style="border-left-color:#4f46e5;">
+        <h3 style="margin-top:0; color:#3730a3;">📄 One Page of Advice from a 30-Year Mentor</h3>
+        <p>
+            <strong>"Show your work. Explore alternatives. Verify your conclusions."</strong>
+        </p>
+        <p>
+            The AI is a brilliant pattern-matching engine, but it is also a probabilistic one. It can guess,
+            hallucinate, or miss the optimal solution. Your job is to give it a <strong>cognitive framework</strong>
+            that forces it to think systematically, explore options, and verify its own outputs.
+        </p>
+        <p>
+            When you use CoT, ToT, Self-Consistency, and Reflection, you are not just getting an answer—you are
+            getting a <em>reasoned, verified, and polished</em> answer. This is the difference between
+            "good enough" and "production-ready."
+        </p>
+        <p style="margin-top:12px; font-weight:600; color:#3730a3;">
+            🔥 Don't just ask for the answer. Ask for the reasoning, the alternatives, and the verification.
+        </p>
+    </div>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 25. MEMORY REVISION SHEET                   -->
+    <!-- ============================================= -->
+    <h2>📄 Memory Revision Sheet (5-Minute Review)</h2>
+    <div class="card" style="border-left-color:#4f46e5; background:#eef2ff;">
+        <div class="grid-2" style="gap:8px;">
+            <div>
+                <strong>🧠 CoT</strong>
+                <ul style="margin:4px 0 0 18px; font-size:0.9rem;">
+                    <li>Linear step-by-step</li>
+                    <li>Single path</li>
+                    <li>Transparent logic</li>
+                </ul>
+            </div>
+            <div>
+                <strong>🧠 ToT</strong>
+                <ul style="margin:4px 0 0 18px; font-size:0.9rem;">
+                    <li>Multi-branch</li>
+                    <li>Explores alternatives</li>
+                    <li>Optimal selection</li>
+                </ul>
+            </div>
+            <div>
+                <strong>🧠 Self-Consistency</strong>
+                <ul style="margin:4px 0 0 18px; font-size:0.9rem;">
+                    <li>Multiple outputs</li>
+                    <li>Choose consistent</li>
+                    <li>Filters hallucinations</li>
+                </ul>
+            </div>
+            <div>
+                <strong>🧠 ReAct &amp; Reflection</strong>
+                <ul style="margin:4px 0 0 18px; font-size:0.9rem;">
+                    <li>ReAct: Reason + Act</li>
+                    <li>Reflection: Self-review</li>
+                    <li>Iterative improvement</li>
+                </ul>
+            </div>
+        </div>
+        <hr style="margin:10px 0; border-color:#c7d2fe;">
+        <div style="font-size:0.85rem;">
+            <strong>Production secret:</strong> CoT + ToT + Self-Consistency + Reflection = Maximum reliability.
+        </div>
+    </div>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 26. INTERVIEW PERSPECTIVE                   -->
+    <!-- ============================================= -->
+    <h2>🎤 Interview Perspective</h2>
+
+    <details>
+        <summary><strong>Technical Interview</strong></summary>
+        <div class="content">
+            <p><strong>Q:</strong> "How do you ensure the AI's reasoning is correct for a complex Dynamo script?"</p>
+            <p><strong>A:</strong> "I use a combination of strategies. I start with Chain of Thought to see the
+            step-by-step logic. Then I use Tree of Thoughts to explore alternative approaches and choose the best one.
+            Finally, I use Self-Consistency to generate multiple versions and verify the output. This ensures the AI's
+            reasoning is thorough and reliable."</p>
+        </div>
+    </details>
+
+    <details>
+        <summary><strong>Management Interview</strong></summary>
+        <div class="content">
+            <p><strong>Q:</strong> "How do you use reasoning strategies to improve the quality of AI-generated reports?"</p>
+            <p><strong>A:</strong> "We use Reflection to improve the reports. The AI writes an initial draft,
+            then reviews it from the client's perspective, identifies weaknesses, and rewrites it. This iterative
+            process results in reports that are more persuasive, accurate, and complete."</p>
+        </div>
+    </details>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 27. REAL-WORLD CASE STUDY                   -->
+    <!-- ============================================= -->
+    <h2>🏗️ Real-World Case Study</h2>
+
+    <h3>Scenario: The Complex Dynamo Script</h3>
+    <p>
+        You need a Dynamo script that creates 500+ sheets from an Excel list, applies naming conventions, and handles
+        errors. The script must be reliable and production-ready.
+    </p>
+
+    <h4>Step 1: Chain of Thought (CoT)</h4>
+    <p>The AI reasons: "Read Excel → Validate data → Create sheets → Apply naming → Log errors."</p>
+
+    <h4>Step 2: Tree of Thoughts (ToT)</h4>
+    <p>The AI explores 3 approaches: (1) Pure Python, (2) Pure Dynamo nodes, (3) Hybrid. It evaluates pros/cons.</p>
+
+    <h4>Step 3: Self-Consistency</h4>
+    <p>The AI generates 3 versions of the hybrid approach and compares them. It chooses the most consistent version.</p>
+
+    <h4>Step 4: Reflection</h4>
+    <p>The AI reviews the chosen version for errors and edge cases. It identifies missing transaction handling and adds it.</p>
+
+    <h4>Outcome</h4>
+    <p>The script is production-ready. It runs without errors on 500 sheets. The reasoning process caught edge cases
+    and improved the script's reliability.</p>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 28. CONTINUOUS IMPROVEMENT NOTES            -->
+    <!-- ============================================= -->
+    <h2>🔄 Continuous Improvement Notes</h2>
+    <ul>
+        <li><strong>Review:</strong> After each prompt, check if the reasoning was correct and complete.</li>
+        <li><strong>Metrics:</strong> Track how often Self-Consistency reveals an outlier (this may indicate an edge case).</li>
+        <li><strong>Automation:</strong> Build templates for CoT, ToT, and Self-Consistency prompts.</li>
+        <li><strong>Next Step:</strong> Level 8 — Advanced Strategies (RAG, ReAct in depth, Reflection).</li>
+    </ul>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- FOOTER                                       -->
+    <!-- ============================================= -->
+    <div style="text-align:center; font-size:0.8rem; color:#94a3b8; padding-top:20px; border-top:1px solid #e2e8f0;">
+        <strong>Level 7 — Reasoning Strategies</strong><br>
+        Expert Knowledge Document &bull; Prompt Engineering for BIM &amp; Construction Technology<br>
+        Created: 2026 &bull; Permanent Reference &bull; Version 1.0
+    </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level 10 — Expert Knowledge: AI Agents</title>
+    <style>
+        /* ── Reset & Base ── */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #f1f5f9;
+            color: #0f172a;
+            line-height: 1.6;
+            padding: 30px 20px;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 45px 55px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+        }
+        h1 {
+            font-size: 2.4rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: #0f172a;
+            border-bottom: 4px solid #7c3aed;
+            padding-bottom: 12px;
+            margin-bottom: 6px;
+        }
+        .doc-subtitle {
+            font-size: 1.05rem;
+            color: #475569;
+            margin-bottom: 28px;
+            border-left: 4px solid #7c3aed;
+            padding-left: 18px;
+            background: #f8fafc;
+            padding: 12px 20px;
+            border-radius: 8px;
+        }
+        h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-top: 38px;
+            margin-bottom: 14px;
+            color: #0f172a;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 6px;
+        }
+        h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 24px;
+            margin-bottom: 8px;
+            color: #1e293b;
+        }
+        h4 {
+            font-size: 1.0rem;
+            font-weight: 600;
+            margin-top: 18px;
+            margin-bottom: 4px;
+            color: #334155;
+        }
+        p {
+            margin-bottom: 14px;
+        }
+        ul,
+        ol {
+            margin: 10px 0 16px 24px;
+        }
+        li {
+            margin-bottom: 6px;
+        }
+        .card {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 18px 22px;
+            margin: 16px 0;
+            border-left: 5px solid #94a3b8;
+        }
+        .card.blue {
+            border-left-color: #3b82f6;
+            background: #eff6ff;
+        }
+        .card.green {
+            border-left-color: #22c55e;
+            background: #f0fdf4;
+        }
+        .card.amber {
+            border-left-color: #f59e0b;
+            background: #fffbeb;
+        }
+        .card.red {
+            border-left-color: #ef4444;
+            background: #fef2f2;
+        }
+        .card.purple {
+            border-left-color: #7c3aed;
+            background: #f5f3ff;
+        }
+        .card.indigo {
+            border-left-color: #4f46e5;
+            background: #eef2ff;
+        }
+        .card.teal {
+            border-left-color: #14b8a6;
+            background: #f0fdfa;
+        }
+        .callout {
+            padding: 14px 20px;
+            border-radius: 10px;
+            margin: 16px 0;
+            font-weight: 500;
+        }
+        .callout.info {
+            background: #dbeafe;
+            color: #1e3a8a;
+        }
+        .callout.warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        .callout.danger {
+            background: #fecaca;
+            color: #991b1b;
+        }
+        .callout.success {
+            background: #bbf7d0;
+            color: #166534;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0 20px;
+            font-size: 0.95rem;
+        }
+        th {
+            background: #1e293b;
+            color: #f8fafc;
+            padding: 10px 14px;
+            text-align: left;
+            font-weight: 600;
+        }
+        td {
+            padding: 10px 14px;
+            border-bottom: 1px solid #e2e8f0;
+            vertical-align: top;
+        }
+        tr:nth-child(even) {
+            background: #f8fafc;
+        }
+        tr:hover {
+            background: #f1f5f9;
+        }
+        .code-block {
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 16px 22px;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            font-size: 0.88rem;
+            overflow-x: auto;
+            margin: 14px 0;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        .inline-code {
+            background: #e2e8f0;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        .tag {
+            display: inline-block;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .tag.bad {
+            background: #fecaca;
+            color: #991b1b;
+        }
+        .tag.good {
+            background: #fde68a;
+            color: #92400e;
+        }
+        .tag.expert {
+            background: #93c5fd;
+            color: #1e3a5f;
+        }
+        .tag.production {
+            background: #6ee7b7;
+            color: #064e3b;
+        }
+        .tag.master {
+            background: #c4b5fd;
+            color: #4c1d95;
+        }
+        .prompt-ladder {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 16px 0;
+        }
+        .prompt-item {
+            padding: 14px 20px;
+            border-radius: 10px;
+            border-left: 6px solid;
+        }
+        .prompt-item.bad {
+            background: #fef2f2;
+            border-color: #ef4444;
+        }
+        .prompt-item.good {
+            background: #fffbeb;
+            border-color: #f59e0b;
+        }
+        .prompt-item.expert {
+            background: #eff6ff;
+            border-color: #3b82f6;
+        }
+        .prompt-item.production {
+            background: #ecfdf5;
+            border-color: #10b981;
+        }
+        .prompt-item.master {
+            background: #f5f3ff;
+            border-color: #8b5cf6;
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+        }
+        @media (max-width: 760px) {
+            .grid-2,
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+            .container {
+                padding: 24px 18px;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+        .mermaid {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            white-space: pre;
+            overflow-x: auto;
+            margin: 16px 0;
+            border: 1px solid #e2e8f0;
+        }
+        .hr-divider {
+            border: 0;
+            height: 2px;
+            background: linear-gradient(to right, #e2e8f0, #94a3b8, #e2e8f0);
+            margin: 30px 0;
+        }
+        .small {
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+        details {
+            margin: 12px 0;
+            padding: 10px 16px;
+            background: #f8fafc;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+        }
+        details summary {
+            font-weight: 600;
+            cursor: pointer;
+            color: #1e293b;
+        }
+        details summary:hover {
+            color: #7c3aed;
+        }
+        details .content {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #e2e8f0;
+        }
+        .agent-box {
+            background: #f5f3ff;
+            border: 2px solid #7c3aed;
+            border-radius: 12px;
+            padding: 18px 22px;
+            margin: 16px 0;
+        }
+        .agent-box h4 {
+            color: #5b21b6;
+            margin-top: 0;
+        }
+        .workflow-step {
+            background: #eef2ff;
+            border-left: 4px solid #4f46e5;
+            padding: 12px 16px;
+            margin: 8px 0;
+            border-radius: 4px;
+        }
+        .workflow-step strong {
+            color: #3730a3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- ============================================= -->
+        <!-- 1. EXECUTIVE SUMMARY                         -->
+        <!-- ============================================= -->
+        <h1>🤖 Level 10 — AI Agents</h1>
+        <div class="doc-subtitle">
+            <strong>Permanent Knowledge Base</strong> &bull; BIM Automation Specialist &bull; Building Autonomous BIM Systems
+        </div>
+
+        <div class="card purple">
+            <h3 style="margin-top:0;">📌 Executive Summary</h3>
+            <p>
+                An <strong>AI Agent</strong> is an autonomous system that uses an LLM as its "brain" to perceive
+                its environment, reason about tasks, take actions (using tools), and iterate based on feedback
+                until it achieves a goal. Unlike a standard prompt-response interaction, an agent has a goal,
+                can use tools, iterates, and is autonomous.
+            </p>
+            <p>
+                The core principle is: <strong>"An agent is not a question-answerer; it is a goal-achiever."</strong>
+            </p>
+            <ul>
+                <li><strong>Single-Agent:</strong> One agent handles the entire task. Best for well-defined, linear tasks.</li>
+                <li><strong>Multi-Agent:</strong> Multiple specialized agents work together. Best for complex, multi-faceted tasks.</li>
+                <li><strong>The P.L.A.N. Cycle:</strong> Plan → Act → Observe → Navigate (the core iteration loop).</li>
+            </ul>
+            <p>
+                <strong>Key Insight:</strong> For BIM automation, AI agents are the future. They can autonomously
+                manage sheets, run clash detection, generate reports, and even develop plugins—freeing humans for
+                higher-level strategic work.
+            </p>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 2. LEARNING HIGHLIGHTS                       -->
+        <!-- ============================================= -->
+        <h2>📚 Learning Highlights</h2>
+        <div class="grid-2">
+            <div class="card">
+                <strong>🔹 AI Agent Definition</strong>
+                <ul>
+                    <li>Autonomous, goal-driven system</li>
+                    <li>Uses LLM as "brain"</li>
+                    <li>Can use tools and iterate</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>🔹 Single-Agent</strong>
+                <ul>
+                    <li>One agent handles all tasks</li>
+                    <li>Best for linear, well-defined tasks</li>
+                    <li>Simpler to implement</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>🔹 Multi-Agent</strong>
+                <ul>
+                    <li>Multiple specialized agents</li>
+                    <li>Parallel processing and cross-validation</li>
+                    <li>Best for complex, multi-faceted tasks</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>🔹 The P.L.A.N. Cycle</strong>
+                <ul>
+                    <li>Plan → Act → Observe → Navigate</li>
+                    <li>The core iteration loop</li>
+                    <li>Enables autonomous task completion</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 3. KEY CONCEPTS                              -->
+        <!-- ============================================= -->
+        <h2>🧩 Key Concepts</h2>
+
+        <h3>1. What is an AI Agent?</h3>
+        <p>
+            <strong>Definition:</strong> An autonomous system that uses an LLM as its "brain" to perceive,
+            reason, act, and iterate to achieve a goal.
+        </p>
+        <ul>
+            <li><strong>Has a goal:</strong> It is not just answering a question; it is completing a task.</li>
+            <li><strong>Can use tools:</strong> It can access external systems (APIs, databases, code execution).</li>
+            <li><strong>Iterates:</strong> It can take an action, observe the result, and adjust its approach.</li>
+            <li><strong>Is autonomous:</strong> It can work through a multi-step process without requiring human input at every step.</li>
+        </ul>
+
+        <h3>2. The Anatomy of an AI Agent</h3>
+        <ul>
+            <li><strong>LLM "Brain":</strong> Persona, Prime Directives, Reasoning Engine.</li>
+            <li><strong>Tools:</strong> External systems the agent can use (API, code execution, data).</li>
+            <li><strong>Memory:</strong> Short-term (conversation history) and long-term (knowledge base).</li>
+            <li><strong>Planning & Iteration:</strong> The P.L.A.N. cycle.</li>
+        </ul>
+
+        <h3>3. Single-Agent vs. Multi-Agent</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Aspect</th>
+                    <th>Single-Agent</th>
+                    <th>Multi-Agent</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Definition</strong></td>
+                    <td>One AI agent handles the entire task.</td>
+                    <td>Multiple specialized agents work together.</td>
+                </tr>
+                <tr>
+                    <td><strong>Structure</strong></td>
+                    <td>Agent → Tools → Task Completion</td>
+                    <td>Agent A + Agent B + Agent C → Synthesis → Task Completion</td>
+                </tr>
+                <tr>
+                    <td><strong>Best For</strong></td>
+                    <td>Well-defined, linear tasks</td>
+                    <td>Complex, multi-faceted tasks requiring different expertise</td>
+                </tr>
+                <tr>
+                    <td><strong>BIM Example</strong></td>
+                    <td>A single agent that generates a Dynamo script.</td>
+                    <td>A team: Developer generates script, QA validates it, BIM Manager ensures compliance.</td>
+                </tr>
+                <tr>
+                    <td><strong>Advantages</strong></td>
+                    <td>Simpler, faster for straightforward tasks</td>
+                    <td>Parallel processing, specialization, cross-validation, resilience</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>4. The P.L.A.N. Cycle</h3>
+        <ul>
+            <li><strong>P — Plan:</strong> Break the goal into steps. (e.g., "Design a Dynamo script.")</li>
+            <li><strong>L — Learn/Analyze:</strong> Understand the context and data. (e.g., "Analyze the Revit model.")</li>
+            <li><strong>A — Act:</strong> Execute a step using tools. (e.g., "Generate the script.")</li>
+            <li><strong>N — Navigate:</strong> Adjust the plan based on the result. (e.g., "If errors, fix and retry.")</li>
+        </ul>
+
+        <h3>5. The A.G.E.N.T. Framework</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Letter</th>
+                    <th>Meaning</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>A</strong></td><td>Action</td><td>What actions can the agent take? (API calls, scripts, data retrieval)</td></tr>
+                <tr><td><strong>G</strong></td><td>Goal</td><td>What is the agent's objective? Define success.</td></tr>
+                <tr><td><strong>E</strong></td><td>Environment</td><td>What is the agent's context? (Revit, Dynamo, project data)</td></tr>
+                <tr><td><strong>N</strong></td><td>Narrative</td><td>Who is the agent? (Persona, role, expertise)</td></tr>
+                <tr><td><strong>T</strong></td><td>Tools</td><td>What tools does the agent have access to?</td></tr>
+            </tbody>
+        </table>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 4. EXPERT MENTAL MODEL                       -->
+        <!-- ============================================= -->
+        <h2>🧠 Expert Mental Model</h2>
+
+        <div class="card purple">
+            <h4 style="margin-top:0;">🧩 Mental Model: The BIM Department</h4>
+            <p>
+                Imagine you are the head of a BIM department. You don't do all the work yourself. You have:
+            </p>
+            <ul>
+                <li><strong>The Developer:</strong> Writes Dynamo scripts and Revit API plugins.</li>
+                <li><strong>The QA Engineer:</strong> Tests the scripts and ensures they are bug-free.</li>
+                <li><strong>The BIM Manager:</strong> Ensures everything complies with standards and coordinates with clients.</li>
+                <li><strong>The Coordinator:</strong> Updates models, manages sheets, and runs clash detection.</li>
+            </ul>
+            <p>
+                An <strong>AI Agent</strong> is like one of these team members. A <strong>Multi-Agent System</strong>
+                is like the entire department working together.
+            </p>
+        </div>
+
+        <h3>How an Expert Thinks</h3>
+        <ul>
+            <li><strong>System Orchestration:</strong> "I don't need one prompt—I need a system of agents."</li>
+            <li><strong>Specialization:</strong> "I'll assign different roles to different agents."</li>
+            <li><strong>Iteration:</strong> "I'll design a loop where agents plan, act, observe, and adjust."</li>
+            <li><strong>Validation:</strong> "I'll use one agent to validate another's work."</li>
+        </ul>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 5. HIDDEN KNOWLEDGE                          -->
+        <!-- ============================================= -->
+        <h2>🔮 Hidden Knowledge (Rarely Written in Tutorials)</h2>
+
+        <div class="grid-2">
+            <div class="card teal">
+                <strong>🎯 The "Human-in-the-Loop" Design</strong>
+                <p>For critical BIM tasks, design your agent to pause and ask for human confirmation
+                before executing irreversible actions (e.g., deleting sheets).</p>
+            </div>
+            <div class="card teal">
+                <strong>🎯 The "Fallback Agent"</strong>
+                <p>Always have a fallback agent that can step in if the primary agent fails.
+                This adds resilience to your system.</p>
+            </div>
+            <div class="card teal">
+                <strong>🎯 The "Logging Agent"</strong>
+                <p>Include a dedicated logging agent that records all actions and decisions.
+                This enables auditing and debugging of agent behavior.</p>
+            </div>
+            <div class="card teal">
+                <strong>🎯 The "Synthesis as an Agent"</strong>
+                <p>In Multi-Agent systems, make the synthesis step a dedicated agent.
+                Its job is to resolve conflicts and combine outputs.</p>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 6. BEGINNER MISTAKES                         -->
+        <!-- ============================================= -->
+        <h2>⚠️ Beginner Mistakes</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Mistake</th>
+                    <th>Consequence</th>
+                    <th>How to Avoid</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>No clear goal</strong></td>
+                    <td>The agent wanders without completing the task</td>
+                    <td>Define success criteria explicitly.</td>
+                </tr>
+                <tr>
+                    <td><strong>No tool specification</strong></td>
+                    <td>The agent invents actions</td>
+                    <td>Define the tools and their capabilities.</td>
+                </tr>
+                <tr>
+                    <td><strong>No iteration loop</strong></td>
+                    <td>The agent may miss edge cases</td>
+                    <td>Include an iteration loop (Plan → Act → Observe → Navigate).</td>
+                </tr>
+                <tr>
+                    <td><strong>No validation</strong></td>
+                    <td>Errors propagate</td>
+                    <td>Always include a validation step.</td>
+                </tr>
+                <tr>
+                    <td><strong>No synthesis (Multi-Agent)</strong></td>
+                    <td>Conflicting outputs</td>
+                    <td>Include a synthesis agent or step.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 7. THINGS PEOPLE USUALLY SKIP               -->
+        <!-- ============================================= -->
+        <h2>📌 Things People Usually Skip (But Experts Don't)</h2>
+        <div class="grid-2">
+            <div class="card">
+                <strong>🔸 The "Fallback" Agent</strong>
+                <p>Experts always design a fallback mechanism if the primary agent fails.</p>
+            </div>
+            <div class="card">
+                <strong>🔸 The "Human-in-the-Loop" Design</strong>
+                <p>Experts build in checkpoints for human confirmation for critical actions.</p>
+            </div>
+            <div class="card">
+                <strong>🔸 The "Logging" Agent</strong>
+                <p>Experts always include logging to audit agent decisions and actions.</p>
+            </div>
+            <div class="card">
+                <strong>🔸 The "Synthesis" Agent</strong>
+                <p>Experts dedicate an agent to synthesizing outputs from multiple agents.</p>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 8. CRITICAL THINKING CHALLENGES             -->
+        <!-- ============================================= -->
+        <h2>🧩 Critical Thinking Challenges</h2>
+
+        <details>
+            <summary><strong>Challenge 1: The Failing Agent</strong></summary>
+            <div class="content">
+                <p><strong>Scenario:</strong> Your clash detection agent fails because the Navisworks API is unavailable.</p>
+                <p><strong>Question:</strong> How would you design your agent to handle this failure gracefully?</p>
+                <details>
+                    <summary><strong>🔍 Expert Reasoning</strong></summary>
+                    <div class="content">
+                        <p><strong>Solution:</strong> Design a fallback mechanism. The agent should first attempt to
+                        use the Navisworks API. If it fails, it should: (1) Log the error, (2) Attempt to use an
+                        alternative tool (e.g., Revit's built-in clash detection), (3) If both fail, generate a
+                        manual clash detection checklist for the team, and (4) Notify the user of the failure and
+                        the fallback actions taken.</p>
+                    </div>
+                </details>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Challenge 2: The Conflicting Agents</strong></summary>
+            <div class="content">
+                <p><strong>Scenario:</strong> Your Developer agent and QA agent disagree on the best approach
+                for a script.</p>
+                <p><strong>Question:</strong> How would you resolve the conflict in your Multi-Agent system?</p>
+                <details>
+                    <summary><strong>🔍 Expert Reasoning</strong></summary>
+                    <div class="content">
+                        <p><strong>Solution:</strong> Add a Synthesis Agent whose job is to review the developer's
+                        and QA's arguments, evaluate the trade-offs, and make a final decision. The Synthesis Agent
+                        would have access to the company's coding standards and best practices to make an informed
+                        decision. This adds a "mediator" to the system.</p>
+                    </div>
+                </details>
+            </div>
+        </details>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 9. PRACTICAL WORKFLOW                        -->
+        <!-- ============================================= -->
+        <h2>🔄 Practical Workflow: Building an AI Agent</h2>
+
+        <div class="mermaid">
+1. DEFINE THE GOAL
+   └── What is the agent supposed to achieve?
+         └── "Generate a weekly clash detection report."
+
+2. DESIGN THE PERSONA
+   └── Who is the agent? (e.g., "Senior BIM Coordinator")
+
+3. IDENTIFY TOOLS
+   └── What tools does the agent need?
+         └── Revit API, Navisworks API, Reporting Tool, Email API
+
+4. DESIGN THE P.L.A.N. CYCLE
+   └── Plan → Act → Observe → Navigate
+         └── Iteration loop for autonomous task completion
+
+5. DEFINE PRIME DIRECTIVES
+   └── What are the unbreakable rules?
+         └── "Never delete elements without confirmation."
+
+6. TEST & ITERATE
+   └── Run the agent on a test case. Refine based on results.
+        </div>
+
+        <div class="callout info">
+            <strong>💡 Expert Checkpoint:</strong> If your agent can complete the task without human intervention
+            and handles edge cases gracefully, it is production-ready.
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 10. EXECUTION CHECKLIST                      -->
+        <!-- ============================================= -->
+        <h2>✅ Execution Checklist</h2>
+
+        <div class="grid-2">
+            <div class="card blue">
+                <strong>📋 Goal &amp; Persona</strong>
+                <ul>
+                    <li>☐ Goal is clearly defined</li>
+                    <li>☐ Persona is rich and specific</li>
+                    <li>☐ Prime Directives are set</li>
+                </ul>
+            </div>
+            <div class="card blue">
+                <strong>📋 Tools &amp; Environment</strong>
+                <ul>
+                    <li>☐ All required tools are defined</li>
+                    <li>☐ Environment is specified (Revit version, project data)</li>
+                    <li>☐ Fallback tools are available</li>
+                </ul>
+            </div>
+            <div class="card green">
+                <strong>📋 P.L.A.N. Cycle</strong>
+                <ul>
+                    <li>☐ Plan step defined</li>
+                    <li>☐ Act step defined</li>
+                    <li>☐ Observe step defined</li>
+                    <li>☐ Navigate step defined</li>
+                </ul>
+            </div>
+            <div class="card green">
+                <strong>📋 Validation &amp; Testing</strong>
+                <ul>
+                    <li>☐ Validation step included</li>
+                    <li>☐ Tested on simple case</li>
+                    <li>☐ Tested on edge case</li>
+                    <li>☐ Fallback mechanism tested</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 11. RULES TO ALWAYS REMEMBER                -->
+        <!-- ============================================= -->
+        <h2>📜 Rules to Always Remember</h2>
+        <div class="grid-2">
+            <div class="card green">
+                <strong>🏆 Golden Rules</strong>
+                <ul>
+                    <li><strong>An agent is a goal-achiever, not a question-answerer.</strong></li>
+                    <li><strong>Always include an iteration loop (P.L.A.N.).</strong></li>
+                    <li><strong>Define tools and fallbacks explicitly.</strong></li>
+                    <li><strong>Use Multi-Agent for complex tasks.</strong></li>
+                    <li><strong>Always include validation.</strong></li>
+                </ul>
+            </div>
+            <div class="card red">
+                <strong>🚫 Never Do This</strong>
+                <ul>
+                    <li>Design an agent without a clear goal.</li>
+                    <li>Forget to define tools.</li>
+                    <li>Skip the iteration loop.</li>
+                    <li>Trust the agent's output without validation.</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 12. DECISION TREE                           -->
+        <!-- ============================================= -->
+        <h2>🌳 Decision Tree: Single-Agent vs. Multi-Agent</h2>
+
+        <div class="mermaid">
+┌─────────────────────────────────────┐
+│ Is the task complex and            │
+│ multi-faceted?                     │
+└──────────────┬──────────────────────┘
+               │
+       ┌───────┴───────┐
+       │               │
+       ▼               ▼
+┌───────────┐   ┌───────────┐
+│ No        │   │ Yes       │
+│ (Linear)  │   │ (Complex) │
+└─────┬─────┘   └─────┬─────┘
+      │               │
+      ▼               ▼
+┌───────────┐   ┌───────────┐
+│ Single-   │   │ Multi-    │
+│ Agent     │   │ Agent     │
+└───────────┘   └───────────┘
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 13. PATTERN RECOGNITION                     -->
+        <!-- ============================================= -->
+        <h2>🔍 Pattern Recognition: When to Apply This</h2>
+        <div class="grid-2">
+            <div class="card">
+                <strong>🚦 Signals This Applies</strong>
+                <ul>
+                    <li>You need to automate a multi-step BIM workflow</li>
+                    <li>You need the system to autonomously handle edge cases</li>
+                    <li>You need different expertise for different parts of the task</li>
+                    <li>You need to validate the output before finalizing</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>⚠️ Warning Signs You're Forgetting This</strong>
+                <ul>
+                    <li>You are trying to fit a complex workflow into a single prompt</li>
+                    <li>You are manually validating the AI's output</li>
+                    <li>You are manually handling edge cases</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 14. PROFESSIONAL TIPS                       -->
+        <!-- ============================================= -->
+        <h2>💼 Professional Tips: What Seniors Do Differently</h2>
+        <ul>
+            <li><strong>They think in terms of agents, not prompts.</strong> They design systems, not instructions.</li>
+            <li><strong>They always include a P.L.A.N. cycle.</strong> Iteration is built-in, not an afterthought.</li>
+            <li><strong>They use Multi-Agent for complex tasks.</strong> They don't overload a single agent.</li>
+            <li><strong>They include fallbacks.</strong> They design for failure scenarios.</li>
+            <li><strong>They validate with humans.</strong> They include human-in-the-loop checkpoints for critical actions.</li>
+        </ul>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 15. OPTIMIZATION OPPORTUNITIES              -->
+        <!-- ============================================= -->
+        <h2>⚡ Optimization Opportunities</h2>
+        <div class="grid-2">
+            <div class="card teal">
+                <strong>🚀 Performance</strong>
+                <ul>
+                    <li>Use Multi-Agent to parallelize validation</li>
+                    <li>Optimize the P.L.A.N. cycle for speed</li>
+                    <li>Use caching to reduce redundant API calls</li>
+                </ul>
+            </div>
+            <div class="card teal">
+                <strong>📊 Quality</strong>
+                <ul>
+                    <li>Multi-Agent validation catches more errors</li>
+                    <li>Reflection loop improves output quality</li>
+                    <li>Human-in-the-loop catches critical mistakes</li>
+                </ul>
+            </div>
+            <div class="card teal">
+                <strong>🤖 Automation</strong>
+                <ul>
+                    <li>Automate agent deployment with a framework</li>
+                    <li>Use agent templates for common workflows</li>
+                    <li>Build a library of reusable agents</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 16. EDGE CASES                              -->
+        <!-- ============================================= -->
+        <h2>🔀 Edge Cases</h2>
+        <ul>
+            <li><strong>Agent overload:</strong> If a single agent has too many responsibilities, break it into multiple agents.</li>
+            <li><strong>Agent conflict:</strong> If agents disagree, add a synthesis agent with a clear hierarchy.</li>
+            <li><strong>Agent failure:</strong> Always design a fallback mechanism.</li>
+            <li><strong>Token limits:</strong> Multi-agent systems distribute the token load across agents.</li>
+        </ul>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 17. VALIDATION & QA                         -->
+        <!-- ============================================= -->
+        <h2>✅ Validation &amp; Quality Assurance</h2>
+
+        <h3>How to Verify an Agent System</h3>
+        <ul>
+            <li><strong>Goal Check:</strong> Did the agent achieve its goal?</li>
+            <li><strong>Tool Check:</strong> Were the tools used correctly?</li>
+            <li><strong>Iteration Check:</strong> Did the agent successfully iterate and adapt?</li>
+            <li><strong>Edge Case Check:</strong> Did the agent handle edge cases gracefully?</li>
+            <li><strong>Fallback Check:</strong> Did the fallback mechanism work when needed?</li>
+            <li><strong>Validation Check:</strong> Did the validation step catch errors?</li>
+        </ul>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 18. FREQUENTLY ASKED QUESTIONS              -->
+        <!-- ============================================= -->
+        <h2>❓ Frequently Asked Questions</h2>
+
+        <details>
+            <summary><strong>Q: What is the difference between a tool and an action?</strong></summary>
+            <div class="content">
+                <p><strong>A:</strong> A tool is a capability the agent has (e.g., Revit API). An action is how
+                the agent uses that tool (e.g., "retrieve all sheets"). Tools are the resources; actions are the
+                specific operations.</p>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Q: How many agents should I use in a Multi-Agent system?</strong></summary>
+            <div class="content">
+                <p><strong>A:</strong> 2-5 agents is the sweet spot. Fewer than 2 is a Single-Agent system.
+                More than 5 may create coordination overhead. The exact number depends on the complexity of the task.</p>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Q: Can I use a Multi-Agent system with a single prompt?</strong></summary>
+            <div class="content">
+                <p><strong>A:</strong> Yes. You can define multiple agents and their workflow in a single prompt.
+                The AI will simulate the Multi-Agent system in its response. This is a powerful technique for
+                complex tasks.</p>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Q: How do I handle token limits in a Multi-Agent system?</strong></summary>
+            <div class="content">
+                <p><strong>A:</strong> Multi-Agent systems can be implemented as a sequence of prompts
+                (Prompt Chaining) to distribute the token load. Each agent's output is passed to the next agent
+                as context.</p>
+            </div>
+        </details>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 19. KNOWLEDGE CONNECTIONS                   -->
+        <!-- ============================================= -->
+        <h2>🔗 Knowledge Connections</h2>
+        <div class="grid-2">
+            <div class="card">
+                <strong>➡️ Prerequisites</strong>
+                <ul>
+                    <li>Level 0: What is AI? (Mental model)</li>
+                    <li>Level 1: Prompt Fundamentals (Structure)</li>
+                    <li>Level 2: Context Engineering (Grounding)</li>
+                    <li>Level 3: Prime Directives & Persona (Behavior)</li>
+                    <li>Level 4: Structured Prompting (Format)</li>
+                    <li>Level 5: Output Structuring (Constraints)</li>
+                    <li>Level 6: Few-Shot & Zero-Shot (Examples)</li>
+                    <li>Level 7: Reasoning Strategies (CoT, ToT)</li>
+                    <li>Level 8: Advanced Strategies (RAG, ReAct, Reflection)</li>
+                    <li>Level 9: Prompt Debugging</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>➡️ What This Leads To</strong>
+                <ul>
+                    <li><strong>Level 11:</strong> Model Selection & Tuning</li>
+                    <li><strong>Level 12:</strong> Enterprise Prompting</li>
+                    <li><strong>Level 13:</strong> Capstone Project</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 20. FUTURE LEARNING ROADMAP                 -->
+        <!-- ============================================= -->
+        <h2>🗺️ Future Learning Roadmap</h2>
+        <div class="mermaid">
+BEGINNER
+├── Level 0: What is AI? ✅
+├── Level 1: Prompt Fundamentals ✅
+├── Level 2: Context Engineering ✅
+├── Level 3: Prime Directives & Persona ✅
+├── Level 4: Structured Prompting ✅
+├── Level 5: Output Structuring & Constraints ✅
+├── Level 6: Few-Shot & Zero-Shot ✅
+├── Level 7: Reasoning Strategies ✅
+├── Level 8: Advanced Strategies ✅
+├── Level 9: Prompt Debugging ✅
+└── Level 10: AI Agents  ◄── YOU ARE HERE
+
+ADVANCED
+├── Level 11: Model Selection & Tuning
+└── Level 12: Enterprise Prompting
+
+MASTER
+└── Level 13: Capstone Project
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 21. AI PROMPT ENGINEERING INSIGHTS          -->
+        <!-- ============================================= -->
+        <h2>✍️ AI Prompt Engineering Insights</h2>
+
+        <div class="prompt-ladder">
+            <div class="prompt-item bad">
+                <strong><span class="tag bad">BAD</span></strong><br>
+                <em>"Write a Dynamo script."</em>
+                <div class="small" style="color:#991b1b;">A standard prompt. No autonomy, no iteration.</div>
+            </div>
+            <div class="prompt-item good">
+                <strong><span class="tag good">GOOD</span></strong><br>
+                <em>"I need a Dynamo script. If it fails, I'll ask you to fix it."</em>
+                <div class="small" style="color:#92400e;">Awareness of iteration, but not built-in.</div>
+            </div>
+            <div class="prompt-item expert">
+                <strong><span class="tag expert">EXPERT</span></strong><br>
+                <em>"Agent: Generate a Dynamo script. Plan: Step 1, Step 2. Act: Write code. Observe: Check for errors. Navigate: Fix errors. Repeat until success."</em>
+                <div class="small" style="color:#1e3a5f;">Agent with P.L.A.N. cycle built-in.</div>
+            </div>
+            <div class="prompt-item production">
+                <strong><span class="tag production">PRODUCTION</span></strong><br>
+                <em><strong>Agent System:</strong> Developer Agent (generates script) + QA Agent (validates script) + Synthesis (resolves conflicts).<br>
+                <strong>Goal:</strong> Generate a production-ready Dynamo script.<br>
+                <strong>Tools:</strong> Revit API, Dynamo, Validation Tool.<br>
+                <strong>P.L.A.N. Cycle:</strong> Built-in for each agent.<br>
+                <strong>Fallback:</strong> If QA fails, Developer revises.</em>
+                <div class="small" style="color:#064e3b;">Full Multi-Agent system with P.L.A.N. cycle, validation, and fallback.</div>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 22. PROMPT IMPROVEMENT SUGGESTIONS          -->
+        <!-- ============================================= -->
+        <h2>📝 Prompt Improvement Suggestions</h2>
+
+        <h3>Your Level 9 Expert Prompt (Without Agent Design)</h3>
+        <div class="code-block">
+"Act as a Senior BIM Automation Architect. Generate a Revit API plugin to create views from an Excel list."
+        </div>
+        <p><strong>Weaknesses:</strong> No autonomy, no iteration, no validation built-in.</p>
+
+        <h3>Production-Level with Agent Design</h3>
+        <div class="code-block">
+<strong>Agent System:</strong> Developer Agent + QA Agent + BIM Manager Agent.
+<strong>Goal:</strong> Generate a production-ready Revit API plugin.
+<strong>Tools:</strong> Revit API, Excel, Code Generator, Validation Tool.
+<strong>Workflow:</strong>
+1. Developer Agent generates the plugin design and code.
+2. QA Agent validates the code for errors and edge cases.
+3. BIM Manager Agent ensures compliance with standards.
+4. If any agent fails, the workflow iterates.
+5. Synthesis Agent resolves conflicts and delivers the final plugin.
+<strong>Fallback:</strong> If a tool fails, the agent logs the error and attempts an alternative.
+        </div>
+        <p><strong>Why it's better:</strong> This is a complete Multi-Agent system with validation, iteration, and fallback.</p>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 23. MY LEARNING ANALYSIS                   -->
+        <!-- ============================================= -->
+        <h2>📊 Your Learning Analysis</h2>
+        <div class="grid-2">
+            <div class="card green">
+                <strong>✅ Strengths Demonstrated</strong>
+                <ul>
+                    <li>You correctly distinguished standard prompts from AI Agents.</li>
+                    <li>You defined the P.L.A.N. cycle with practical BIM examples.</li>
+                    <li>You identified the advantages of Multi-Agent systems.</li>
+                    <li>You designed a comprehensive clash detection agent with tools and iteration.</li>
+                    <li>You designed a complete Multi-Agent system (Developer + QA) with a clear workflow.</li>
+                </ul>
+            </div>
+            <div class="card amber">
+                <strong>🔶 Areas for Growth</strong>
+                <ul>
+                    <li>Practice designing agents with human-in-the-loop checkpoints.</li>
+                    <li>Experiment with agent orchestration frameworks.</li>
+                    <li>Build a library of reusable agent templates for common BIM tasks.</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 24. FINAL EXPERT TAKEAWAY                  -->
+        <!-- ============================================= -->
+        <h2>🎯 Final Expert Takeaway</h2>
+        <div class="card purple" style="border-left-color:#7c3aed;">
+            <h3 style="margin-top:0; color:#5b21b6;">📄 One Page of Advice from a 30-Year Mentor</h3>
+            <p>
+                <strong>"Don't write prompts. Design agents."</strong>
+            </p>
+            <p>
+                You are no longer a user of AI—you are an <strong>architect of intelligence</strong>.
+                Your job is to design autonomous systems that can perceive, reason, act, and learn.
+                This is the future of BIM automation: not tools that wait for instructions,
+                but agents that proactively manage projects.
+            </p>
+            <p>
+                When you design an agent, you are creating a digital colleague. It will work tirelessly,
+                validate its own work, and adapt to changing conditions. Build it with clear goals,
+                robust tools, and the wisdom to know when to ask for help.
+            </p>
+            <p style="margin-top:12px; font-weight:600; color:#5b21b6;">
+                🔥 Build agents, not prompts. Build systems, not scripts. Build the future.
+            </p>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 25. MEMORY REVISION SHEET                   -->
+        <!-- ============================================= -->
+        <h2>📄 Memory Revision Sheet (5-Minute Review)</h2>
+        <div class="card" style="border-left-color:#7c3aed; background:#f5f3ff;">
+            <div class="grid-2" style="gap:8px;">
+                <div>
+                    <strong>🧠 AI Agent</strong>
+                    <ul style="margin:4px 0 0 18px; font-size:0.9rem;">
+                        <li>Autonomous, goal-driven</li>
+                        <li>Uses tools and iterates</li>
+                        <li>Has P.L.A.N. cycle</li>
+                    </ul>
+                </div>
+                <div>
+                    <strong>🧠 Single-Agent</strong>
+                    <ul style="margin:4px 0 0 18px; font-size:0.9rem;">
+                        <li>One agent handles all</li>
+                        <li>Simple, linear tasks</li>
+                    </ul>
+                </div>
+                <div>
+                    <strong>🧠 Multi-Agent</strong>
+                    <ul style="margin:4px 0 0 18px; font-size:0.9rem;">
+                        <li>Multiple specialized agents</li>
+                        <li>Complex tasks, cross-validation</li>
+                    </ul>
+                </div>
+                <div>
+                    <strong>🧠 P.L.A.N. Cycle</strong>
+                    <ul style="margin:4px 0 0 18px; font-size:0.9rem;">
+                        <li>Plan → Act → Observe → Navigate</li>
+                        <li>Core iteration loop</li>
+                    </ul>
+                </div>
+            </div>
+            <hr style="margin:10px 0; border-color:#c4b5fd;">
+            <div style="font-size:0.85rem;">
+                <strong>Production secret:</strong> A well-designed agent system is self-correcting and resilient.
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 26. INTERVIEW PERSPECTIVE                   -->
+        <!-- ============================================= -->
+        <h2>🎤 Interview Perspective</h2>
+
+        <details>
+            <summary><strong>Technical Interview</strong></summary>
+            <div class="content">
+                <p><strong>Q:</strong> "You are building an AI agent to automate sheet management in Revit.
+                How would you structure the agent's tools and iteration loop?"</p>
+                <p><strong>A:</strong> "I would structure the agent with a clear goal: 'Generate a sheet schedule
+                and update it weekly.' The agent would have tools: Revit API to retrieve sheet data, a CSV generator,
+                and an email sender. The iteration loop would be: Plan (break down the weekly update), Act (retrieve
+                data and update CSV), Observe (check for errors), Navigate (if errors, fix and retry). I would also
+                include validation to ensure the data is correct before sending."</p>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Management Interview</strong></summary>
+            <div class="content">
+                <p><strong>Q:</strong> "How do you ensure the AI agents you build are reliable and don't make
+                costly mistakes?"</p>
+                <p><strong>A:</strong> "I build reliability into the system at multiple levels. First, each agent has
+                a Prime Directive that enforces safety rules. Second, I use a Multi-Agent system where one agent
+                validates the work of another. Third, I include a validation step in the agent's core loop—
+                it must check its own output before finalizing. Finally, I log all actions so we can audit the
+                agent's behavior."</p>
+            </div>
+        </details>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 27. REAL-WORLD CASE STUDY                   -->
+        <!-- ============================================= -->
+        <h2>🏗️ Real-World Case Study</h2>
+
+        <h3>Scenario: The Clash Detection Agent</h3>
+        <p>
+            You need to automate clash detection for a large hospital project with 5000+ elements.
+            The process must be reliable and self-correcting.
+        </p>
+
+        <div class="agent-box">
+            <h4>Agent Design</h4>
+            <p><strong>Goal:</strong> Run weekly clash detection, generate a report, and notify the team of critical clashes.</p>
+            <p><strong>Persona:</strong> Senior BIM Coordinator with 15 years of experience in healthcare projects.</p>
+            <p><strong>Prime Directives:</strong> Never delete elements. Always validate results before sending reports.</p>
+            <p><strong>Tools:</strong> Revit API, Navisworks API, Reporting Tool, Email API, Logging Tool.</p>
+
+            <h4>P.L.A.N. Cycle</h4>
+            <div class="workflow-step">
+                <strong>1. Plan:</strong> Break the task into steps: Extract model → Run clash detection → Categorize → Generate report → Notify team.
+            </div>
+            <div class="workflow-step">
+                <strong>2. Act:</strong> Execute each step using the tools.
+            </div>
+            <div class="workflow-step">
+                <strong>3. Observe:</strong> Check the results. Are there any errors? Are the clash counts reasonable?
+            </div>
+            <div class="workflow-step">
+                <strong>4. Navigate:</strong> If errors are found, retry with a fallback tool. If clashes are too high, flag for human review.
+            </div>
+        </div>
+
+        <h4>Outcome</h4>
+        <p>
+            The agent runs successfully every week. It catches 90% of clashes automatically. The team reviews
+            only the most critical ones. The agent has saved 10+ hours of manual work per week.
+        </p>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 28. CONTINUOUS IMPROVEMENT NOTES            -->
+        <!-- ============================================= -->
+        <h2>🔄 Continuous Improvement Notes</h2>
+        <ul>
+            <li><strong>Review:</strong> After each agent run, review the logs. Did it handle all edge cases?</li>
+            <li><strong>Metrics:</strong> Track the agent's success rate, iteration count, and time to completion.</li>
+            <li><strong>Automation:</strong> Use a framework to deploy and manage agents.</li>
+            <li><strong>Next Step:</strong> Level 11 — Model Selection & Tuning.</li>
+        </ul>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- FOOTER                                       -->
+        <!-- ============================================= -->
+        <div style="text-align:center; font-size:0.8rem; color:#94a3b8; padding-top:20px; border-top:1px solid #e2e8f0;">
+            <strong>Level 10 — AI Agents</strong><br>
+            Expert Knowledge Document &bull; Prompt Engineering for BIM &amp; Construction Technology<br>
+            Created: 2026 &bull; Permanent Reference &bull; Version 1.0
+        </div>
+
+    </div>
+</body>
+</html>

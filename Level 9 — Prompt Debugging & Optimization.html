@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level 9 — Expert Knowledge: Prompt Debugging & Optimization</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #f1f5f9;
+            color: #0f172a;
+            line-height: 1.6;
+            padding: 30px 20px;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 45px 55px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+        }
+        h1 {
+            font-size: 2.4rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: #0f172a;
+            border-bottom: 4px solid #f97316;
+            padding-bottom: 12px;
+            margin-bottom: 6px;
+        }
+        .doc-subtitle {
+            font-size: 1.05rem;
+            color: #475569;
+            margin-bottom: 28px;
+            border-left: 4px solid #f97316;
+            padding-left: 18px;
+            background: #f8fafc;
+            padding: 12px 20px;
+            border-radius: 8px;
+        }
+        h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-top: 38px;
+            margin-bottom: 14px;
+            color: #0f172a;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 6px;
+        }
+        h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 24px;
+            margin-bottom: 8px;
+            color: #1e293b;
+        }
+        h4 {
+            font-size: 1.0rem;
+            font-weight: 600;
+            margin-top: 18px;
+            margin-bottom: 4px;
+            color: #334155;
+        }
+        p {
+            margin-bottom: 14px;
+        }
+        ul,
+        ol {
+            margin: 10px 0 16px 24px;
+        }
+        li {
+            margin-bottom: 6px;
+        }
+        .card {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 18px 22px;
+            margin: 16px 0;
+            border-left: 5px solid #94a3b8;
+        }
+        .card.blue {
+            border-left-color: #3b82f6;
+            background: #eff6ff;
+        }
+        .card.green {
+            border-left-color: #22c55e;
+            background: #f0fdf4;
+        }
+        .card.amber {
+            border-left-color: #f59e0b;
+            background: #fffbeb;
+        }
+        .card.red {
+            border-left-color: #ef4444;
+            background: #fef2f2;
+        }
+        .card.purple {
+            border-left-color: #8b5cf6;
+            background: #f5f3ff;
+        }
+        .card.orange {
+            border-left-color: #f97316;
+            background: #fff7ed;
+        }
+        .card.teal {
+            border-left-color: #14b8a6;
+            background: #f0fdfa;
+        }
+        .callout {
+            padding: 14px 20px;
+            border-radius: 10px;
+            margin: 16px 0;
+            font-weight: 500;
+        }
+        .callout.info {
+            background: #dbeafe;
+            color: #1e3a8a;
+        }
+        .callout.warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        .callout.danger {
+            background: #fecaca;
+            color: #991b1b;
+        }
+        .callout.success {
+            background: #bbf7d0;
+            color: #166534;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0 20px;
+            font-size: 0.95rem;
+        }
+        th {
+            background: #1e293b;
+            color: #f8fafc;
+            padding: 10px 14px;
+            text-align: left;
+            font-weight: 600;
+        }
+        td {
+            padding: 10px 14px;
+            border-bottom: 1px solid #e2e8f0;
+            vertical-align: top;
+        }
+        tr:nth-child(even) {
+            background: #f8fafc;
+        }
+        tr:hover {
+            background: #f1f5f9;
+        }
+        .code-block {
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 16px 22px;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            font-size: 0.88rem;
+            overflow-x: auto;
+            margin: 14px 0;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        .inline-code {
+            background: #e2e8f0;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        .tag {
+            display: inline-block;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .tag.bad {
+            background: #fecaca;
+            color: #991b1b;
+        }
+        .tag.good {
+            background: #fde68a;
+            color: #92400e;
+        }
+        .tag.expert {
+            background: #93c5fd;
+            color: #1e3a5f;
+        }
+        .tag.production {
+            background: #6ee7b7;
+            color: #064e3b;
+        }
+        .tag.master {
+            background: #c4b5fd;
+            color: #4c1d95;
+        }
+        .prompt-ladder {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 16px 0;
+        }
+        .prompt-item {
+            padding: 14px 20px;
+            border-radius: 10px;
+            border-left: 6px solid;
+        }
+        .prompt-item.bad {
+            background: #fef2f2;
+            border-color: #ef4444;
+        }
+        .prompt-item.good {
+            background: #fffbeb;
+            border-color: #f59e0b;
+        }
+        .prompt-item.expert {
+            background: #eff6ff;
+            border-color: #3b82f6;
+        }
+        .prompt-item.production {
+            background: #ecfdf5;
+            border-color: #10b981;
+        }
+        .prompt-item.master {
+            background: #f5f3ff;
+            border-color: #8b5cf6;
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+        }
+        @media (max-width: 760px) {
+            .grid-2,
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+            .container {
+                padding: 24px 18px;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+        .mermaid {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            white-space: pre;
+            overflow-x: auto;
+            margin: 16px 0;
+            border: 1px solid #e2e8f0;
+        }
+        .hr-divider {
+            border: 0;
+            height: 2px;
+            background: linear-gradient(to right, #e2e8f0, #94a3b8, #e2e8f0);
+            margin: 30px 0;
+        }
+        .small {
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+        details {
+            margin: 12px 0;
+            padding: 10px 16px;
+            background: #f8fafc;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+        }
+        details summary {
+            font-weight: 600;
+            cursor: pointer;
+            color: #1e293b;
+        }
+        details summary:hover {
+            color: #f97316;
+        }
+        details .content {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #e2e8f0;
+        }
+        .badge {
+            display: inline-block;
+            background: #f1f5f9;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #475569;
+        }
+        .debug-step {
+            background: #fff7ed;
+            border-left: 4px solid #f97316;
+            padding: 12px 16px;
+            margin: 8px 0;
+            border-radius: 4px;
+        }
+        .debug-step strong {
+            color: #c2410c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- ============================================= -->
+        <!-- 1. EXECUTIVE SUMMARY                         -->
+        <!-- ============================================= -->
+        <h1>🔧 Level 9 — Prompt Debugging & Optimization</h1>
+        <div class="doc-subtitle">
+            <strong>Permanent Knowledge Base</strong> &bull; BIM Automation Specialist &bull; Systematic Diagnosis and Refinement
+        </div>
+
+        <div class="card orange">
+            <h3 style="margin-top:0;">📌 Executive Summary</h3>
+            <p>
+                <strong>Prompt debugging</strong> is the systematic process of analyzing a prompt's failure,
+                identifying its root cause, and applying targeted refinements. It is an iterative, scientific
+                approach to improving prompt quality.
+            </p>
+            <p>
+                The core principle is: <strong>"A failed prompt is not a failure; it's data."</strong>
+                Every failed prompt provides invaluable information about the model's behavior or the prompt's structure.
+            </p>
+            <p>
+                <strong>Key Insight:</strong> Systematic debugging transforms a "good" prompt into a "production-ready"
+                prompt. It is the essential skill for reliable, repeatable AI automation in BIM.
+            </p>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 2. LEARNING HIGHLIGHTS                       -->
+        <!-- ============================================= -->
+        <h2>📚 Learning Highlights</h2>
+        <div class="grid-2">
+            <div class="card">
+                <strong>🔹 Systematic Debugging</strong>
+                <ul>
+                    <li>Define the symptom</li>
+                    <li>Formulate a hypothesis</li>
+                    <li>Test one change at a time</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>🔹 D.E.B.U.G. Framework</strong>
+                <ul>
+                    <li>Define, Examine, Build, Update, Gauge</li>
+                    <li>Provides a structured approach</li>
+                    <li>Prevents random guesswork</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>🔹 Common Failure Modes</strong>
+                <ul>
+                    <li>Ambiguity, Missing Context</li>
+                    <li>Hallucination, Format Errors</li>
+                    <li>Edge Cases, Model Limitations</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>🔹 Iterative Mindset</strong>
+                <ul>
+                    <li>Every failure is a learning opportunity</li>
+                    <li>Change one variable at a time</li>
+                    <li>Test on simple and edge cases</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 3. KEY CONCEPTS                              -->
+        <!-- ============================================= -->
+        <h2>🧩 Key Concepts</h2>
+
+        <h3>1. Sources of Prompt Failure</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Failure Mode</th>
+                    <th>Description</th>
+                    <th>BIM Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Ambiguity</strong></td>
+                    <td>Instruction is open to multiple interpretations.</td>
+                    <td>"Generate a sheet list." → Which sheets? All of them? Active only?</td>
+                </tr>
+                <tr>
+                    <td><strong>Missing Context</strong></td>
+                    <td>Lacks necessary background knowledge or constraints.</td>
+                    <td>No Revit version specified → AI uses outdated API methods.</td>
+                </tr>
+                <tr>
+                    <td><strong>Conflicting Instructions</strong></td>
+                    <td>Contains contradictory rules.</td>
+                    <td>"Be concise but provide a comprehensive analysis."</td>
+                </tr>
+                <tr>
+                    <td><strong>Persona Mismatch</strong></td>
+                    <td>The AI's "character" doesn't align with the task.</td>
+                    <td>"Act as a Junior Intern" → Output is too high-level.</td>
+                </tr>
+                <tr>
+                    <td><strong>Edge Cases</strong></td>
+                    <td>Fails to handle specific scenarios.</td>
+                    <td>"Rename all sheets" → Fails if a sheet has no name.</td>
+                </tr>
+                <tr>
+                    <td><strong>Hallucination</strong></td>
+                    <td>The AI fabricates information or methods.</td>
+                    <td>Inventing a Revit API method that doesn't exist.</td>
+                </tr>
+                <tr>
+                    <td><strong>Format Errors</strong></td>
+                    <td>Doesn't follow the specified output structure.</td>
+                    <td>Outputs a paragraph when a JSON object is requested.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>2. The D.E.B.U.G. Framework</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Step</th>
+                    <th>Description</th>
+                    <th>Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>D - Define</strong></td>
+                    <td>What is wrong with the output?</td>
+                    <td>"The output is too long and lacks structure."</td>
+                </tr>
+                <tr>
+                    <td><strong>E - Examine</strong></td>
+                    <td>Review the prompt. What's missing or ambiguous?</td>
+                    <td>"I didn't specify a length limit or structure."</td>
+                </tr>
+                <tr>
+                    <td><strong>B - Build</strong></td>
+                    <td>Formulate a hypothesis about the cause.</td>
+                    <td>"Adding a word limit will fix the length issue."</td>
+                </tr>
+                <tr>
+                    <td><strong>U - Update</strong></td>
+                    <td>Make a targeted change to test the hypothesis.</td>
+                    <td>"Add: 'Maximum 250 words.'"</td>
+                </tr>
+                <tr>
+                    <td><strong>G - Gauge</strong></td>
+                    <td>Analyze the result. Did it work? Why or why not?</td>
+                    <td>"The output is now within the limit. The structure is still missing."</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>3. The "Master Technician" Mental Model</h3>
+        <p>
+            An automotive technician doesn't start replacing parts randomly. They listen to the symptom,
+            formulate a hypothesis, test one component at a time, and analyze the data. Prompt debugging
+            follows the same systematic approach.
+        </p>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 4. EXPERT MENTAL MODEL                       -->
+        <!-- ============================================= -->
+        <h2>🧠 Expert Mental Model</h2>
+
+        <div class="card purple">
+            <h4 style="margin-top:0;">🧩 Mental Model: The Master Technician</h4>
+            <p>
+                Imagine a master automotive technician. They don't replace parts randomly. They:
+            </p>
+            <ol>
+                <li><strong>Gather Information:</strong> "The car makes a noise when turning left."</li>
+                <li><strong>Formulate Hypotheses:</strong> "Could be a bad wheel bearing or tie rod."</li>
+                <li><strong>Test Systematically:</strong> Test one component at a time, starting with the simplest.</li>
+                <li><strong>Analyze the Data:</strong> Each test confirms or eliminates a hypothesis.</li>
+                <li><strong>Implement the Fix:</strong> Replace the specific part.</li>
+            </ol>
+            <p>
+                This is the exact mindset for prompt debugging. You are the master technician, and the prompt is your vehicle.
+            </p>
+        </div>
+
+        <h3>How an Expert Thinks</h3>
+        <ul>
+            <li><strong>Be a Detective:</strong> "Assume the problem is in the prompt, not the AI. Actively search for the flaw."</li>
+            <li><strong>Be Systematic:</strong> "Change one variable at a time to isolate the cause."</li>
+            <li><strong>Be Scientific:</strong> "Formulate a hypothesis and design a test (a new iteration) to prove or disprove it."</li>
+        </ul>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 5. HIDDEN KNOWLEDGE                          -->
+        <!-- ============================================= -->
+        <h2>🔮 Hidden Knowledge (Rarely Written in Tutorials)</h2>
+
+        <div class="grid-2">
+            <div class="card teal">
+                <strong>🎯 The "Minimum Viable Prompt" Test</strong>
+                <p>Simplify the prompt to its core instruction. If it works at its simplest, add complexity
+                one layer at a time. This isolates the point of failure.</p>
+            </div>
+            <div class="card teal">
+                <strong>🎯 The "Switch Model" Test</strong>
+                <p>If a prompt fails on one model but works on another, the issue might be model-specific.
+                Try it on GPT-4, Claude, or DeepSeek to identify the mismatch.</p>
+            </div>
+            <div class="card teal">
+                <strong>🎯 The "Edge Case First" Approach</strong>
+                <p>Instead of testing the happy path first, test the edge case. If the prompt fails on an edge
+                case, you catch the problem early.</p>
+            </div>
+            <div class="card teal">
+                <strong>🎯 The "Debugging Log"</strong>
+                <p>Keep a log of every prompt iteration, its output, and the hypothesis. This prevents you
+                from repeating failed attempts and helps you identify patterns.</p>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 6. BEGINNER MISTAKES                         -->
+        <!-- ============================================= -->
+        <h2>⚠️ Beginner Mistakes</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Mistake</th>
+                    <th>Consequence</th>
+                    <th>How to Avoid</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Changing too many variables</strong></td>
+                    <td>Can't identify which change fixed the issue.</td>
+                    <td>Change one thing at a time and test.</td>
+                </tr>
+                <tr>
+                    <td><strong>Not recording the process</strong></td>
+                    <td>You forget what you tried.</td>
+                    <td>Keep a log of your prompts and results.</td>
+                </tr>
+                <tr>
+                    <td><strong>Blaming the AI</strong></td>
+                    <td>Prevents you from finding the real problem.</td>
+                    <td>Assume the problem is in your prompt.</td>
+                </tr>
+                <tr>
+                    <td><strong>Over-constraining</strong></td>
+                    <td>Confuses the AI with too many rules.</td>
+                    <td>Add constraints systematically and test.</td>
+                </tr>
+                <tr>
+                    <td><strong>Under-constraining</strong></td>
+                    <td>Not providing enough guidance.</td>
+                    <td>Start simple and add constraints as needed.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 7. THINGS PEOPLE USUALLY SKIP               -->
+        <!-- ============================================= -->
+        <h2>📌 Things People Usually Skip (But Experts Don't)</h2>
+        <div class="grid-2">
+            <div class="card">
+                <strong>🔸 The "Simplify" Step</strong>
+                <p>When debugging, strip the prompt down to its essentials. If the simple version works,
+                add complexity back one piece at a time.</p>
+            </div>
+            <div class="card">
+                <strong>🔸 The "Model Comparison"</strong>
+                <p>Try the same prompt on a different AI model. If it works, the issue may be model-specific.</p>
+            </div>
+            <div class="card">
+                <strong>🔸 The "Testing Log"</strong>
+                <p>Document every iteration. This becomes a valuable resource for future debugging.</p>
+            </div>
+            <div class="card">
+                <strong>🔸 The "Hypothesis First"</strong>
+                <p>Don't make random changes. Formulate a hypothesis about why the prompt is failing
+                before you make any changes.</p>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 8. CRITICAL THINKING CHALLENGES             -->
+        <!-- ============================================= -->
+        <h2>🧩 Critical Thinking Challenges</h2>
+
+        <details>
+            <summary><strong>Challenge 1: The Ambiguous Output</strong></summary>
+            <div class="content">
+                <p><strong>Scenario:</strong> You ask the AI for "a list of all sheets," and it gives you a
+                paragraph describing the sheet types.</p>
+                <p><strong>Question:</strong> Using the D.E.B.U.G. framework, how would you debug this prompt?</p>
+                <details>
+                    <summary><strong>🔍 Expert Reasoning</strong></summary>
+                    <div class="content">
+                        <p><strong>D - Define:</strong> The output is a paragraph, not a list.</p>
+                        <p><strong>E - Examine:</strong> The prompt doesn't specify the format.</p>
+                        <p><strong>B - Build:</strong> Hypothesis: Adding a format instruction will fix the issue.</p>
+                        <p><strong>U - Update:</strong> Add: "Provide the list in bullet points."</p>
+                        <p><strong>G - Gauge:</strong> The output is now a bulleted list. The fix worked.</p>
+                    </div>
+                </details>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Challenge 2: The Hallucinated API</strong></summary>
+            <div class="content">
+                <p><strong>Scenario:</strong> The AI's Revit API code uses a method that doesn't exist in Revit 2025.</p>
+                <p><strong>Question:</strong> How would you use RAG to debug and fix this issue?</p>
+                <details>
+                    <summary><strong>🔍 Expert Reasoning</strong></summary>
+                    <div class="content">
+                        <p><strong>Solution:</strong> Use RAG to retrieve the official Revit 2025 API documentation
+                        and inject it into the prompt. This grounds the AI in the correct methods and prevents
+                        hallucination. Add a constraint: "Only use methods from the provided documentation."</p>
+                    </div>
+                </details>
+            </div>
+        </details>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 9. PRACTICAL WORKFLOW                        -->
+        <!-- ============================================= -->
+        <h2>🔄 Practical Workflow: The Debugging Loop</h2>
+
+        <div class="mermaid">
+┌─────────────────────────────────────────────────────────────┐
+│  1. IDENTIFY THE SYMPTOM                                  │
+│  "The output is too long."                               │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│  2. FORMULATE A HYPOTHESIS                                │
+│  "Maybe I haven't specified a length limit."            │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│  3. DESIGN A FIX                                         │
+│  "Add a constraint: 'Provide output in maximum 200 words'."│
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│  4. TEST THE FIX                                         │
+│  Run the revised prompt.                                 │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│  5. ANALYZE THE RESULT                                   │
+│  "The output is now within the limit. The fix worked."  │
+└─────────────────────────────────────────────────────────────┘
+        </div>
+
+        <div class="callout info">
+            <strong>💡 Expert Checkpoint:</strong> If the fix doesn't work, repeat the loop with a new hypothesis.
+            Each iteration brings you closer to the solution.
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 10. EXECUTION CHECKLIST                      -->
+        <!-- ============================================= -->
+        <h2>✅ Execution Checklist</h2>
+
+        <div class="grid-2">
+            <div class="card blue">
+                <strong>📋 Before Debugging</strong>
+                <ul>
+                    <li>☐ Define the symptom clearly.</li>
+                    <li>☐ Record the original prompt and output.</li>
+                    <li>☐ Formulate a hypothesis.</li>
+                </ul>
+            </div>
+            <div class="card blue">
+                <strong>📋 During Debugging</strong>
+                <ul>
+                    <li>☐ Change one variable at a time.</li>
+                    <li>☐ Test on a simple case first.</li>
+                    <li>☐ Test on an edge case.</li>
+                </ul>
+            </div>
+            <div class="card green">
+                <strong>📋 After Debugging</strong>
+                <ul>
+                    <li>☐ Record the fix and the result.</li>
+                    <li>☐ Update your prompt templates.</li>
+                    <li>☐ Share the findings with your team.</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 11. RULES TO ALWAYS REMEMBER                -->
+        <!-- ============================================= -->
+        <h2>📜 Rules to Always Remember</h2>
+        <div class="grid-2">
+            <div class="card green">
+                <strong>🏆 Golden Rules</strong>
+                <ul>
+                    <li><strong>Assume the problem is in the prompt.</strong></li>
+                    <li><strong>Change one variable at a time.</strong></li>
+                    <li><strong>Keep a debugging log.</strong></li>
+                    <li><strong>Test on simple and edge cases.</strong></li>
+                    <li><strong>A failed prompt is data, not a failure.</strong></li>
+                </ul>
+            </div>
+            <div class="card red">
+                <strong>🚫 Never Do This</strong>
+                <ul>
+                    <li>Make random changes without a hypothesis.</li>
+                    <li>Blame the AI without examining the prompt.</li>
+                    <li>Skip testing on edge cases.</li>
+                    <li>Forget to record your iterations.</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 12. DECISION TREE                           -->
+        <!-- ============================================= -->
+        <h2>🌳 Decision Tree: Debugging Approach</h2>
+
+        <div class="mermaid">
+┌─────────────────────────────────────┐
+│ What is the symptom?               │
+└──────────────┬──────────────────────┘
+               │
+       ┌───────┼───────────────┐
+       │       │               │
+       ▼       ▼               ▼
+┌───────────┐ ┌───────────┐ ┌───────────┐
+│ Vague     │ │ Wrong     │ │ Format    │
+│ Output    │ │ Logic     │ │ Error     │
+└─────┬─────┘ └─────┬─────┘ └─────┬─────┘
+      │             │             │
+      ▼             ▼             ▼
+┌───────────┐ ┌───────────┐ ┌───────────┐
+│ Add       │ │ Add       │ │ Add       │
+│ Context   │ │ Reasoning │ │ Format    │
+│ & Detail  │ │ (CoT)     │ │ Spec      │
+└───────────┘ └───────────┘ └───────────┘
+      │             │             │
+      └─────────────┼─────────────┘
+                    ▼
+              ┌───────────┐
+              │ Test the  │
+              │ Fix       │
+              └───────────┘
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 13. PATTERN RECOGNITION                     -->
+        <!-- ============================================= -->
+        <h2>🔍 Pattern Recognition: When to Apply This</h2>
+        <div class="grid-2">
+            <div class="card">
+                <strong>🚦 Signals This Applies</strong>
+                <ul>
+                    <li>The output doesn't match your expectations.</li>
+                    <li>The output is inconsistent.</li>
+                    <li>The output contains errors.</li>
+                    <li>The output is in the wrong format.</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>⚠️ Warning Signs You're Forgetting This</strong>
+                <ul>
+                    <li>You are making random changes to the prompt.</li>
+                    <li>You are getting frustrated with the AI.</li>
+                    <li>You are not learning from failed attempts.</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 14. PROFESSIONAL TIPS                       -->
+        <!-- ============================================= -->
+        <h2>💼 Professional Tips: What Seniors Do Differently</h2>
+        <ul>
+            <li><strong>They keep a debugging log.</strong> They record every iteration and its result.</li>
+            <li><strong>They test the simplest case first.</strong> If it works, they add complexity.</li>
+            <li><strong>They formulate hypotheses.</strong> They don't make random changes.</li>
+            <li><strong>They use the D.E.B.U.G. framework.</strong> They follow a structured process.</li>
+            <li><strong>They share debugging insights.</strong> They help their team learn from their mistakes.</li>
+        </ul>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 15. OPTIMIZATION OPPORTUNITIES              -->
+        <!-- ============================================= -->
+        <h2>⚡ Optimization Opportunities</h2>
+        <div class="grid-2">
+            <div class="card teal">
+                <strong>🚀 Performance</strong>
+                <ul>
+                    <li>Debugging reduces wasted iterations.</li>
+                    <li>Identifying root causes prevents recurring issues.</li>
+                    <li>Keeping a log prevents repeating failed attempts.</li>
+                </ul>
+            </div>
+            <div class="card teal">
+                <strong>📊 Quality</strong>
+                <ul>
+                    <li>Systematic debugging catches edge cases.</li>
+                    <li>Testing on multiple models ensures compatibility.</li>
+                    <li>Recording findings creates a knowledge base.</li>
+                </ul>
+            </div>
+            <div class="card teal">
+                <strong>🤖 Automation</strong>
+                <ul>
+                    <li>Automate the debugging log with a tool.</li>
+                    <li>Build a prompt testing suite for common tasks.</li>
+                    <li>Use AI to suggest debugging strategies.</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 16. EDGE CASES                              -->
+        <!-- ============================================= -->
+        <h2>🔀 Edge Cases</h2>
+        <ul>
+            <li><strong>Elusive bugs:</strong> Some issues only appear under specific conditions.
+            Use a combination of strategies to isolate them.</li>
+            <li><strong>Model-specific issues:</strong> A prompt may work on GPT-4 but fail on Claude.
+            Test on different models to identify model-specific problems.</li>
+            <li><strong>Token limit issues:</strong> If the prompt is too long, the AI may truncate the output.
+            Monitor token usage and optimise where possible.</li>
+            <li><strong>Over-debugging:</strong> It is possible to over-optimize a prompt for a specific case,
+            making it less general. Strike a balance between specificity and generality.</li>
+        </ul>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 17. VALIDATION & QA                         -->
+        <!-- ============================================= -->
+        <h2>✅ Validation &amp; Quality Assurance</h2>
+
+        <h3>How to Verify a Debugging Fix</h3>
+        <ul>
+            <li><strong>Test on a simple case:</strong> Does the prompt work for the simplest possible input?</li>
+            <li><strong>Test on an edge case:</strong> Does it handle unexpected inputs gracefully?</li>
+            <li><strong>Test for consistency:</strong> Does the prompt produce the same format every time?</li>
+            <li><strong>Test with different models:</strong> If it works with GPT-4 but not Claude, the issue might be model-specific.</li>
+            <li><strong>Test with different versions:</strong> If you are using an evolving API, test against the latest version.</li>
+        </ul>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 18. FREQUENTLY ASKED QUESTIONS              -->
+        <!-- ============================================= -->
+        <h2>❓ Frequently Asked Questions</h2>
+
+        <details>
+            <summary><strong>Q: How many iterations does it take to debug a prompt?</strong></summary>
+            <div class="content">
+                <p><strong>A:</strong> It varies. A simple fix might take 1-2 iterations. Complex issues
+                might take 5-10. The key is to be systematic and learn from each iteration.</p>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Q: What if I keep getting the same error?</strong></summary>
+            <div class="content">
+                <p><strong>A:</strong> If you've tried multiple fixes and the problem persists, you may be
+                looking at a model limitation or a task that is beyond the AI's current capabilities. Consider
+                breaking the task into smaller steps (Prompt Chaining) or using a different model.</p>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Q: How do I know when to stop debugging?</strong></summary>
+            <div class="content">
+                <p><strong>A:</strong> When the output consistently meets your requirements, across multiple
+                test cases, and the prompt is robust enough to handle edge cases, you can stop. If further
+                improvements are minor, it's time to move on.</p>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Q: What is the most common cause of prompt failure?</strong></summary>
+            <div class="content">
+                <p><strong>A:</strong> Ambiguity. The AI can't read your mind. If there is any room for
+                interpretation, the AI will choose an interpretation that may not match your intent.</p>
+            </div>
+        </details>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 19. KNOWLEDGE CONNECTIONS                   -->
+        <!-- ============================================= -->
+        <h2>🔗 Knowledge Connections</h2>
+        <div class="grid-2">
+            <div class="card">
+                <strong>➡️ Prerequisites</strong>
+                <ul>
+                    <li>Level 0: What is AI? (Mental model)</li>
+                    <li>Level 1: Prompt Fundamentals (Structure)</li>
+                    <li>Level 2: Context Engineering (Grounding)</li>
+                    <li>Level 3: Prime Directives & Persona (Behavior)</li>
+                    <li>Level 4: Structured Prompting (Format)</li>
+                    <li>Level 5: Output Structuring (Constraints)</li>
+                    <li>Level 6: Few-Shot & Zero-Shot (Examples)</li>
+                    <li>Level 7: Reasoning Strategies (CoT, ToT)</li>
+                    <li>Level 8: Advanced Strategies (RAG, ReAct)</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>➡️ What This Leads To</strong>
+                <ul>
+                    <li><strong>Level 10:</strong> AI Agents (Building robust multi-agent systems)</li>
+                    <li><strong>Level 11:</strong> Model Selection & Tuning</li>
+                    <li><strong>Level 12:</strong> Enterprise Prompting</li>
+                    <li><strong>Level 13:</strong> Capstone Project</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 20. FUTURE LEARNING ROADMAP                 -->
+        <!-- ============================================= -->
+        <h2>🗺️ Future Learning Roadmap</h2>
+        <div class="mermaid">
+BEGINNER
+├── Level 0: What is AI? ✅
+├── Level 1: Prompt Fundamentals ✅
+├── Level 2: Context Engineering ✅
+├── Level 3: Prime Directives & Persona ✅
+├── Level 4: Structured Prompting ✅
+├── Level 5: Output Structuring & Constraints ✅
+├── Level 6: Few-Shot & Zero-Shot ✅
+├── Level 7: Reasoning Strategies ✅
+├── Level 8: Advanced Strategies ✅
+└── Level 9: Prompt Debugging  ◄── YOU ARE HERE
+
+ADVANCED
+├── Level 10: AI Agents
+└── Level 11: Model Selection & Tuning
+
+MASTER
+├── Level 12: Enterprise Prompting
+└── Level 13: Capstone Project
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 21. AI PROMPT ENGINEERING INSIGHTS          -->
+        <!-- ============================================= -->
+        <h2>✍️ AI Prompt Engineering Insights</h2>
+
+        <div class="prompt-ladder">
+            <div class="prompt-item bad">
+                <strong><span class="tag bad">BAD</span></strong><br>
+                <em>"Write a Revit API method."</em>
+                <div class="small" style="color:#991b1b;">No debugging. The AI might produce a working method,
+                or it might not. The result is unpredictable.</div>
+            </div>
+            <div class="prompt-item good">
+                <strong><span class="tag good">GOOD</span></strong><br>
+                <em>"Write a Revit API method. If the output doesn't work, I'll try adding constraints."</em>
+                <div class="small" style="color:#92400e;">Awareness of debugging, but no systematic approach.</div>
+            </div>
+            <div class="prompt-item expert">
+                <strong><span class="tag expert">EXPERT</span></strong><br>
+                <em>"Write a Revit API method. Use the D.E.B.U.G. framework: Define the symptom (the code doesn't compile),
+                Examine the prompt (did I specify the version?), Build a hypothesis (the version is missing),
+                Update the prompt, Gauge the result."</em>
+                <div class="small" style="color:#1e3a5f;">Expert uses the debugging framework.</div>
+            </div>
+            <div class="prompt-item production">
+                <strong><span class="tag production">PRODUCTION</span></strong><br>
+                <em>"I have a prompt generation system that includes automated testing. Each prompt is tested
+                on simple and edge cases. Results are logged. If a test fails, the system iterates on the prompt
+                using the D.E.B.U.G. framework."</em>
+                <div class="small" style="color:#064e3b;">Full production debugging system.</div>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 22. PROMPT IMPROVEMENT SUGGESTIONS          -->
+        <!-- ============================================= -->
+        <h2>📝 Prompt Improvement Suggestions</h2>
+
+        <h3>Your Level 8 Expert Prompt (Without Debugging)</h3>
+        <div class="code-block">
+"Act as a Senior BIM Automation Architect. Generate a Revit API plugin to create views from an Excel list. Use transactions."
+        </div>
+        <p><strong>Weaknesses:</strong> If the plugin fails, you have no systematic way to fix it.</p>
+
+        <h3>Production-Level with Debugging Framework</h3>
+        <div class="code-block">
+<strong>System:</strong> Senior BIM Automation Architect. You systematically debug your prompts.
+<strong>Task:</strong> Generate a Revit API plugin to create views from an Excel list. Use transactions.
+<strong>Debugging Protocol:</strong>
+1. Define the symptom: What is the expected output? (The plugin must compile and run without errors.)
+2. Test on a simple case: Create a view from a single Excel row.
+3. Test on an edge case: Handle missing data in the Excel file.
+4. If the output fails, follow the D.E.B.U.G. framework to fix it.
+5. Record the iterations in a debugging log.
+        </div>
+        <p><strong>Why it's better:</strong> The prompt now includes a systematic debugging protocol,
+        ensuring the final output is robust and reliable.</p>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 23. MY LEARNING ANALYSIS                   -->
+        <!-- ============================================= -->
+        <h2>📊 Your Learning Analysis</h2>
+        <div class="grid-2">
+            <div class="card green">
+                <strong>✅ Strengths Demonstrated</strong>
+                <ul>
+                    <li>You correctly defined prompt debugging as a systematic process.</li>
+                    <li>You accurately recalled the D.E.B.U.G. framework.</li>
+                    <li>You provided a systematic approach to debugging deprecated nodes.</li>
+                    <li>You explained the importance of testing on simple and edge cases.</li>
+                    <li>You gave expert-level advice to a colleague: "Step away from the AI and look at the prompt."</li>
+                </ul>
+            </div>
+            <div class="card amber">
+                <strong>🔶 Areas for Growth</strong>
+                <ul>
+                    <li>Practice applying the D.E.B.U.G. framework to a real-world prompt failure.</li>
+                    <li>Build a debugging log template for your team.</li>
+                    <li>Experiment with automated prompt testing tools.</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 24. FINAL EXPERT TAKEAWAY                  -->
+        <!-- ============================================= -->
+        <h2>🎯 Final Expert Takeaway</h2>
+        <div class="card orange" style="border-left-color:#f97316;">
+            <h3 style="margin-top:0; color:#c2410c;">📄 One Page of Advice from a 30-Year Mentor</h3>
+            <p>
+                <strong>"The AI is never wrong; your prompt is incomplete."</strong>
+            </p>
+            <p>
+                This is the single most important mindset shift. When you debug a prompt, you are not fixing the AI—
+                you are uncovering your own blind spots. Every failed prompt reveals an ambiguity you overlooked,
+                a constraint you forgot, or a context you assumed.
+            </p>
+            <p>
+                Embrace the debugging process. It is not a sign of failure; it is a sign of learning. Each iteration
+                brings you closer to understanding the AI, the task, and your own requirements.
+            </p>
+            <p style="margin-top:12px; font-weight:600; color:#c2410c;">
+                🔥 Debug with curiosity. The prompt is a mirror. It shows you what you don't know.
+            </p>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 25. MEMORY REVISION SHEET                   -->
+        <!-- ============================================= -->
+        <h2>📄 Memory Revision Sheet (5-Minute Review)</h2>
+        <div class="card" style="border-left-color:#f97316; background:#fff7ed;">
+            <div class="grid-2" style="gap:8px;">
+                <div>
+                    <strong>🧠 Debugging Mindset</strong>
+                    <ul style="margin:4px 0 0 18px; font-size:0.9rem;">
+                        <li>Problem is in the prompt</li>
+                        <li>Change one variable at a time</li>
+                        <li>A failed prompt is data</li>
+                    </ul>
+                </div>
+                <div>
+                    <strong>🧠 D.E.B.U.G. Framework</strong>
+                    <ul style="margin:4px 0 0 18px; font-size:0.9rem;">
+                        <li>Define, Examine</li>
+                        <li>Build, Update, Gauge</li>
+                    </ul>
+                </div>
+                <div>
+                    <strong>🧠 Common Failure Modes</strong>
+                    <ul style="margin:4px 0 0 18px; font-size:0.9rem;">
+                        <li>Ambiguity, Missing Context</li>
+                        <li>Hallucination, Format Errors</li>
+                    </ul>
+                </div>
+                <div>
+                    <strong>🧠 Testing Tips</strong>
+                    <ul style="margin:4px 0 0 18px; font-size:0.9rem;">
+                        <li>Test on simple and edge cases</li>
+                        <li>Keep a debugging log</li>
+                        <li>Try different models</li>
+                    </ul>
+                </div>
+            </div>
+            <hr style="margin:10px 0; border-color:#fdba74;">
+            <div style="font-size:0.85rem;">
+                <strong>Production secret:</strong> The best prompt engineers are the best debuggers.
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 26. INTERVIEW PERSPECTIVE                   -->
+        <!-- ============================================= -->
+        <h2>🎤 Interview Perspective</h2>
+
+        <details>
+            <summary><strong>Technical Interview</strong></summary>
+            <div class="content">
+                <p><strong>Q:</strong> "You are debugging a prompt that consistently produces code with syntax errors.
+                What is your systematic approach to finding and fixing the issue?"</p>
+                <p><strong>A:</strong> "First, I would define the symptom: the code has syntax errors. Then, I would
+                examine the prompt: are the examples correct? Is the language specification clear (e.g., C# vs. Python)?
+                I would build a hypothesis, such as 'the prompt doesn't specify to use a specific code block format.'
+                I would update the prompt to enforce the code block format and gauge the result. If it still fails,
+                I would test it on a simpler task to see if the problem is model-specific or task-specific."</p>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Management Interview</strong></summary>
+            <div class="content">
+                <p><strong>Q:</strong> "How do you ensure the team consistently debugs prompts effectively?"</p>
+                <p><strong>A:</strong> "We use a structured framework like D.E.B.U.G. We encourage team members
+                to keep a log of their prompt iterations and share their debugging strategies. We also hold regular
+                peer reviews where team members can help each other debug particularly tricky prompts."</p>
+            </div>
+        </details>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 27. REAL-WORLD CASE STUDY                   -->
+        <!-- ============================================= -->
+        <h2>🏗️ Real-World Case Study</h2>
+
+        <h3>Scenario: The Failing Dynamo Script</h3>
+        <p>
+            You need a Dynamo script that creates sheets from an Excel list. The AI generates a script, but it
+            fails because it doesn't handle duplicate sheet names.
+        </p>
+
+        <h4>Debugging Process</h4>
+
+        <div class="debug-step">
+            <strong>D - Define the Symptom:</strong>
+            <p>The script fails when it encounters a duplicate sheet name. The error message: "A sheet with that name already exists."</p>
+        </div>
+
+        <div class="debug-step">
+            <strong>E - Examine the Prompt:</strong>
+            <p>The original prompt: "Generate a Dynamo script to create sheets from an Excel list." No mention of duplicate handling.</p>
+        </div>
+
+        <div class="debug-step">
+            <strong>B - Build a Hypothesis:</strong>
+            <p>The prompt doesn't specify how to handle duplicates. Adding a duplicate handling rule will fix the issue.</p>
+        </div>
+
+        <div class="debug-step">
+            <strong>U - Update the Prompt:</strong>
+            <p>Add: "If a sheet name already exists, append a sequential number (e.g., Sheet_1, Sheet_2)."</p>
+        </div>
+
+        <div class="debug-step">
+            <strong>G - Gauge the Result:</strong>
+            <p>The script now handles duplicates correctly. However, it fails if the Excel file is empty.</p>
+        </div>
+
+        <h4>Iteration 2</h4>
+
+        <div class="debug-step">
+            <strong>D - Define the New Symptom:</strong>
+            <p>The script fails when the Excel file is empty.</p>
+        </div>
+
+        <div class="debug-step">
+            <strong>E - Examine the Prompt:</strong>
+            <p>The prompt doesn't mention an empty file case.</p>
+        </div>
+
+        <div class="debug-step">
+            <strong>B - Build a Hypothesis:</strong>
+            <p>Adding an empty-file handling rule will fix the issue.</p>
+        </div>
+
+        <div class="debug-step">
+            <strong>U - Update the Prompt:</strong>
+            <p>Add: "If the Excel file is empty, output a warning and exit gracefully."</p>
+        </div>
+
+        <div class="debug-step">
+            <strong>G - Gauge the Result:</strong>
+            <p>The script now handles both duplicates and empty files. It is production-ready.</p>
+        </div>
+
+        <h4>Outcome</h4>
+        <p>
+            The systematic debugging process identified and fixed two edge cases, transforming a failing script
+            into a robust, production-ready tool.
+        </p>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 28. CONTINUOUS IMPROVEMENT NOTES            -->
+        <!-- ============================================= -->
+        <h2>🔄 Continuous Improvement Notes</h2>
+        <ul>
+            <li><strong>Review:</strong> After each debugging session, review the process. What worked well?
+            What could be improved?</li>
+            <li><strong>Metrics:</strong> Track the number of iterations required to fix common failure modes.
+            Aim to reduce this over time.</li>
+            <li><strong>Automation:</strong> Build a prompt testing suite that automatically runs prompts on
+            simple and edge cases.</li>
+            <li><strong>Next Step:</strong> Level 10 — AI Agents (Building robust multi-agent systems).</li>
+        </ul>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- FOOTER                                       -->
+        <!-- ============================================= -->
+        <div style="text-align:center; font-size:0.8rem; color:#94a3b8; padding-top:20px; border-top:1px solid #e2e8f0;">
+            <strong>Level 9 — Prompt Debugging & Optimization</strong><br>
+            Expert Knowledge Document &bull; Prompt Engineering for BIM &amp; Construction Technology<br>
+            Created: 2026 &bull; Permanent Reference &bull; Version 1.0
+        </div>
+
+    </div>
+</body>
+</html>

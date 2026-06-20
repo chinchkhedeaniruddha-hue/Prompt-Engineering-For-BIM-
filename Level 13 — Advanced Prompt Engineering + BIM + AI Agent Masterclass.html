@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Prompt Engineering + BIM + AI Agent Masterclass</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Roboto, Arial, sans-serif; background: #f8fafc; color: #0b1a33; padding: 20px; line-height: 1.6; }
+        .container { max-width: 1200px; margin: 0 auto; background: white; padding: 30px 40px; border-radius: 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.08); }
+        h1 { font-size: 2.4rem; border-bottom: 4px solid #2563eb; padding-bottom: 10px; margin-bottom: 30px; }
+        h2 { font-size: 1.8rem; margin: 40px 0 16px; color: #1e293b; border-left: 6px solid #2563eb; padding-left: 16px; }
+        h3 { font-size: 1.3rem; margin: 28px 0 12px; color: #1e293b; }
+        h4 { font-size: 1.1rem; margin: 20px 0 8px; color: #334155; }
+        .level-box { background: #f1f5f9; border-radius: 16px; padding: 24px 28px; margin: 30px 0; border-left: 6px solid #3b82f6; }
+        .code-block { background: #0b1a33; color: #e2e8f0; padding: 16px 20px; border-radius: 10px; overflow-x: auto; font-family: 'Courier New', monospace; font-size: 0.9rem; margin: 16px 0; white-space: pre-wrap; word-break: break-word; }
+        .tag { display: inline-block; background: #dbeafe; color: #1e3a8a; padding: 2px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; margin-right: 6px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th { background: #1e293b; color: white; padding: 10px 14px; text-align: left; }
+        td { padding: 10px 14px; border-bottom: 1px solid #e2e8f0; }
+        .quiz-question { background: #f1f5f9; padding: 14px 18px; border-radius: 8px; margin: 12px 0; }
+        .answer { background: #ecfdf5; padding: 14px 18px; border-radius: 8px; border-left: 4px solid #22c55e; margin: 8px 0; }
+        .note { background: #fef3c7; padding: 12px 18px; border-radius: 8px; border-left: 4px solid #f59e0b; margin: 12px 0; }
+        .warning { background: #fecaca; padding: 12px 18px; border-radius: 8px; border-left: 4px solid #ef4444; margin: 12px 0; }
+        .flex-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        @media (max-width: 768px) { .flex-grid { grid-template-columns: 1fr; } .container { padding: 20px; } }
+        .toc { background: #f1f5f9; padding: 20px 24px; border-radius: 16px; margin-bottom: 30px; }
+        .toc a { color: #2563eb; text-decoration: none; display: inline-block; margin: 4px 12px 4px 0; }
+        .toc a:hover { text-decoration: underline; }
+        hr { margin: 40px 0; border: 0; border-top: 2px solid #e2e8f0; }
+        .mini-project { background: #eef2ff; padding: 16px 20px; border-radius: 12px; border-left: 6px solid #4f46e5; margin: 16px 0; }
+        .example-box { background: #f8fafc; padding: 16px 20px; border-radius: 12px; border: 1px solid #e2e8f0; margin: 12px 0; }
+        .bim-highlight { background: #dbeafe; padding: 12px 16px; border-radius: 8px; border-left: 4px solid #2563eb; margin: 12px 0; }
+        .footer { margin-top: 50px; padding-top: 20px; border-top: 2px solid #e2e8f0; text-align: center; color: #64748b; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+<div class="container">
+
+<h1>🧠 Advanced Prompt Engineering + BIM + AI Agent Masterclass</h1>
+<p><strong>Author:</strong> Expert AI Systems Architect &amp; BIM Automation Consultant</p>
+<p><strong>Format:</strong> Complete self-contained HTML learning system. All examples are production-oriented.</p>
+
+<div class="toc">
+    <h3>📑 Table of Contents</h3>
+    <a href="#section1">1. Prompt Combinations Analysis</a><br>
+    <a href="#section2">2. Complete Learning System (Levels 1–13)</a><br>
+    <a href="#section3">3. Prompt Library System</a><br>
+    <a href="#section4">4. Local AI Agent System</a><br>
+    <a href="#section5">5. ReAct Implementation</a><br>
+    <a href="#section6">6. Advanced Prompt Levels (7–13 Deep Dive)</a><br>
+    <a href="#section7">7. Multi-Agent AI System (Real Life)</a><br>
+    <a href="#closing">Closing</a>
+</div>
+
+<hr id="section1">
+
+<h2>1. Prompt Combinations Analysis</h2>
+<h3>How many combinations of prompts are possible from Level 1 to Level 13?</h3>
+<p><strong>Mathematical explanation:</strong></p>
+<p>Prompt engineering is not a fixed sequence; it is a composition of techniques. Each level represents a set of techniques. The number of combinations is the product of choices per level, assuming each level can be applied independently. However, many techniques are additive or can be mixed.</p>
+<p>Let’s define a simplified model: each level offers a set of <strong>primary techniques</strong>:</p>
+<ul>
+    <li><strong>Level 1:</strong> Role, Task, Constraints</li>
+    <li><strong>Level 2:</strong> Context Engineering (explicit + implicit)</li>
+    <li><strong>Level 3:</strong> Personas, Prime Directives</li>
+    <li><strong>Level 4:</strong> Structured Input (JSON, XML, Markdown)</li>
+    <li><strong>Level 5:</strong> Output structuring (length, tone, detail)</li>
+    <li><strong>Level 6:</strong> Few-shot / zero-shot examples</li>
+    <li><strong>Level 7:</strong> Reasoning strategies (CoT, ToT)</li>
+    <li><strong>Level 8:</strong> RAG, ReAct, Reflection</li>
+    <li><strong>Level 9:</strong> Prompt debugging &amp; optimization</li>
+    <li><strong>Level 10:</strong> AI Agents (single vs multi)</li>
+    <li><strong>Level 11:</strong> Model selection &amp; tuning</li>
+    <li><strong>Level 12:</strong> Enterprise prompting (governance, libraries)</li>
+    <li><strong>Level 13:</strong> Capstone integration</li>
+</ul>
+<p>Each technique can be combined with others. If we conservatively assume 2–4 variations per level, the number of possible combinations is in the thousands. For example:</p>
+<ul>
+    <li>Role × Task × Constraints (Level 1) = 3 independent choices</li>
+    <li>Adding Context Engineering (Level 2) multiplies by ~3</li>
+    <li>Adding Persona (Level 3) multiplies by ~4</li>
+    <li>Structured output (Level 5) multiplies by ~3</li>
+    <li>Etc.</li>
+</ul>
+<p>This leads to a combinatorial explosion. In practice, the <strong>conceptual combinations</strong> (distinct prompt architectures) are hundreds, but the <strong>actual instances</strong> are infinite because each prompt contains unique context and constraints.</p>
+
+<h3>Real use case examples of combinations:</h3>
+<ul>
+    <li><strong>BIM QA/QC Agent:</strong> Level 1 (Role=Senior QA) + Level 2 (ISO19650 context) + Level 3 (Prime Directive: never invent issues) + Level 4 (JSON input/output) + Level 6 (few-shot examples of violations) + Level 7 (CoT reasoning) + Level 8 (RAG for standards) + Level 10 (multi-agent with QA + validation) + Level 11 (Claude for reasoning, DeepSeek for extraction).</li>
+    <li><strong>Revit API code generation:</strong> Level 1 (Role=Revit expert) + Level 2 (Revit version) + Level 3 (defensive programming) + Level 5 (exact output: code only) + Level 6 (few-shot with similar methods) + Level 7 (ToT for alternative approaches) + Level 9 (debugging loop).</li>
+</ul>
+
+<hr id="section2">
+
+<h2>2. Complete Learning System (Levels 1–13)</h2>
+<p>Each level includes Concept, Examples, Mini Project, Quiz, and Answers. We present a condensed but comprehensive version for each level.</p>
+
+<!-- LEVEL 1 -->
+<div class="level-box">
+    <h3>📘 Level 1 – Prompt Fundamentals</h3>
+    <h4>Concept</h4>
+    <p>The three essential components: <strong>Role</strong> (who the AI is), <strong>Task</strong> (what to do), and <strong>Constraints</strong> (how to do it). The "Golden Rule": output quality mirrors input quality.</p>
+    <h4>BIM Example</h4>
+    <div class="example-box">
+        <strong>Role:</strong> "Act as a Senior BIM Coordinator."<br>
+        <strong>Task:</strong> "Generate a list of all sheets that have not been updated in the last 7 days."<br>
+        <strong>Constraints:</strong> "Output as a bulleted list. Only include sheets from the current project phase."
+    </div>
+    <h4>Mini Project</h4>
+    <div class="mini-project">
+        Write a prompt for a Revit API method that creates a new floor plan view. Include role, task, and at least three constraints (e.g., transaction handling, naming convention, error logging).
+    </div>
+    <h4>Quiz</h4>
+    <div class="quiz-question">1. What are the three core components of a well-structured prompt?</div>
+    <div class="quiz-question">2. Why is the "Golden Rule" critical for BIM automation?</div>
+    <h4>Answers</h4>
+    <div class="answer">1. Role, Task, Constraints.</div>
+    <div class="answer">2. Because the AI will faithfully follow your instructions; if they are ambiguous, the output will be wrong, leading to costly rework.</div>
+</div>
+
+<!-- LEVEL 2 -->
+<div class="level-box">
+    <h3>📘 Level 2 – Context Engineering</h3>
+    <h4>Concept</h4>
+    <p>Provide background information (project type, Revit version, company standards) to ground the AI. Use the <strong>funnel model</strong>: broad → specific → immediate.</p>
+    <h4>BIM Example</h4>
+    <div class="example-box">
+        <strong>Broad:</strong> "Hospital project, ISO 19650 compliant."<br>
+        <strong>Specific:</strong> "Revit 2025, Dynamo 2.19, company naming: DDDC_*."<br>
+        <strong>Immediate:</strong> "Sheets in Level 01 to 05, all disciplines."
+    </div>
+    <h4>Mini Project</h4>
+    <div class="mini-project">Write a prompt that includes a full context block for a sheet renaming script. Include project type, version, standards, and specific elements.</div>
+    <h4>Quiz</h4>
+    <div class="quiz-question">1. What is the funnel model?</div>
+    <div class="quiz-question">2. Why is explicit context better than implicit?</div>
+    <h4>Answers</h4>
+    <div class="answer">1. Organise context from broad to specific to immediate to avoid overwhelming the AI.</div>
+    <div class="answer">2. Implicit assumptions may be wrong; explicit context ensures the AI uses correct information.</div>
+</div>
+
+<!-- LEVEL 3 -->
+<div class="level-box">
+    <h3>📘 Level 3 – Prime Directives &amp; Persona Prompting</h3>
+    <h4>Concept</h4>
+    <p><strong>Prime Directive:</strong> An unbreakable rule (e.g., "Never invent APIs"). <strong>Persona:</strong> A rich identity with expertise, values, style, and cognitive traits.</p>
+    <h4>BIM Example</h4>
+    <div class="example-box">
+        <strong>Persona:</strong> "You are a Senior BIM Automation Architect with 20 years of experience in healthcare projects. You value safety, robustness, and clarity."<br>
+        <strong>Prime Directive:</strong> "Always validate inputs and use transactions with rollback."
+    </div>
+    <h4>Mini Project</h4>
+    <div class="mini-project">Define a persona and a prime directive for a QA/QC script that checks wall parameters.</div>
+    <h4>Quiz</h4>
+    <div class="quiz-question">1. What is the difference between a Role and a Persona?</div>
+    <div class="quiz-question">2. Where should Prime Directive be placed?</div>
+    <h4>Answers</h4>
+    <div class="answer">1. Role is functional; Persona adds mindset, values, and cognitive style.</div>
+    <div class="answer">2. At the very top of the System message.</div>
+</div>
+
+<!-- LEVEL 4 -->
+<div class="level-box">
+    <h3>📘 Level 4 – Structured Prompting</h3>
+    <h4>Concept</h4>
+    <p>Use JSON, XML, or Markdown to define input and output schemas. This reduces ambiguity and enables automation.</p>
+    <h4>BIM Example</h4>
+    <div class="example-box">
+        <strong>Input JSON:</strong> <code>{"task": "rename_sheets", "new_pattern": "{original}_v{index}"}</code><br>
+        <strong>Output JSON:</strong> <code>{"status": "success", "renamed": [...]}</code>
+    </div>
+    <h4>Mini Project</h4>
+    <div class="mini-project">Design a JSON schema for a script that extracts room data (name, number, area) from Revit.</div>
+    <h4>Quiz</h4>
+    <div class="quiz-question">1. Why is JSON preferred for automation?</div>
+    <div class="quiz-question">2. Should persona be inside the JSON structure? Why?</div>
+    <h4>Answers</h4>
+    <div class="answer">1. It is machine-readable, parsable, and supports nested data.</div>
+    <div class="answer">2. No, because persona defines behavior, not data; keep it in system message.</div>
+</div>
+
+<!-- LEVEL 5 -->
+<div class="level-box">
+    <h3>📘 Level 5 – Output Structuring &amp; Constraints</h3>
+    <h4>Concept</h4>
+    <p>Control length (max tokens), detail level (high-level vs deep), tone (professional, urgent), and exclusions.</p>
+    <h4>BIM Example</h4>
+    <div class="example-box">
+        <strong>Length:</strong> "Maximum 300 words."<br>
+        <strong>Detail:</strong> "Provide a high-level summary, not a detailed analysis."<br>
+        <strong>Exclusion:</strong> "Do not include code snippets."
+    </div>
+    <h4>Mini Project</h4>
+    <div class="mini-project">Write a prompt for a project status report with explicit constraints on length, structure, and tone.</div>
+    <h4>Quiz</h4>
+    <div class="quiz-question">1. What is the difference between soft and hard constraints?</div>
+    <div class="quiz-question">2. How can you enforce a word limit effectively?</div>
+    <h4>Answers</h4>
+    <div class="answer">1. Soft constraints are guidelines; hard constraints must be enforced (e.g., "If exceeded, the response is invalid").</div>
+    <div class="answer">2. Add a self-check rule: "Before finalising, count words and truncate if necessary."</div>
+</div>
+
+<!-- LEVEL 6 -->
+<div class="level-box">
+    <h3>📘 Level 6 – Few-Shot &amp; Zero-Shot Prompting</h3>
+    <h4>Concept</h4>
+    <p>Zero-shot: no examples; One-shot: one example; Few-shot: 3–5 examples that demonstrate the desired pattern.</p>
+    <h4>BIM Example</h4>
+    <div class="example-box">
+        <p><strong>Few-shot for clash classification:</strong></p>
+        <ul>
+            <li>Example 1: Structural column through MEP duct → Critical</li>
+            <li>Example 2: Architectural wall overlap with fire sprinkler → Medium</li>
+            <li>Example 3: Ceiling grid misaligned → Low</li>
+        </ul>
+    </div>
+    <h4>Mini Project</h4>
+    <div class="mini-project">Create a few-shot prompt for a Dynamo script that creates sheets from an Excel list. Provide 3 examples with different inputs.</div>
+    <h4>Quiz</h4>
+    <div class="quiz-question">1. When is few-shot better than zero-shot?</div>
+    <div class="quiz-question">2. How many examples are optimal?</div>
+    <h4>Answers</h4>
+    <div class="answer">1. When the task has a specific pattern or logic that is hard to describe in words.</div>
+    <div class="answer">2. 3–5 examples, covering edge cases.</div>
+</div>
+
+<!-- LEVEL 7 -->
+<div class="level-box">
+    <h3>📘 Level 7 – Reasoning Strategies (CoT, ToT, Self-Consistency)</h3>
+    <h4>Concept</h4>
+    <ul>
+        <li><strong>Chain of Thought (CoT):</strong> Step-by-step linear reasoning.</li>
+        <li><strong>Tree of Thoughts (ToT):</strong> Explore multiple reasoning paths.</li>
+        <li><strong>Self-Consistency:</strong> Generate multiple outputs and choose the most frequent.</li>
+    </ul>
+    <h4>BIM Example</h4>
+    <div class="example-box">
+        <p><strong>CoT prompt for clash resolution:</strong> "Step 1: Identify all clashes. Step 2: Categorise by severity. Step 3: Suggest resolutions. Step 4: Prioritise actions."</p>
+        <p><strong>ToT prompt:</strong> "Consider three strategies: priority-based, discipline-based, location-based. Evaluate pros/cons."</p>
+    </div>
+    <h4>Mini Project</h4>
+    <div class="mini-project">Write a CoT prompt for a script that validates sheet naming conventions. Include the reasoning steps.</div>
+    <h4>Quiz</h4>
+    <div class="quiz-question">1. What is the difference between CoT and ToT?</div>
+    <div class="quiz-question">2. Why is Self-Consistency valuable for code generation?</div>
+    <h4>Answers</h4>
+    <div class="answer">1. CoT is a single path; ToT explores multiple branches and selects the best.</div>
+    <div class="answer">2. It reduces hallucinations by verifying the output across multiple independent reasoning chains.</div>
+</div>
+
+<!-- LEVEL 8 -->
+<div class="level-box">
+    <h3>📘 Level 8 – Advanced Strategies (RAG, ReAct, Reflection)</h3>
+    <h4>Concept</h4>
+    <ul>
+        <li><strong>RAG:</strong> Retrieve external documents (ISO standards, API docs) to ground the AI.</li>
+        <li><strong>ReAct:</strong> Interleave reasoning with actions (tool calls).</li>
+        <li><strong>Reflection:</strong> Self-critique and iterative improvement.</li>
+    </ul>
+    <h4>BIM Example</h4>
+    <div class="example-box">
+        <p><strong>RAG:</strong> Include Revit 2025 API documentation in the prompt.</p>
+        <p><strong>ReAct:</strong> "Fetch all sheets, check parameters, modify names, and validate."</p>
+        <p><strong>Reflection:</strong> "Review the script for transaction handling and edge cases. If missing, fix."</p>
+    </div>
+    <h4>Mini Project</h4>
+    <div class="mini-project">Design a prompt that uses RAG to retrieve BIM standards and then generates a BEP section.</div>
+    <h4>Quiz</h4>
+    <div class="quiz-question">1. Why is RAG critical for Revit API code generation?</div>
+    <div class="quiz-question">2. How does Reflection improve output quality?</div>
+    <h4>Answers</h4>
+    <div class="answer">1. The AI may hallucinate outdated or incorrect API methods; RAG provides the exact documentation.</div>
+    <div class="answer">2. It forces the AI to identify and correct its own mistakes, leading to polished outputs.</div>
+</div>
+
+<!-- LEVEL 9 -->
+<div class="level-box">
+    <h3>📘 Level 9 – Prompt Debugging &amp; Optimization</h3>
+    <h4>Concept</h4>
+    <p>Systematic approach: D.E.B.U.G. – Define, Examine, Build, Update, Gauge. Test on simple and edge cases.</p>
+    <h4>BIM Example</h4>
+    <div class="example-box">
+        <p>If a script fails on duplicate sheet names, debug: Define (output error), Examine (prompt missing duplicate handling), Build (hypothesis: add rule), Update (add rule), Gauge (test).</p>
+    </div>
+    <h4>Mini Project</h4>
+    <div class="mini-project">Take a prompt you have written, intentionally break it, and use the D.E.B.U.G. framework to fix it.</div>
+    <h4>Quiz</h4>
+    <div class="quiz-question">1. What is the first step in D.E.B.U.G.?</div>
+    <div class="quiz-question">2. Why should you test on edge cases?</div>
+    <h4>Answers</h4>
+    <div class="answer">1. Define the symptom.</div>
+    <div class="answer">2. Because they expose weaknesses that happy-path tests miss.</div>
+</div>
+
+<!-- LEVEL 10 -->
+<div class="level-box">
+    <h3>📘 Level 10 – AI Agents</h3>
+    <h4>Concept</h4>
+    <p>Autonomous systems that have a goal, use tools, iterate (P.L.A.N. cycle: Plan, Act, Observe, Navigate). Single-agent vs multi-agent.</p>
+    <h4>BIM Example</h4>
+    <div class="example-box">
+        <p><strong>Single-agent:</strong> A script that generates a sheet schedule.</p>
+        <p><strong>Multi-agent:</strong> Developer (writes script) + QA (tests) + BIM Manager (validates compliance).</p>
+    </div>
+    <h4>Mini Project</h4>
+    <div class="mini-project">Design a multi-agent system for clash detection: Planner, Executor, Validator. Define their roles and communication flow.</div>
+    <h4>Quiz</h4>
+    <div class="quiz-question">1. What is the P.L.A.N. cycle?</div>
+    <div class="quiz-question">2. When is multi-agent preferable?</div>
+    <h4>Answers</h4>
+    <div class="answer">1. Plan, Act, Observe, Navigate.</div>
+    <div class="answer">2. When the task requires multiple expertise and cross-validation, e.g., QA/QC automation.</div>
+</div>
+
+<!-- LEVEL 11 -->
+<div class="level-box">
+    <h3>📘 Level 11 – Model Selection &amp; Tuning</h3>
+    <h4>Concept</h4>
+    <p>Match model to task: GPT-4 for reasoning, Claude for long context, DeepSeek for code, Gemini for multi-modal. Tune temperature, top-P, frequency penalty.</p>
+    <h4>BIM Example</h4>
+    <div class="example-box">
+        <p><strong>Code generation:</strong> DeepSeek, Temp 0.0, Max Tokens 2000.</p>
+        <p><strong>Report writing:</strong> Claude 3.5, Temp 0.3, Max Tokens 4000.</p>
+    </div>
+    <h4>Mini Project</h4>
+    <div class="mini-project">Given a budget of $50/month and need to generate 500 Dynamo scripts, propose a model selection strategy.</div>
+    <h4>Quiz</h4>
+    <div class="quiz-question">1. Why would you use a lower temperature for code?</div>
+    <div class="quiz-question">2. What is the trade-off between model capability and cost?</div>
+    <h4>Answers</h4>
+    <div class="answer">1. To ensure deterministic, correct code.</div>
+    <div class="answer">2. Higher capability models are more expensive; balance by using cheaper models for bulk and capable ones for validation.</div>
+</div>
+
+<!-- LEVEL 12 -->
+<div class="level-box">
+    <h3>📘 Level 12 – Enterprise Prompting</h3>
+    <h4>Concept</h4>
+    <p>Scale AI across teams with a prompt library, standards, governance, cost tracking, and training. Treat prompts as code: versioned, reviewed, and tested.</p>
+    <h4>BIM Example</h4>
+    <div class="example-box">
+        <p><strong>Prompt Library:</strong> Categories: Revit API, Dynamo, Reports, QA/QC.</p>
+        <p><strong>Governance:</strong> Only senior members can edit templates; all outputs are validated.</p>
+    </div>
+    <h4>Mini Project</h4>
+    <div class="mini-project">Design a prompt library structure for a BIM team of 50. Include categories, templates, and review workflow.</div>
+    <h4>Quiz</h4>
+    <div class="quiz-question">1. What is the benefit of treating prompts as code?</div>
+    <div class="quiz-question">2. Name three components of an enterprise prompting system.</div>
+    <h4>Answers</h4>
+    <div class="answer">1. It enables version control, testing, and auditing.</div>
+    <div class="answer">2. Prompt library, governance, cost tracking.</div>
+</div>
+
+<!-- LEVEL 13 -->
+<div class="level-box">
+    <h3>📘 Level 13 – Capstone Integration</h3>
+    <h4>Concept</h4>
+    <p>Synthesize all techniques into a production-ready system. Example: BIM QA/QC Automation Agent with multi-agent architecture, RAG, structured outputs, etc.</p>
+    <h4>BIM Example</h4>
+    <div class="example-box">
+        <p>Complete system: Data Extraction → QA Analysis → Report Generation → Validation. Each agent uses appropriate prompts, context, and models.</p>
+    </div>
+    <h4>Mini Project</h4>
+    <div class="mini-project">Define a capstone project for a Revit model checker. Include all components from level 1 to 12.</div>
+    <h4>Quiz</h4>
+    <div class="quiz-question">1. Why is capstone integration important?</div>
+    <div class="quiz-question">2. What is the most critical success factor?</div>
+    <h4>Answers</h4>
+    <div class="answer">1. It ensures that techniques work together seamlessly.</div>
+    <div class="answer">2. Clear requirements and systematic testing.</div>
+</div>
+
+<hr id="section3">
+
+<h2>3. Prompt Library System</h2>
+<h3>Building an Automatic Prompt Library</h3>
+<p>A prompt library centralises reusable templates, versioning, tagging, and search.</p>
+
+<h4>JSON-based storage</h4>
+<div class="code-block">{
+  "id": "revit_wall_creator_v1",
+  "level": 7,
+  "category": "Revit API",
+  "tags": ["wall", "c#", "revit 2025"],
+  "prompt": "Act as a Senior Revit API Developer...",
+  "expected_output": "C# method that creates a wall using Transaction...",
+  "version": "1.2",
+  "created": "2025-01-15",
+  "author": "BIM_Team",
+  "usage_count": 42
+}
+</div>
+
+<h4>Markdown-based system</h4>
+<p>Use front-matter in Markdown files:</p>
+<div class="code-block">---
+id: revit_wall_creator
+level: 7
+category: Revit API
+tags: [wall, c#]
+---
+# Prompt
+Act as ...
+</div>
+
+<h4>Hybrid system (JSON + Markdown + Database)</h4>
+<ul>
+    <li>Store metadata in JSON or database (PostgreSQL, MongoDB) for fast search.</li>
+    <li>Store the actual prompt in Markdown for readability and version control (Git).</li>
+    <li>Index tags, categories, and usage metrics.</li>
+</ul>
+
+<h4>Versioning</h4>
+<p>Use Git for version control, or a simple version field in JSON. Each change increments the version (e.g., v1.0, v1.1). Tag releases.</p>
+
+<h4>Tagging</h4>
+<p>Tags: BIM, Revit, API, Dynamo, QAQC, Python, C#, Reports, Coordination, etc. Use hierarchical tags (e.g., Revit.API, Revit.Dynamo).</p>
+
+<h4>Search</h4>
+<p>Implement full-text search on prompt content and metadata. Use Elasticsearch or simple SQL LIKE queries. For large libraries, use embeddings for semantic search.</p>
+
+<h4>Sample search query (SQL)</h4>
+<div class="code-block">SELECT * FROM prompts WHERE tags @> ARRAY['Revit API'] AND level >= 5 ORDER BY usage_count DESC;
+</div>
+
+<hr id="section4">
+
+<h2>4. Local AI Agent System</h2>
+<h3>Can we train a local AI agent?</h3>
+<p>Yes, you can run a local LLM (e.g., Llama 3, Mistral) using Ollama, LM Studio, or vLLM. You cannot easily train a model from scratch without massive resources, but you can fine-tune or use RAG to specialise. A local agent can perform many tasks offline with privacy.</p>
+
+<h4>Tools needed:</h4>
+<ul>
+    <li><strong>Model runner:</strong> Ollama, LM Studio, or llama.cpp.</li>
+    <li><strong>Orchestration:</strong> LangChain or similar for agent workflows.</li>
+    <li><strong>Memory:</strong> Vector database (Chroma, FAISS) for RAG and conversation memory.</li>
+    <li><strong>Tool calling:</strong> Define tools (e.g., Revit API via Python) and use function calling in the model.</li>
+</ul>
+
+<h4>Architecture of a local AI agent system:</h4>
+<ul>
+    <li><strong>User Interface:</strong> Web UI or CLI.</li>
+    <li><strong>Agent Core:</strong> LangChain Agent with tools, memory, and a local LLM.</li>
+    <li><strong>Tool Layer:</strong> Python scripts that call Dynamo, Revit API, file I/O.</li>
+    <li><strong>RAG Layer:</strong> Embed documents (BEP, standards) into a vector DB and retrieve context.</li>
+    <li><strong>Memory:</strong> Short-term (conversation history) and long-term (user preferences, project data).</li>
+</ul>
+
+<h4>Memory system:</h4>
+<ul>
+    <li><strong>Short-term:</strong> Keep last N messages in context window.</li>
+    <li><strong>Long-term:</strong> Store summaries in a vector DB for retrieval when relevant.</li>
+</ul>
+
+<h4>Tool calling system:</h4>
+<ul>
+    <li>Define a tool with name, description, and parameters (JSON schema).</li>
+    <li>The agent decides to call a tool, the system executes it, and returns the result to the agent.</li>
+    <li>Example: <code>get_revit_sheets(level="L01")</code> returns a list of sheets.</li>
+</ul>
+
+<h4>RAG integration:</h4>
+<ul>
+    <li>Load documents (PDF, Word, HTML) into a vector store.</li>
+    <li>When the user asks a question, retrieve relevant chunks and inject them into the prompt.</li>
+    <li>This grounds the local model in specific knowledge without fine-tuning.</li>
+</ul>
+
+<h4>Text architecture description:</h4>
+<p>The local agent consists of a LangChain agent with a local LLM (Ollama). It has access to tools for Revit operations (via pyRevit or Revit API). It also has a vector database (Chroma) containing company BIM standards. The agent plans actions, calls tools, observes results, and iterates. Memory is maintained in a conversation buffer and summarised into the vector store for long-term recall.</p>
+
+<hr id="section5">
+
+<h2>5. ReAct Implementation in Real Projects</h2>
+<h3>What is ReAct?</h3>
+<p>ReAct = <strong>Reason</strong> + <strong>Act</strong> + <strong>Observation</strong>. The agent interleaves thinking (reasoning) with actions (tool calls) and observes the outcome to decide the next step.</p>
+
+<h3>How to implement in real BIM/coding projects</h3>
+<ol>
+    <li><strong>Define the task</strong> (e.g., "Rename all sheets in Revit with a new pattern").</li>
+    <li><strong>Set up tools</strong> (e.g., Python functions to get sheets, rename sheets, log).</li>
+    <li><strong>Create a system prompt</strong> that instructs the agent to reason and act.</li>
+    <li><strong>Loop:</strong> For each step, the agent produces a thought, an action (tool call), and then observes the result.</li>
+    <li><strong>Iterate</strong> until the goal is reached or a failure occurs.</li>
+</ol>
+
+<h3>Step-by-step workflow for Revit automation</h3>
+<div class="example-box">
+    <p><strong>User:</strong> "Rename all sheets to include the level name prefix."</p>
+    <p><strong>Agent Thought:</strong> "I need to fetch all sheets, get their level, and rename them."</p>
+    <p><strong>Action:</strong> <code>get_all_sheets()</code> → returns list of sheets.</p>
+    <p><strong>Observation:</strong> "Received 120 sheets."</p>
+    <p><strong>Thought:</strong> "For each sheet, I need to read the level property and rename."</p>
+    <p><strong>Action:</strong> <code>rename_sheet(sheet_id, new_name)</code> for each sheet.</p>
+    <p><strong>Observation:</strong> "Successfully renamed 120 sheets."</p>
+    <p><strong>Thought:</strong> "Task complete. Generate report."</p>
+    <p><strong>Action:</strong> <code>generate_report()</code></p>
+</div>
+
+<h3>Example prompt for ReAct:</h3>
+<div class="code-block">You are a BIM automation agent. You have tools: get_sheets(), rename_sheet(id, new_name), log_result().
+For each task, think step by step, then choose an action. After each action, observe the result and continue.
+Task: Rename all sheets to include 'Level_{level}_' prefix.
+Begin.
+</div>
+
+<hr id="section6">
+
+<h2>6. Advanced Prompt Levels (7–13 Deep Dive)</h2>
+
+<h3>Level 7 – Reasoning (CoT/ToT)</h3>
+<p><strong>Use Case:</strong> Clash detection classification. Prompt: "Step 1: Extract all clashes. Step 2: For each, check if it is structural-MEP or MEP-arch. Step 3: Assign priority. Step 4: Suggest resolution."</p>
+<p><strong>Failure:</strong> Missing steps or skipping verification. <strong>Optimization:</strong> Add self-consistency: generate three different CoT paths and pick the most consistent.</p>
+
+<h3>Level 8 – RAG/ReAct/Reflection</h3>
+<p><strong>Use Case:</strong> Generate a BEP using ISO 19650. RAG to retrieve clauses; ReAct to call a document retrieval tool; Reflection to review the draft against requirements.</p>
+<p><strong>Failure:</strong> Outdated retrieval. <strong>Optimization:</strong> Version your knowledge base and tag documents with dates.</p>
+
+<h3>Level 9 – Debugging</h3>
+<p><strong>Use Case:</strong> A Dynamo script fails on empty sheets. Use D.E.B.U.G. to isolate the issue and fix the prompt.</p>
+<p><strong>Failure:</strong> Changing too many variables at once. <strong>Optimization:</strong> Test one change at a time.</p>
+
+<h3>Level 10 – AI Agents</h3>
+<p><strong>Use Case:</strong> Multi-agent system for QA/QC: Planner agent breaks down the model check, Executor runs checks, Validator verifies results.</p>
+<p><strong>Failure:</strong> Agent miscommunication. <strong>Optimization:</strong> Use structured JSON for communication between agents.</p>
+
+<h3>Level 11 – Model Selection</h3>
+<p><strong>Use Case:</strong> Use Claude 3.5 for reasoning about clashes (large context) and DeepSeek for code generation. <strong>Failure:</strong> Using Claude for bulk code generation (expensive). <strong>Optimization:</strong> Route based on task type.</p>
+
+<h3>Level 12 – Enterprise</h3>
+<p><strong>Use Case:</strong> Central prompt library with version control and approval workflow. <strong>Failure:</strong> No governance leads to inconsistent prompts. <strong>Optimization:</strong> Implement peer review and automated testing of new prompts.</p>
+
+<h3>Level 13 – Capstone</h3>
+<p><strong>Use Case:</strong> Full BIM QA/QC system. <strong>Failure:</strong> Integration issues. <strong>Optimization:</strong> Use contract testing between agents.</p>
+
+<hr id="section7">
+
+<h2>7. Multi-Agent AI System (Real Life)</h2>
+<h3>Concept</h3>
+<p>A multi-agent system consists of multiple AI agents, each with a specialised role. They communicate via structured messages (JSON) and collaborate to complete complex tasks.</p>
+
+<h3>Roles in a BIM automation pipeline</h3>
+<ul>
+    <li><strong>Planner Agent:</strong> Breaks down the user request into a sequence of tasks.</li>
+    <li><strong>Code Agent:</strong> Generates code (e.g., Dynamo script, Revit API C#).</li>
+    <li><strong>QA Agent:</strong> Tests the code against test cases and edge cases.</li>
+    <li><strong>BIM Validation Agent:</strong> Ensures the output complies with BIM standards (ISO 19650, naming, etc.).</li>
+</ul>
+
+<h3>Communication flow</h3>
+<div class="example-box">
+    <ol>
+        <li>User provides a high-level goal.</li>
+        <li>Planner Agent creates a plan (list of subtasks).</li>
+        <li>Code Agent executes each subtask, producing code snippets.</li>
+        <li>QA Agent runs tests on the code; if fails, sends feedback to Code Agent.</li>
+        <li>BIM Validation Agent checks the final output against standards; if issues, sends back to Code Agent.</li>
+        <li>Final output is delivered to the user.</li>
+    </ol>
+</div>
+
+<h3>Real-world BIM automation pipeline</h3>
+<ul>
+    <li>User: "Create a sheet schedule with all sheets that have revisions."</li>
+    <li>Planner: "Step 1: Extract sheets. Step 2: Filter by revision. Step 3: Format as CSV. Step 4: Output."</li>
+    <li>Code Agent: Generates Dynamo script to do the above.</li>
+    <li>QA Agent: Tests with sample sheets; validates output format.</li>
+    <li>BIM Validation: Checks sheet naming convention; if fails, requests correction.</li>
+    <li>Final script is delivered.</li>
+</ul>
+
+<h3>Implementation tips</h3>
+<ul>
+    <li>Use a message broker or simple queue for inter-agent communication.</li>
+    <li>Each agent has its own system prompt and can call tools.</li>
+    <li>Keep communication structured (JSON) to avoid parsing errors.</li>
+</ul>
+
+<hr id="closing">
+
+<h2>✅ Closing Instruction</h2>
+<p>Thank you for teaching. Now do following steps as instructed and generate the full structured HTML output.</p>
+
+<div class="footer">
+    <p>© 2026 Advanced Prompt Engineering + BIM + AI Agent Masterclass. All rights reserved.</p>
+    <p>This document is a complete learning system. Use it offline for training and reference.</p>
+</div>
+
+</div>
+</body>
+</html>

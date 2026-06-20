@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level 4 — Expert Knowledge: Structured Prompting</title>
+    <style>
+        /* ── Reset & Base ── */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #f1f5f9;
+            color: #0f172a;
+            line-height: 1.6;
+            padding: 30px 20px;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 45px 55px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+        }
+        h1 {
+            font-size: 2.4rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: #0f172a;
+            border-bottom: 4px solid #f59e0b;
+            padding-bottom: 12px;
+            margin-bottom: 6px;
+        }
+        .doc-subtitle {
+            font-size: 1.05rem;
+            color: #475569;
+            margin-bottom: 28px;
+            border-left: 4px solid #f59e0b;
+            padding-left: 18px;
+            background: #f8fafc;
+            padding: 12px 20px;
+            border-radius: 8px;
+        }
+        h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-top: 38px;
+            margin-bottom: 14px;
+            color: #0f172a;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 6px;
+        }
+        h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 24px;
+            margin-bottom: 8px;
+            color: #1e293b;
+        }
+        h4 {
+            font-size: 1.0rem;
+            font-weight: 600;
+            margin-top: 18px;
+            margin-bottom: 4px;
+            color: #334155;
+        }
+        p {
+            margin-bottom: 14px;
+        }
+        ul,
+        ol {
+            margin: 10px 0 16px 24px;
+        }
+        li {
+            margin-bottom: 6px;
+        }
+        .card {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 18px 22px;
+            margin: 16px 0;
+            border-left: 5px solid #94a3b8;
+        }
+        .card.blue {
+            border-left-color: #3b82f6;
+            background: #eff6ff;
+        }
+        .card.green {
+            border-left-color: #22c55e;
+            background: #f0fdf4;
+        }
+        .card.amber {
+            border-left-color: #f59e0b;
+            background: #fffbeb;
+        }
+        .card.red {
+            border-left-color: #ef4444;
+            background: #fef2f2;
+        }
+        .card.purple {
+            border-left-color: #8b5cf6;
+            background: #f5f3ff;
+        }
+        .card.teal {
+            border-left-color: #14b8a6;
+            background: #f0fdfa;
+        }
+        .callout {
+            padding: 14px 20px;
+            border-radius: 10px;
+            margin: 16px 0;
+            font-weight: 500;
+        }
+        .callout.info {
+            background: #dbeafe;
+            color: #1e3a8a;
+        }
+        .callout.warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        .callout.danger {
+            background: #fecaca;
+            color: #991b1b;
+        }
+        .callout.success {
+            background: #bbf7d0;
+            color: #166534;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0 20px;
+            font-size: 0.95rem;
+        }
+        th {
+            background: #1e293b;
+            color: #f8fafc;
+            padding: 10px 14px;
+            text-align: left;
+            font-weight: 600;
+        }
+        td {
+            padding: 10px 14px;
+            border-bottom: 1px solid #e2e8f0;
+            vertical-align: top;
+        }
+        tr:nth-child(even) {
+            background: #f8fafc;
+        }
+        tr:hover {
+            background: #f1f5f9;
+        }
+        .code-block {
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 16px 22px;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            font-size: 0.88rem;
+            overflow-x: auto;
+            margin: 14px 0;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        .code-block .comment {
+            color: #94a3b8;
+        }
+        .code-block .keyword {
+            color: #c084fc;
+        }
+        .code-block .string {
+            color: #34d399;
+        }
+        .code-block .function {
+            color: #60a5fa;
+        }
+        .code-block .number {
+            color: #fbbf24;
+        }
+        .inline-code {
+            background: #e2e8f0;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        .tag {
+            display: inline-block;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .tag.bad {
+            background: #fecaca;
+            color: #991b1b;
+        }
+        .tag.good {
+            background: #fde68a;
+            color: #92400e;
+        }
+        .tag.expert {
+            background: #93c5fd;
+            color: #1e3a5f;
+        }
+        .tag.production {
+            background: #6ee7b7;
+            color: #064e3b;
+        }
+        .tag.master {
+            background: #c4b5fd;
+            color: #4c1d95;
+        }
+        .prompt-ladder {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 16px 0;
+        }
+        .prompt-item {
+            padding: 14px 20px;
+            border-radius: 10px;
+            border-left: 6px solid;
+        }
+        .prompt-item.bad {
+            background: #fef2f2;
+            border-color: #ef4444;
+        }
+        .prompt-item.good {
+            background: #fffbeb;
+            border-color: #f59e0b;
+        }
+        .prompt-item.expert {
+            background: #eff6ff;
+            border-color: #3b82f6;
+        }
+        .prompt-item.production {
+            background: #ecfdf5;
+            border-color: #10b981;
+        }
+        .prompt-item.master {
+            background: #f5f3ff;
+            border-color: #8b5cf6;
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+        }
+        @media (max-width: 760px) {
+            .grid-2,
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+            .container {
+                padding: 24px 18px;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+        .mermaid {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            white-space: pre;
+            overflow-x: auto;
+            margin: 16px 0;
+            border: 1px solid #e2e8f0;
+        }
+        .hr-divider {
+            border: 0;
+            height: 2px;
+            background: linear-gradient(to right, #e2e8f0, #94a3b8, #e2e8f0);
+            margin: 30px 0;
+        }
+        .small {
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+        details {
+            margin: 12px 0;
+            padding: 10px 16px;
+            background: #f8fafc;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+        }
+        details summary {
+            font-weight: 600;
+            cursor: pointer;
+            color: #1e293b;
+        }
+        details summary:hover {
+            color: #f59e0b;
+        }
+        details .content {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #e2e8f0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- ============================================= -->
+        <!-- 1. EXECUTIVE SUMMARY                         -->
+        <!-- ============================================= -->
+        <h1>📐 Level 4 — Structured Prompting</h1>
+        <div class="doc-subtitle">
+            <strong>Permanent Knowledge Base</strong> &bull; BIM Automation Specialist &bull; Precision Through Structure
+        </div>
+
+        <div class="card amber">
+            <h3 style="margin-top:0;">📌 Executive Summary</h3>
+            <p>
+                <strong>Structured Prompting</strong> is the practice of using formal, machine-readable formats
+                (JSON, XML, Markdown, YAML) to organise your instructions and define the AI's output format.
+            </p>
+            <p>
+                The core principle is: <strong>Structured Input = Structured Output.</strong> When you provide
+                a clearly defined schema, the AI produces a response that fits that schema perfectly—enabling
+                direct parsing, automation, and integration with BIM tools.
+            </p>
+            <p>
+                <strong>Key Insight:</strong> For BIM professionals, structured prompting is the bridge between
+                human intent and machine execution. It transforms AI from a conversation partner into an
+                automation engine that can be safely integrated into Dynamo scripts, Revit API plugins,
+                and project management pipelines.
+            </p>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 2. LEARNING HIGHLIGHTS                       -->
+        <!-- ============================================= -->
+        <h2>📚 Learning Highlights</h2>
+        <div class="grid-2">
+            <div class="card">
+                <strong>🔹 Structured Input = Structured Output</strong>
+                <ul>
+                    <li>Precise formats reduce ambiguity</li>
+                    <li>AI responds in predictable structures</li>
+                    <li>Enables automation and parsing</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>🔹 Key Formats</strong>
+                <ul>
+                    <li><strong>JSON:</strong> Data exchange, APIs, configuration</li>
+                    <li><strong>XML:</strong> Complex documents, IFC, COBie</li>
+                    <li><strong>Markdown:</strong> Human-readable instructions, structured prose</li>
+                    <li><strong>YAML:</strong> Configuration files</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>🔹 The S.C.H.E.M.A. Framework</strong>
+                <ul>
+                    <li>S - Specify format</li>
+                    <li>C - Define Constraints</li>
+                    <li>H - Handle edge cases</li>
+                    <li>E - Provide Example</li>
+                    <li>M - Make parsable</li>
+                    <li>A - Ask for validation</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>🔹 Production Benefits</strong>
+                <ul>
+                    <li>Automation-ready outputs</li>
+                    <li>Standardised reporting</li>
+                    <li>Reduced token usage (efficient)</li>
+                    <li>Built-in error handling (status fields)</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 3. KEY CONCEPTS                              -->
+        <!-- ============================================= -->
+        <h2>🧩 Key Concepts</h2>
+
+        <h3>1. Structured Input</h3>
+        <p>
+            <strong>Definition:</strong> Using JSON, XML, or YAML to define your instructions, context, and constraints.
+            This removes ambiguity and tells the AI exactly what information you are providing and where.
+        </p>
+        <div class="callout info">
+            <strong>💡 Example:</strong> Instead of "We use Revit 2025," you write
+            <code>"revit_version": "2025"</code>. This is unambiguous and parsable.
+        </div>
+
+        <h3>2. Structured Output</h3>
+        <p>
+            <strong>Definition:</strong> Defining a precise schema for the AI's response. This ensures the output
+            is complete, consistent, and ready for machine processing.
+        </p>
+        <div class="callout info">
+            <strong>💡 Example:</strong> Including a <code>"status": "success"</code> field allows your automation
+            pipeline to check the result without parsing natural language.
+        </div>
+
+        <h3>3. The S.C.H.E.M.A. Framework</h3>
+        <table>
+            <thead>
+                <tr><th>Letter</th><th>Meaning</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>S</strong></td><td>Specify</td><td>Exact format (JSON, XML, Markdown)</td></tr>
+                <tr><td><strong>C</strong></td><td>Constraints</td><td>Required fields, types, limits</td></tr>
+                <tr><td><strong>H</strong></td><td>Handle</td><td>Edge cases (nulls, missing values)</td></tr>
+                <tr><td><strong>E</strong></td><td>Example</td><td>Provide a sample output</td></tr>
+                <tr><td><strong>M</strong></td><td>Make parsable</td><td>Avoid prose inside structured data</td></tr>
+                <tr><td><strong>A</strong></td><td>Ask for validation</td><td>Include a "validation" field or self-check</td></tr>
+            </tbody>
+        </table>
+
+        <h3>4. Separation of Concerns: System vs. Data</h3>
+        <p>
+            <strong>Prime Directives and Personas</strong> belong in the <strong>System message</strong>.
+            <strong>Task data and schemas</strong> belong in the <strong>User message</strong> (often in JSON).
+            This separation ensures that behavior rules are always enforceable and not confused with data.
+        </p>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 4. EXPERT MENTAL MODEL                       -->
+        <!-- ============================================= -->
+        <h2>🧠 Expert Mental Model</h2>
+
+        <div class="card purple">
+            <h4 style="margin-top:0;">🧩 Mental Model: The Architect's Blueprint</h4>
+            <p>
+                Imagine you are an architect issuing a construction drawing. You don't write a paragraph describing
+                a wall. You draw it to scale, with dimensions, annotations, and a legend. You use a standardised
+                system of lines and symbols that every contractor understands.
+            </p>
+            <p>
+                Structured prompting is the same. You are providing the AI with a <strong>"blueprint"</strong>
+                (the input schema) and asking for a <strong>"construction document"</strong> (the output schema)
+                that adheres to strict industry standards.
+            </p>
+        </div>
+
+        <h3>How an Expert Thinks</h3>
+        <ul>
+            <li><strong>Design for Parsing:</strong> "If I receive this JSON, can I parse it in C# in under 10 lines of code?"</li>
+            <li><strong>Validate Everything:</strong> "I will include a `status` and `message` field to catch errors."</li>
+            <li><strong>Separate Behavior from Data:</strong> "The Prime Directive is the *law*. The JSON is the *plan*."</li>
+            <li><strong>Provide Examples:</strong> "A single example is worth 10 lines of description."</li>
+        </ul>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 5. HIDDEN KNOWLEDGE                          -->
+        <!-- ============================================= -->
+        <h2>🔮 Hidden Knowledge (Rarely Written in Tutorials)</h2>
+
+        <div class="grid-2">
+            <div class="card teal">
+                <strong>🎯 The "Status Field" Strategy</strong>
+                <p>Always request a <code>status</code> and <code>message</code> field in your JSON output.
+                This allows your automation pipeline to handle errors gracefully without human intervention.</p>
+            </div>
+            <div class="card teal">
+                <strong>🎯 Markdown for Instruction, JSON for Data</strong>
+                <p>Use Markdown for the prose (context, persona) and JSON for the structured data (schemas, constraints).
+                This gives the AI a clear separation between *how to think* and *what to produce*.</p>
+            </div>
+            <div class="card teal">
+                <strong>🎯 The "Example Output" Power Move</strong>
+                <p>Including a sample output in your prompt is the single most effective way to guarantee format
+                compliance. The AI will mimic the example structure almost exactly.</p>
+            </div>
+            <div class="card teal">
+                <strong>🎯 JSON Schema as Documentation</strong>
+                <p>Your JSON schema becomes the *contract* between you and the AI. It documents the exact
+                shape of data you expect, making it easy to test and validate.</p>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 6. BEGINNER MISTAKES                         -->
+        <!-- ============================================= -->
+        <h2>⚠️ Beginner Mistakes</h2>
+        <table>
+            <thead>
+                <tr><th>Mistake</th><th>Consequence</th><th>How to Avoid</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Invalid JSON/XML syntax</strong></td>
+                    <td>AI fails to parse your instruction</td>
+                    <td>Use validators; write clean structures</td>
+                </tr>
+                <tr>
+                    <td><strong>Mixing formats without separation</strong></td>
+                    <td>AI gets confused about instruction vs. data</td>
+                    <td>Use clear delimiters (e.g., "Here is the schema:")</td>
+                </tr>
+                <tr>
+                    <td><strong>Over-structuring</strong></td>
+                    <td>Prompt becomes too long and rigid</td>
+                    <td>Balance: define critical fields, allow flexibility</td>
+                </tr>
+                <tr>
+                    <td><strong>Under-structuring</strong></td>
+                    <td>AI invents its own output structure</td>
+                    <td>Always define the output schema explicitly</td>
+                </tr>
+                <tr>
+                    <td><strong>Putting Personas inside JSON</strong></td>
+                    <td>Behavior rules mix with data, reducing enforceability</td>
+                    <td>Keep Personas and Prime Directives in System message</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 7. THINGS PEOPLE USUALLY SKIP               -->
+        <!-- ============================================= -->
+        <h2>📌 Things People Usually Skip (But Experts Don't)</h2>
+        <div class="grid-2">
+            <div class="card">
+                <strong>🔸 The "Schema Validation" Request</strong>
+                <p>Ask the AI to validate its own JSON against the schema before outputting. This catches errors
+                before they reach your pipeline.</p>
+            </div>
+            <div class="card">
+                <strong>🔸 The "Null Handling" Rule</strong>
+                <p>Always specify what happens if a value is missing. Should it be `null`? A default value? Skipped?</p>
+            </div>
+            <div class="card">
+                <strong>🔸 The "Token Efficiency" Mindset</strong>
+                <p>Structured JSON is often more token-efficient than prose descriptions. Use it to save costs
+                and reduce latency.</p>
+            </div>
+            <div class="card">
+                <strong>🔸 The "Integration Ready" Design</strong>
+                <p>Design your output schema to match the input schema of your target system (e.g., Dynamo,
+                Excel, Power BI). This eliminates transformation steps.</p>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 8. CRITICAL THINKING CHALLENGES             -->
+        <!-- ============================================= -->
+        <h2>🧩 Critical Thinking Challenges</h2>
+
+        <details>
+            <summary><strong>Challenge 1: The Unstructured Client</strong></summary>
+            <div class="content">
+                <p><strong>Scenario:</strong> A client sends you a messy Word document with requirements.
+                You need to convert this into a structured prompt for the AI.</p>
+                <p><strong>Question:</strong> How would you extract and organise the information into a JSON schema
+                for the AI?</p>
+                <details>
+                    <summary><strong>🔍 Expert Reasoning</strong></summary>
+                    <div class="content">
+                        <p><strong>Process:</strong></p>
+                        <ol>
+                            <li>Identify the core task (e.g., "Generate a wall schedule").</li>
+                            <li>Extract key data points (e.g., wall types, parameters).</li>
+                            <li>Define a JSON schema: <code>{"task": "generate_schedule", "parameters": [{"name": "string", "type": "string"}]}</code>.</li>
+                            <li>Use the schema to "templatise" the client's requirements.</li>
+                            <li>Provide the schema to the AI, filling in the gaps with the extracted data.</li>
+                        </ol>
+                        <p>This turns a messy document into a precise, actionable prompt.</p>
+                    </div>
+                </details>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Challenge 2: The Mixed Audience</strong></summary>
+            <div class="content">
+                <p><strong>Scenario:</strong> You need a report that is both human-readable and machine-parsable.</p>
+                <p><strong>Question:</strong> How would you structure your prompt to generate both Markdown (for humans)
+                and JSON (for machines) in a single response?</p>
+                <details>
+                    <summary><strong>🔍 Expert Reasoning</strong></summary>
+                    <div class="content">
+                        <p><strong>Solution:</strong></p>
+                        <ul>
+                            <li>Ask for a response that contains both a Markdown section and a JSON block.</li>
+                            <li>Use clear delimiters: "Here is the Markdown report: ..." and "Here is the JSON data: ..."</li>
+                            <li>Define both schemas in the prompt.</li>
+                            <li>Example: <code>"Output Format: 1. Markdown report for review. 2. JSON array for integration."</code></li>
+                        </ul>
+                        <p>This gives you the best of both worlds: readability and automation.</p>
+                    </div>
+                </details>
+            </div>
+        </details>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 9. PRACTICAL WORKFLOW                        -->
+        <!-- ============================================= -->
+        <h2>🔄 Practical Workflow: Structured Prompting</h2>
+
+        <div class="mermaid">
+1. DEFINE THE TASK
+   └── What is the core objective? (e.g., "Export sheet data")
+
+2. DESIGN THE INPUT SCHEMA
+   └── What data does the AI need?
+         └── JSON/XML with fields, types, constraints
+
+3. DESIGN THE OUTPUT SCHEMA
+   └── What data should the AI return?
+         └── Include status, message, and data fields
+
+4. PROVIDE CONTEXT (Persona, Prime Directive)
+   └── Place in System message, separate from schemas
+
+5. PROVIDE AN EXAMPLE
+   └── Show the AI exactly what a successful output looks like
+
+6. ASK FOR VALIDATION
+   └── "Validate your JSON against the schema before outputting."
+        </div>
+
+        <div class="callout info">
+            <strong>💡 Expert Checkpoint:</strong> If your automation pipeline can parse the AI's output
+            without human intervention, your structured prompting is production-ready.
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 10. EXECUTION CHECKLIST                      -->
+        <!-- ============================================= -->
+        <h2>✅ Execution Checklist</h2>
+
+        <div class="grid-2">
+            <div class="card blue">
+                <strong>📋 Input Schema</strong>
+                <ul>
+                    <li>☐ Is the format specified (JSON/XML/Markdown)?</li>
+                    <li>☐ Are all fields defined with types?</li>
+                    <li>☐ Are constraints (min/max, required) defined?</li>
+                </ul>
+            </div>
+            <div class="card blue">
+                <strong>📋 Output Schema</strong>
+                <ul>
+                    <li>☐ Is the output format specified?</li>
+                    <li>☐ Are `status` and `message` fields included?</li>
+                    <li>☐ Is there an example output?</li>
+                </ul>
+            </div>
+            <div class="card green">
+                <strong>📋 Before Running</strong>
+                <ul>
+                    <li>☐ Are Persona and Prime Directive separate from the JSON?</li>
+                    <li>☐ Is the JSON valid?</li>
+                    <li>☐ Is there a clear example?</li>
+                </ul>
+            </div>
+            <div class="card green">
+                <strong>📋 After Running</strong>
+                <ul>
+                    <li>☐ Did the AI follow the schema?</li>
+                    <li>☐ Is the `status` field correct?</li>
+                    <li>☐ Can you parse the output in your target system?</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 11. RULES TO ALWAYS REMEMBER                -->
+        <!-- ============================================= -->
+        <h2>📜 Rules to Always Remember</h2>
+        <div class="grid-2">
+            <div class="card green">
+                <strong>🏆 Golden Rules</strong>
+                <ul>
+                    <li><strong>Structured Input = Structured Output.</strong></li>
+                    <li><strong>Separate Behavior from Data.</strong> Personas in System, JSON in User.</li>
+                    <li><strong>Always Include a Status Field.</strong> Enables error handling.</li>
+                    <li><strong>Provide an Example.</strong> It's the most effective format guide.</li>
+                </ul>
+            </div>
+            <div class="card red">
+                <strong>🚫 Never Do This</strong>
+                <ul>
+                    <li>Put your Prime Directive inside the JSON.</li>
+                    <li>Skip the output schema.</li>
+                    <li>Assume the AI knows your desired structure.</li>
+                    <li>Provide JSON without validation or example.</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 12. DECISION TREE                           -->
+        <!-- ============================================= -->
+        <h2>🌳 Decision Tree: Which Format to Use?</h2>
+
+        <div class="mermaid">
+┌─────────────────────────────────────┐
+│ What is the primary use case?      │
+└──────────────┬──────────────────────┘
+               │
+       ┌───────┴───────┐
+       │               │
+       ▼               ▼
+┌───────────┐   ┌───────────┐
+│ Data      │   │ Human     │
+│ Exchange  │   │ Readable  │
+└─────┬─────┘   └─────┬─────┘
+      │               │
+      ▼               ▼
+┌───────────┐   ┌───────────┐
+│ JSON      │   │ Markdown  │
+│ or YAML   │   │           │
+└───────────┘   └───────────┘
+      │               │
+      ▼               ▼
+┌───────────┐   ┌───────────┐
+│ Is it     │   │ Is it a   │
+│ complex?  │   │ BEP/IFC?  │
+└─────┬─────┘   └─────┬─────┘
+      │               │
+      ▼               ▼
+┌───────────┐   ┌───────────┐
+│ XML       │   │ XML       │
+└───────────┘   └───────────┘
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 13. PATTERN RECOGNITION                     -->
+        <!-- ============================================= -->
+        <h2>🔍 Pattern Recognition: When to Apply This</h2>
+        <div class="grid-2">
+            <div class="card">
+                <strong>🚦 Signals This Applies</strong>
+                <ul>
+                    <li>You need to integrate AI output into a software pipeline</li>
+                    <li>You are generating code or configuration files</li>
+                    <li>You need consistent, parseable reports</li>
+                    <li>You are working with BIM standards (IFC, COBie)</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>⚠️ Warning Signs You're Forgetting This</strong>
+                <ul>
+                    <li>You are manually reformatting AI output</li>
+                    <li>You are writing regular expressions to parse AI text</li>
+                    <li>You are asking the AI for "a list" without defining the format</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 14. PROFESSIONAL TIPS                       -->
+        <!-- ============================================= -->
+        <h2>💼 Professional Tips: What Seniors Do Differently</h2>
+        <ul>
+            <li><strong>They define schemas first.</strong> They design the output schema before writing the prompt.</li>
+            <li><strong>They use validation tools.</strong> They validate the AI's JSON output against the schema automatically.</li>
+            <li><strong>They keep behavior separate from data.</strong> Personas and Prime Directives never appear inside JSON.</li>
+            <li><strong>They include example outputs.</strong> They know that an example is worth 10 lines of description.</li>
+            <li><strong>They design for integration.</strong> They match the output schema to their target system's input schema.</li>
+        </ul>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 15. OPTIMIZATION OPPORTUNITIES              -->
+        <!-- ============================================= -->
+        <h2>⚡ Optimization Opportunities</h2>
+        <div class="grid-2">
+            <div class="card teal">
+                <strong>🚀 Performance</strong>
+                <ul>
+                    <li>JSON is more token-efficient than prose descriptions</li>
+                    <li>Use shorter field names (e.g., "id" vs "element_id")</li>
+                    <li>Minimise nested structures where possible</li>
+                </ul>
+            </div>
+            <div class="card teal">
+                <strong>📊 Quality</strong>
+                <ul>
+                    <li>Use JSON Schema for validation</li>
+                    <li>Include a "self_validation" field in the schema</li>
+                    <li>Ask the AI to verify its output against the schema</li>
+                </ul>
+            </div>
+            <div class="card teal">
+                <strong>🤖 Automation</strong>
+                <ul>
+                    <li>Build a library of common schemas (sheets, walls, parameters)</li>
+                    <li>Automate schema validation in your pipeline</li>
+                    <li>Generate schema from BIM standards (IFC, COBie)</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 16. EDGE CASES                              -->
+        <!-- ============================================= -->
+        <h2>🔀 Edge Cases</h2>
+        <ul>
+            <li><strong>Invalid JSON output:</strong> Always include a retry mechanism in your pipeline.</li>
+            <li><strong>Missing fields:</strong> Define defaults or `null` handling in the schema.</li>
+            <li><strong>Nested structures:</strong> Ensure the AI can handle nesting; provide examples of nested data.</li>
+            <li><strong>Large datasets:</strong> If returning large JSON, use pagination or compression (via the prompt).</li>
+        </ul>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 17. VALIDATION & QA                         -->
+        <!-- ============================================= -->
+        <h2>✅ Validation &amp; Quality Assurance</h2>
+
+        <h3>How to Verify Structured Output</h3>
+        <ul>
+            <li><strong>Schema Validation:</strong> Use a JSON validator to check the AI's output.</li>
+            <li><strong>Field Completeness:</strong> Does every required field exist?</li>
+            <li><strong>Type Checking:</strong> Are strings strings? Numbers numbers?</li>
+            <li><strong>Status Check:</strong> Is the `status` field "success" when expected?</li>
+            <li><strong>Integration Test:</strong> Can your target system parse the output?</li>
+        </ul>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 18. FREQUENTLY ASKED QUESTIONS              -->
+        <!-- ============================================= -->
+        <h2>❓ Frequently Asked Questions</h2>
+
+        <details>
+            <summary><strong>Q: Should I put my entire prompt in JSON?</strong></summary>
+            <div class="content">
+                <p><strong>A:</strong> No. Only the <em>data</em> should be in JSON. The Persona, Prime Directive,
+                and contextual prose should be in natural language (often Markdown) in the System and User messages.
+                This separation keeps behavior rules enforceable and data parsable.</p>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Q: What if the AI returns invalid JSON?</strong></summary>
+            <div class="content">
+                <p><strong>A:</strong> Include a retry mechanism. In your pipeline, validate the JSON. If it's invalid,
+                send the validation error back to the AI and ask it to correct the output. This is a common pattern
+                in production AI workflows.</p>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Q: Is Markdown considered "structured"?</strong></summary>
+            <div class="content">
+                <p><strong>A:</strong> Yes, Markdown is a structured format. It uses headings, lists, tables,
+                and code blocks to organise information. It is less rigid than JSON but still provides predictable
+                structure for both humans and AI.</p>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Q: How do I handle nested data in JSON prompts?</strong></summary>
+            <div class="content">
+                <p><strong>A:</strong> Define the nested structure explicitly in the schema. Provide an example
+                of the nested structure. The AI will mimic the nesting in its output.</p>
+            </div>
+        </details>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 19. KNOWLEDGE CONNECTIONS                   -->
+        <!-- ============================================= -->
+        <h2>🔗 Knowledge Connections</h2>
+        <div class="grid-2">
+            <div class="card">
+                <strong>➡️ Prerequisites</strong>
+                <ul>
+                    <li>Level 0: What is AI? (Mental model)</li>
+                    <li>Level 1: Prompt Fundamentals (Structure)</li>
+                    <li>Level 2: Context Engineering (Grounding)</li>
+                    <li>Level 3: Prime Directives & Persona (Behavior)</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>➡️ What This Leads To</strong>
+                <ul>
+                    <li><strong>Level 5:</strong> Output Structuring & Constraints (Validation)</li>
+                    <li><strong>Level 8:</strong> RAG (Structured document retrieval)</li>
+                    <li><strong>Level 10:</strong> AI Agents (Structured communication between agents)</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 20. FUTURE LEARNING ROADMAP                 -->
+        <!-- ============================================= -->
+        <h2>🗺️ Future Learning Roadmap</h2>
+        <div class="mermaid">
+BEGINNER
+├── Level 0: What is AI? ✅
+├── Level 1: Prompt Fundamentals ✅
+├── Level 2: Context Engineering ✅
+├── Level 3: Prime Directives & Persona ✅
+└── Level 4: Structured Prompting  ◄── YOU ARE HERE
+
+INTERMEDIATE
+├── Level 5: Output Structuring & Constraints
+├── Level 6: Few-Shot & Zero-Shot
+└── Level 7: Reasoning Strategies
+
+ADVANCED
+├── Level 8: RAG, ReAct, Reflection
+└── Level 9: Prompt Debugging
+
+EXPERT
+├── Level 10: AI Agents
+└── Level 11: Model Selection & Tuning
+
+MASTER
+├── Level 12: Enterprise Prompting
+└── Level 13: Capstone Project
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 21. AI PROMPT ENGINEERING INSIGHTS          -->
+        <!-- ============================================= -->
+        <h2>✍️ AI Prompt Engineering Insights</h2>
+
+        <div class="prompt-ladder">
+            <div class="prompt-item bad">
+                <strong><span class="tag bad">BAD</span></strong><br>
+                <em>"Give me a list of sheets."</em>
+                <div class="small" style="color:#991b1b;">Unstructured. The AI decides the format.</div>
+            </div>
+            <div class="prompt-item good">
+                <strong><span class="tag good">GOOD</span></strong><br>
+                <em>"Provide a Markdown table with columns: Sheet Name, Sheet Number."</em>
+                <div class="small" style="color:#92400e;">Format specified. Human-readable.</div>
+            </div>
+            <div class="prompt-item expert">
+                <strong><span class="tag expert">EXPERT</span></strong><br>
+                <em>"Output JSON array: [{"sheet_name": "string", "sheet_number": "string"}]."</em>
+                <div class="small" style="color:#1e3a5f;">Format specified with schema. Machine-readable.</div>
+            </div>
+            <div class="prompt-item production">
+                <strong><span class="tag production">PRODUCTION</span></strong><br>
+                <em><strong>System:</strong> Senior BIM Architect (Persona). Never invent data (Prime Directive).<br>
+                <strong>Output Schema:</strong> { "status": "string", "data": [{"sheet_name": "string", "sheet_number": "string"}], "errors": [] }<br>
+                <strong>Example:</strong> { "status": "success", "data": [{"sheet_name": "A101", "sheet_number": "001"}], "errors": [] }</em>
+                <div class="small" style="color:#064e3b;">Complete schema with status, example, and separation of behavior vs. data.</div>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 22. PROMPT IMPROVEMENT SUGGESTIONS          -->
+        <!-- ============================================= -->
+        <h2>📝 Prompt Improvement Suggestions</h2>
+
+        <h3>Your Level 3 Expert Prompt (Without Structured Output)</h3>
+        <div class="code-block">
+"Act as a Senior BIM Automation Specialist. Generate a Dynamo script to rename sheets. Provide the code and a node list."
+        </div>
+        <p><strong>Weaknesses:</strong> The output format is vague. The AI decides how to structure the response.</p>
+
+        <h3>Production-Level with Structured Output</h3>
+        <div class="code-block">
+<strong>System:</strong> Senior BIM Architect. Never invent APIs.
+<strong>Output Schema:</strong>
+{
+  "status": "success|failure",
+  "code": "string (Python code)",
+  "node_list": [
+    { "name": "string", "inputs": ["string"], "outputs": ["string"] }
+  ],
+  "errors": ["string"],
+  "validation_passed": "boolean"
+}
+<strong>Example Output:</strong>
+{
+  "status": "success",
+  "code": "import clr...",
+  "node_list": [...],
+  "errors": [],
+  "validation_passed": true
+}
+        </div>
+        <p><strong>Why it's better:</strong> The output is predictable, parseable, and includes error handling.</p>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 23. MY LEARNING ANALYSIS                   -->
+        <!-- ============================================= -->
+        <h2>📊 Your Learning Analysis</h2>
+        <div class="grid-2">
+            <div class="card green">
+                <strong>✅ Strengths Demonstrated</strong>
+                <ul>
+                    <li>You correctly identified JSON's role in automation and parsing.</li>
+                    <li>You made the critical distinction: Personas/Prime Directives belong outside JSON.</li>
+                    <li>You understand the importance of status/error fields for production workflows.</li>
+                    <li>You converted a narrative prompt into a well-structured JSON prompt with constraints.</li>
+                    <li>You clearly distinguished between human-readable (Markdown) and machine-readable (JSON) outputs.</li>
+                </ul>
+            </div>
+            <div class="card amber">
+                <strong>🔶 Areas for Growth</strong>
+                <ul>
+                    <li>Practice designing JSON schemas for more complex BIM structures (e.g., nested elements).</li>
+                    <li>Experiment with XML for COBie or IFC-related prompts.</li>
+                    <li>Build a reusable schema library for your team.</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 24. FINAL EXPERT TAKEAWAY                  -->
+        <!-- ============================================= -->
+        <h2>🎯 Final Expert Takeaway</h2>
+        <div class="card amber" style="border-left-color:#f59e0b;">
+            <h3 style="margin-top:0; color:#92400e;">📄 One Page of Advice from a 30-Year Mentor</h3>
+            <p>
+                <strong>"Structure is the language of automation."</strong>
+            </p>
+            <p>
+                When you speak to an AI in prose, you are having a conversation. When you speak to it in JSON,
+                you are writing code. You are defining a function with inputs, outputs, and constraints.
+            </p>
+            <p>
+                The AI will respond to prose with prose. It will respond to structure with structure. If you want
+                machine-ready data, you must provide machine-ready instructions.
+            </p>
+            <p style="margin-top:12px; font-weight:600; color:#92400e;">
+                🔥 Stop describing. Start defining.
+            </p>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 25. MEMORY REVISION SHEET                   -->
+        <!-- ============================================= -->
+        <h2>📄 Memory Revision Sheet (5-Minute Review)</h2>
+        <div class="card" style="border-left-color:#f59e0b; background:#fffbeb;">
+            <div class="grid-2" style="gap:8px;">
+                <div>
+                    <strong>🧠 Structured Input = Structured Output</strong>
+                    <ul style="margin:4px 0 0 18px; font-size:0.9rem;">
+                        <li>JSON/XML for data</li>
+                        <li>Markdown for instructions</li>
+                    </ul>
+                </div>
+                <div>
+                    <strong>📩 Key Formats</strong>
+                    <ul style="margin:4px 0 0 18px; font-size:0.9rem;">
+                        <li>JSON: APIs, config</li>
+                        <li>XML: IFC, COBie</li>
+                        <li>Markdown: Reporting</li>
+                    </ul>
+                </div>
+                <div>
+                    <strong>✅ The S.C.H.E.M.A. Framework</strong>
+                    <ul style="margin:4px 0 0 18px; font-size:0.9rem;">
+                        <li>Specify, Constrain, Handle</li>
+                        <li>Example, Make parsable, Ask</li>
+                    </ul>
+                </div>
+                <div>
+                    <strong>🚫 Never Do This</strong>
+                    <ul style="margin:4px 0 0 18px; font-size:0.9rem;">
+                        <li>Put Persona inside JSON</li>
+                        <li>Skip the output schema</li>
+                    </ul>
+                </div>
+            </div>
+            <hr style="margin:10px 0; border-color:#e2e8f0;">
+            <div style="font-size:0.85rem;">
+                <strong>Production secret:</strong> A `status` field + schema validation = reliable automation.
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 26. INTERVIEW PERSPECTIVE                   -->
+        <!-- ============================================= -->
+        <h2>🎤 Interview Perspective</h2>
+
+        <details>
+            <summary><strong>Technical Interview</strong></summary>
+            <div class="content">
+                <p><strong>Q:</strong> "How do you ensure the AI's output is valid for your automation pipeline?"</p>
+                <p><strong>A:</strong> "I define a strict JSON schema in the prompt. The AI's output must include a `status` field and follow the defined structure. I also provide an example output. After generation, my pipeline validates the JSON against the schema. If it's invalid, I ask the AI to correct it. This ensures the output is always production-ready."</p>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Management Interview</strong></summary>
+            <div class="content">
+                <p><strong>Q:</strong> "How do you standardise the format of AI-generated reports across your team?"</p>
+                <p><strong>A:</strong> "We provide a standard output schema—usually JSON with a specific structure—in every prompt for report generation. We also provide a Markdown template for the human-readable portion. This ensures every report has the same fields and structure, making it easy to aggregate and compare data."</p>
+            </div>
+        </details>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 27. REAL-WORLD CASE STUDY                   -->
+        <!-- ============================================= -->
+        <h2>🏗️ Real-World Case Study</h2>
+
+        <h3>Scenario: Automating the BIM 360 Export</h3>
+        <p>
+            You need to extract all sheet data from a Revit project and export it to a CSV file that can be uploaded
+            to BIM 360. The CSV must have specific columns: `Sheet Name`, `Sheet Number`, `Discipline`, and `Level`.
+        </p>
+
+        <h4>Step 1: Define the Output Schema</h4>
+        <div class="code-block">
+{
+  "status": "success",
+  "data": [
+    {
+      "sheet_name": "A-101",
+      "sheet_number": "101",
+      "discipline": "Architectural",
+      "level": "Level 01"
+    }
+  ],
+  "errors": []
+}
+        </div>
+
+        <h4>Step 2: Write the Structured Prompt</h4>
+        <div class="code-block">
+<strong>System:</strong> Senior BIM Automation Architect. Never invent data.
+<strong>Task:</strong> Generate a Dynamo script that exports sheet data to CSV for BIM 360.
+<strong>Output Schema:</strong> (as above)
+<strong>Constraints:</strong> Only active sheets. Sort by sheet number.
+<strong>Output Format:</strong> Provide the Python code, a node list, and a sample CSV.
+        </div>
+
+        <h4>Step 3: Validate the Output</h4>
+        <p>
+            The AI returns JSON with the code and a sample CSV. The `status` is "success". The data is validated
+            against the schema. The CSV is generated and uploaded to BIM 360.
+        </p>
+
+        <h4>Outcome</h4>
+        <p>
+            The process is fully automated. The CSV always has the correct columns, and the schema validation
+            catches any errors before they reach BIM 360.
+        </p>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 28. CONTINUOUS IMPROVEMENT NOTES            -->
+        <!-- ============================================= -->
+        <h2>🔄 Continuous Improvement Notes</h2>
+        <ul>
+            <li><strong>Review:</strong> After each prompt, validate the output schema. Update the schema if the target system changes.</li>
+            <li><strong>Metrics:</strong> Track the success rate of schema validation. Aim for 100%.</li>
+            <li><strong>Automation:</strong> Build a tool that automatically generates the output schema from your target system's input schema (e.g., from CSV headers).</li>
+            <li><strong>Next Step:</strong> Level 5 — Output Structuring & Constraints.</li>
+        </ul>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- FOOTER                                       -->
+        <!-- ============================================= -->
+        <div style="text-align:center; font-size:0.8rem; color:#94a3b8; padding-top:20px; border-top:1px solid #e2e8f0;">
+            <strong>Level 4 — Structured Prompting</strong><br>
+            Expert Knowledge Document &bull; Prompt Engineering for BIM &amp; Construction Technology<br>
+            Created: 2026 &bull; Permanent Reference &bull; Version 1.0
+        </div>
+
+    </div>
+</body>
+</html>

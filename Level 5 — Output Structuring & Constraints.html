@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level 5 — Expert Knowledge: Output Structuring & Constraints</title>
+    <style>
+        /* ── Reset & Base ── */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #f1f5f9;
+            color: #0f172a;
+            line-height: 1.6;
+            padding: 30px 20px;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 45px 55px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+        }
+        h1 {
+            font-size: 2.4rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: #0f172a;
+            border-bottom: 4px solid #ec4899;
+            padding-bottom: 12px;
+            margin-bottom: 6px;
+        }
+        .doc-subtitle {
+            font-size: 1.05rem;
+            color: #475569;
+            margin-bottom: 28px;
+            border-left: 4px solid #ec4899;
+            padding-left: 18px;
+            background: #f8fafc;
+            padding: 12px 20px;
+            border-radius: 8px;
+        }
+        h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-top: 38px;
+            margin-bottom: 14px;
+            color: #0f172a;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 6px;
+        }
+        h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 24px;
+            margin-bottom: 8px;
+            color: #1e293b;
+        }
+        h4 {
+            font-size: 1.0rem;
+            font-weight: 600;
+            margin-top: 18px;
+            margin-bottom: 4px;
+            color: #334155;
+        }
+        p {
+            margin-bottom: 14px;
+        }
+        ul,
+        ol {
+            margin: 10px 0 16px 24px;
+        }
+        li {
+            margin-bottom: 6px;
+        }
+        .card {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 18px 22px;
+            margin: 16px 0;
+            border-left: 5px solid #94a3b8;
+        }
+        .card.blue {
+            border-left-color: #3b82f6;
+            background: #eff6ff;
+        }
+        .card.green {
+            border-left-color: #22c55e;
+            background: #f0fdf4;
+        }
+        .card.amber {
+            border-left-color: #f59e0b;
+            background: #fffbeb;
+        }
+        .card.red {
+            border-left-color: #ef4444;
+            background: #fef2f2;
+        }
+        .card.purple {
+            border-left-color: #8b5cf6;
+            background: #f5f3ff;
+        }
+        .card.pink {
+            border-left-color: #ec4899;
+            background: #fdf2f8;
+        }
+        .card.teal {
+            border-left-color: #14b8a6;
+            background: #f0fdfa;
+        }
+        .callout {
+            padding: 14px 20px;
+            border-radius: 10px;
+            margin: 16px 0;
+            font-weight: 500;
+        }
+        .callout.info {
+            background: #dbeafe;
+            color: #1e3a8a;
+        }
+        .callout.warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        .callout.danger {
+            background: #fecaca;
+            color: #991b1b;
+        }
+        .callout.success {
+            background: #bbf7d0;
+            color: #166534;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0 20px;
+            font-size: 0.95rem;
+        }
+        th {
+            background: #1e293b;
+            color: #f8fafc;
+            padding: 10px 14px;
+            text-align: left;
+            font-weight: 600;
+        }
+        td {
+            padding: 10px 14px;
+            border-bottom: 1px solid #e2e8f0;
+            vertical-align: top;
+        }
+        tr:nth-child(even) {
+            background: #f8fafc;
+        }
+        tr:hover {
+            background: #f1f5f9;
+        }
+        .code-block {
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 16px 22px;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            font-size: 0.88rem;
+            overflow-x: auto;
+            margin: 14px 0;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        .inline-code {
+            background: #e2e8f0;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        .tag {
+            display: inline-block;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .tag.bad {
+            background: #fecaca;
+            color: #991b1b;
+        }
+        .tag.good {
+            background: #fde68a;
+            color: #92400e;
+        }
+        .tag.expert {
+            background: #93c5fd;
+            color: #1e3a5f;
+        }
+        .tag.production {
+            background: #6ee7b7;
+            color: #064e3b;
+        }
+        .tag.master {
+            background: #c4b5fd;
+            color: #4c1d95;
+        }
+        .prompt-ladder {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 16px 0;
+        }
+        .prompt-item {
+            padding: 14px 20px;
+            border-radius: 10px;
+            border-left: 6px solid;
+        }
+        .prompt-item.bad {
+            background: #fef2f2;
+            border-color: #ef4444;
+        }
+        .prompt-item.good {
+            background: #fffbeb;
+            border-color: #f59e0b;
+        }
+        .prompt-item.expert {
+            background: #eff6ff;
+            border-color: #3b82f6;
+        }
+        .prompt-item.production {
+            background: #ecfdf5;
+            border-color: #10b981;
+        }
+        .prompt-item.master {
+            background: #f5f3ff;
+            border-color: #8b5cf6;
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+        }
+        @media (max-width: 760px) {
+            .grid-2,
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+            .container {
+                padding: 24px 18px;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+        .mermaid {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            white-space: pre;
+            overflow-x: auto;
+            margin: 16px 0;
+            border: 1px solid #e2e8f0;
+        }
+        .hr-divider {
+            border: 0;
+            height: 2px;
+            background: linear-gradient(to right, #e2e8f0, #94a3b8, #e2e8f0);
+            margin: 30px 0;
+        }
+        .small {
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+        details {
+            margin: 12px 0;
+            padding: 10px 16px;
+            background: #f8fafc;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+        }
+        details summary {
+            font-weight: 600;
+            cursor: pointer;
+            color: #1e293b;
+        }
+        details summary:hover {
+            color: #ec4899;
+        }
+        details .content {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #e2e8f0;
+        }
+        .badge {
+            display: inline-block;
+            background: #f1f5f9;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #475569;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- ============================================= -->
+        <!-- 1. EXECUTIVE SUMMARY                         -->
+        <!-- ============================================= -->
+        <h1>📏 Level 5 — Output Structuring & Constraints</h1>
+        <div class="doc-subtitle">
+            <strong>Permanent Knowledge Base</strong> &bull; BIM Automation Specialist &bull; Defining the Shape and Behaviour of Responses
+        </div>
+
+        <div class="card pink">
+            <h3 style="margin-top:0;">📌 Executive Summary</h3>
+            <p>
+                <strong>Output Structuring</strong> is the practice of precisely defining the length, detail, tone,
+                organisation, and completeness of the AI's response. <strong>Output Constraints</strong> are the
+                specific rules that enforce these definitions—they are <em>specifications</em>, not restrictions.
+            </p>
+            <p>
+                The core principle is: <strong>Constraints are not limitations—they are requirements.</strong>
+                When you define exactly what success looks like, the AI delivers exactly what you need.
+            </p>
+            <p>
+                <strong>Key Insight:</strong> For BIM professionals, output constraints are what transform a generic
+                AI response into an actionable deliverable—whether it's a concise project status report, a precisely
+                structured clash detection log, or a 300-word executive summary that can be sent directly to a client.
+            </p>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 2. LEARNING HIGHLIGHTS                       -->
+        <!-- ============================================= -->
+        <h2>📚 Learning Highlights</h2>
+        <div class="grid-2">
+            <div class="card">
+                <strong>🔹 Output Structuring</strong>
+                <ul>
+                    <li>Controlling length, detail, tone, and organisation</li>
+                    <li>Defining required sections and ordering</li>
+                    <li>Specifying verbosity and depth</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>🔹 Output Constraints</strong>
+                <ul>
+                    <li>Length constraints (word/token limits)</li>
+                    <li>Detail constraints (high-level vs. deep)</li>
+                    <li>Tone constraints (professional, urgent, cautious)</li>
+                    <li>Structural constraints (sections, ordering)</li>
+                    <li>Negative constraints (exclusions)</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>🔹 The S.T.R.U.C.T.U.R.E. Framework</strong>
+                <ul>
+                    <li>S - Specify length</li>
+                    <li>T - Define Tone</li>
+                    <li>R - Require sections</li>
+                    <li>U - Use ordering</li>
+                    <li>C - Control detail</li>
+                    <li>T - Tell exclusions</li>
+                    <li>U - Unify constraints</li>
+                    <li>R - Review output</li>
+                    <li>E - Evaluate & iterate</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>🔹 Constraint Types</strong>
+                <ul>
+                    <li><strong>Positive:</strong> What to include</li>
+                    <li><strong>Negative:</strong> What to exclude</li>
+                    <li><strong>Hard:</strong> Enforceable limits</li>
+                    <li><strong>Soft:</strong> Guidelines</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 3. KEY CONCEPTS                              -->
+        <!-- ============================================= -->
+        <h2>🧩 Key Concepts</h2>
+
+        <h3>1. Output Format vs. Output Constraint</h3>
+        <table>
+            <thead>
+                <tr><th>Aspect</th><th>Output Format</th><th>Output Constraint</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>What it controls</strong></td>
+                    <td>Shape and structure of the data</td>
+                    <td>Content behaviour and rules</td>
+                </tr>
+                <tr>
+                    <td><strong>Examples</strong></td>
+                    <td>JSON, Markdown table, XML, list</td>
+                    <td>Max 300 words, no assumptions, include error handling</td>
+                </tr>
+                <tr>
+                    <td><strong>Focus</strong></td>
+                    <td>How the response is organised</td>
+                    <td>What the response is allowed to do or contain</td>
+                </tr>
+                <tr>
+                    <td><strong>Interaction</strong></td>
+                    <td>Defines the container</td>
+                    <td>Defines the contents and behaviour</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>2. Positive vs. Negative Constraints</h3>
+        <ul>
+            <li><strong>Positive Constraints:</strong> What to include. (e.g., "Include a status field.")</li>
+            <li><strong>Negative Constraints:</strong> What to exclude. (e.g., "Do not use deprecated APIs.")</li>
+        </ul>
+        <div class="callout info">
+            <strong>💡 Why both matter:</strong> AI models are probabilistic. Without negative constraints, they may
+            invent details, use outdated methods, or include irrelevant information. Negative constraints are your
+            first line of defence against hallucinations.
+        </div>
+
+        <h3>3. The S.T.R.U.C.T.U.R.E. Framework</h3>
+        <table>
+            <thead>
+                <tr><th>Letter</th><th>Meaning</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>S</strong></td><td>Specify</td><td>Exact length (words/tokens)</td></tr>
+                <tr><td><strong>T</strong></td><td>Tone</td><td>Define the style (professional, urgent, etc.)</td></tr>
+                <tr><td><strong>R</strong></td><td>Require</td><td>Specific sections (summary, table, etc.)</td></tr>
+                <tr><td><strong>U</strong></td><td>Use</td><td>Ordering and grouping (sort by priority)</td></tr>
+                <tr><td><strong>C</strong></td><td>Control</td><td>Detail level (high-level vs. deep)</td></tr>
+                <tr><td><strong>T</strong></td><td>Tell</td><td>Exclusions (what to avoid)</td></tr>
+                <tr><td><strong>U</strong></td><td>Unify</td><td>Ensure no conflicting constraints</td></tr>
+                <tr><td><strong>R</strong></td><td>Review</td><td>Validate output against constraints</td></tr>
+                <tr><td><strong>E</strong></td><td>Evaluate</td><td>Iterate and improve</td></tr>
+            </tbody>
+        </table>
+
+        <h3>4. Hard vs. Soft Constraints</h3>
+        <ul>
+            <li><strong>Hard Constraints:</strong> Enforceable limits. (e.g., "Maximum 200 words. If exceeded, the response is invalid.")</li>
+            <li><strong>Soft Constraints:</strong> Guidelines. (e.g., "Aim for approximately 200 words.")</li>
+        </ul>
+        <div class="callout warning">
+            <strong>⚠️ Expert Tip:</strong> For production work, use <strong>hard constraints</strong> with enforcement
+            mechanisms (e.g., "self-check rule" or "penalty instruction"). Soft constraints are often ignored.
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 4. EXPERT MENTAL MODEL                       -->
+        <!-- ============================================= -->
+        <h2>🧠 Expert Mental Model</h2>
+
+        <div class="card purple">
+            <h4 style="margin-top:0;">🧩 Mental Model: The Project Brief</h4>
+            <p>
+                Imagine you are a project manager assigning a task to a consultant. You don't just say,
+                <em>"Write a report."</em> You give a <strong>brief</strong>:
+            </p>
+            <ul>
+                <li><strong>Length:</strong> "No more than 3 pages."</li>
+                <li><strong>Detail:</strong> "Focus on the financial impact, not technical details."</li>
+                <li><strong>Tone:</strong> "Professional and persuasive."</li>
+                <li><strong>Structure:</strong> "Start with an executive summary, then sections on costs, timeline, and risks."</li>
+                <li><strong>Completeness:</strong> "Include a conclusion and recommendations."</li>
+                <li><strong>Exclusions:</strong> "Do not include code or technical jargon."</li>
+            </ul>
+            <p>
+                That is <strong>Output Structuring</strong>. You are defining the exact specifications of the deliverable.
+            </p>
+        </div>
+
+        <h3>How an Expert Thinks</h3>
+        <ul>
+            <li><strong>Define Success First:</strong> "What does a successful response look like? I'll define that before I write the task."</li>
+            <li><strong>Exclusions are Essential:</strong> "What could the AI add that I don't want? I'll preemptively exclude it."</li>
+            <li><strong>Enforce, Don't Suggest:</strong> "I will use hard constraints with self-check rules, not soft suggestions."</li>
+            <li><strong>Align Constraints with Persona:</strong> "A technical persona needs technical output. My constraints must match."</li>
+        </ul>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 5. HIDDEN KNOWLEDGE                          -->
+        <!-- ============================================= -->
+        <h2>🔮 Hidden Knowledge (Rarely Written in Tutorials)</h2>
+
+        <div class="grid-2">
+            <div class="card teal">
+                <strong>🎯 The "Self-Check" Rule</strong>
+                <p>Add a constraint: "Before final output, count the words. If exceeding the limit, truncate and add
+                '[TRUNCATED]' at the end." This makes the AI responsible for enforcement.</p>
+            </div>
+            <div class="card teal">
+                <strong>🎯 The "Penalty" Instruction</strong>
+                <p>If the AI exceeds the limit, tell it to mark the output as invalid. Example: "If you exceed 200 words,
+                prepend 'INVALID: Too long' to the response." This forces compliance.</p>
+            </div>
+            <div class="card teal">
+                <strong>🎯 The "Priority" Principle</strong>
+                <p>When constraints conflict (e.g., "be concise" vs. "be comprehensive"), define the priority:
+                "Prioritise conciseness over comprehensiveness."</p>
+            </div>
+            <div class="card teal">
+                <strong>🎯 The "Format + Constraint" Combo</strong>
+                <p>Combine output format (JSON) with constraints (length) for maximum control.
+                Example: "Output JSON with a maximum of 10 objects." This controls both shape and size.</p>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 6. BEGINNER MISTAKES                         -->
+        <!-- ============================================= -->
+        <h2>⚠️ Beginner Mistakes</h2>
+        <table>
+            <thead>
+                <tr><th>Mistake</th><th>Consequence</th><th>How to Avoid</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>No length limit</strong></td>
+                    <td>AI is too verbose or too brief</td>
+                    <td>Always specify word/token limits</td>
+                </tr>
+                <tr>
+                    <td><strong>Vague detail level</strong></td>
+                    <td>AI picks its own depth</td>
+                    <td>Specify: high-level, medium, or detailed</td>
+                </tr>
+                <tr>
+                    <td><strong>No structural constraints</strong></td>
+                    <td>AI organises information poorly</td>
+                    <td>Define sections in the order you want</td>
+                </tr>
+                <tr>
+                    <td><strong>Missing exclusions</strong></td>
+                    <td>AI includes irrelevant content</td>
+                    <td>Explicitly state what to exclude</td>
+                </tr>
+                <tr>
+                    <td><strong>Inconsistent constraints</strong></td>
+                    <td>AI is confused</td>
+                    <td>Align all constraints; define priorities</td>
+                </tr>
+                <tr>
+                    <td><strong>Soft constraints only</strong></td>
+                    <td>AI ignores them</td>
+                    <td>Use hard constraints with enforcement</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 7. THINGS PEOPLE USUALLY SKIP               -->
+        <!-- ============================================= -->
+        <h2>📌 Things People Usually Skip (But Experts Don't)</h2>
+        <div class="grid-2">
+            <div class="card">
+                <strong>🔸 The "Self-Validation" Request</strong>
+                <p>Ask the AI to validate its own output against the constraints. "Before finalising, check that your
+                response is under 200 words." This catches errors before they reach you.</p>
+            </div>
+            <div class="card">
+                <strong>🔸 The "Priority" Clause</strong>
+                <p>When constraints conflict, define the priority. Example: "If you must choose between conciseness
+                and completeness, prioritise conciseness."</p>
+            </div>
+            <div class="card">
+                <strong>🔸 The "Format-Specific" Constraint</strong>
+                <p>Combine format and constraints. "Output JSON with exactly 3 fields: status, data, and errors.
+                Do not add any other fields." This enforces both structure and completeness.</p>
+            </div>
+            <div class="card">
+                <strong>🔸 The "Audience-Specific" Tone</strong>
+                <p>Define the audience. "Write for a non-technical client. Avoid jargon." This shapes both tone
+                and detail level.</p>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 8. CRITICAL THINKING CHALLENGES             -->
+        <!-- ============================================= -->
+        <h2>🧩 Critical Thinking Challenges</h2>
+
+        <details>
+            <summary><strong>Challenge 1: The Conflicting Constraints</strong></summary>
+            <div class="content">
+                <p><strong>Scenario:</strong> You specify: "Be concise (max 200 words)" and "Provide a comprehensive
+                analysis of all risks."</p>
+                <p><strong>Question:</strong> How do you resolve this conflict without confusing the AI?</p>
+                <details>
+                    <summary><strong>🔍 Expert Reasoning</strong></summary>
+                    <div class="content">
+                        <p><strong>Resolution:</strong> Define the priority. Example: "Prioritise conciseness.
+                        Provide a high-level summary of key risks only. If you cannot cover all risks in 200 words,
+                        list the top 5 and state that there are additional risks."</p>
+                        <p>This removes the conflict by defining the trade-off explicitly.</p>
+                    </div>
+                </details>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Challenge 2: The Ignored Constraint</strong></summary>
+            <div class="content">
+                <p><strong>Scenario:</strong> You specify "Maximum 300 words." The AI returns 450 words.</p>
+                <p><strong>Question:</strong> What strategies would you use to enforce this constraint?</p>
+                <details>
+                    <summary><strong>🔍 Expert Reasoning</strong></summary>
+                    <div class="content">
+                        <p><strong>Strategies:</strong></p>
+                        <ol>
+                            <li><strong>Hard Constraint:</strong> "If you exceed 300 words, the response is invalid."</li>
+                            <li><strong>Self-Check Rule:</strong> "Before final output, count the words. If exceeding,
+                            truncate and add '[TRUNCATED]'."</li>
+                            <li><strong>Penalty Instruction:</strong> "If you exceed the limit, prepend
+                            'INVALID: Too long' to the response."</li>
+                            <li><strong>Structured Format:</strong> "Use bullet points and tables to reduce verbosity."</li>
+                        </ol>
+                    </div>
+                </details>
+            </div>
+        </details>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 9. PRACTICAL WORKFLOW                        -->
+        <!-- ============================================= -->
+        <h2>🔄 Practical Workflow: Defining Output Constraints</h2>
+
+        <div class="mermaid">
+1. DEFINE THE TASK
+   └── What is the core objective?
+
+2. IDENTIFY THE AUDIENCE
+   └── Who will read this? (Client, Manager, Developer)
+
+3. SPECIFY LENGTH
+   └── Max words/tokens (use hard constraints)
+
+4. DEFINE STRUCTURE
+   └── Required sections in order
+
+5. SET DETAIL LEVEL
+   └── High-level, medium, or deep
+
+6. DETERMINE TONE
+   └── Professional, urgent, cautious, persuasive
+
+7. STATE EXCLUSIONS
+   └── What to avoid (jargon, code, assumptions)
+
+8. ADD SELF-VALIDATION
+   └── "Before outputting, verify you met all constraints."
+
+9. TEST & ITERATE
+   └── Run the prompt. Adjust constraints based on output.
+        </div>
+
+        <div class="callout info">
+            <strong>💡 Expert Checkpoint:</strong> If you can read the output and immediately determine if it meets
+            your needs, your constraints are well-defined. If you need to edit or reformat, the constraints need refinement.
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 10. EXECUTION CHECKLIST                      -->
+        <!-- ============================================= -->
+        <h2>✅ Execution Checklist</h2>
+
+        <div class="grid-2">
+            <div class="card blue">
+                <strong>📋 Length Constraints</strong>
+                <ul>
+                    <li>☐ Max words/tokens specified?</li>
+                    <li>☐ Hard or soft constraint? (Hard is better)</li>
+                    <li>☐ Self-check or penalty included?</li>
+                </ul>
+            </div>
+            <div class="card blue">
+                <strong>📋 Structure & Detail</strong>
+                <ul>
+                    <li>☐ Required sections defined?</li>
+                    <li>☐ Ordering specified?</li>
+                    <li>☐ Detail level defined (high-level/deep)?</li>
+                </ul>
+            </div>
+            <div class="card green">
+                <strong>📋 Tone & Exclusions</strong>
+                <ul>
+                    <li>☐ Tone specified (professional, urgent, etc.)?</li>
+                    <li>☐ Exclusions listed (what to avoid)?</li>
+                    <li>☐ Audience defined?</li>
+                </ul>
+            </div>
+            <div class="card green">
+                <strong>📋 Validation & Iteration</strong>
+                <ul>
+                    <li>☐ Self-validation requested?</li>
+                    <li>☐ Constraints aligned with Persona?</li>
+                    <li>☐ Output reviewed against constraints?</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 11. RULES TO ALWAYS REMEMBER                -->
+        <!-- ============================================= -->
+        <h2>📜 Rules to Always Remember</h2>
+        <div class="grid-2">
+            <div class="card green">
+                <strong>🏆 Golden Rules</strong>
+                <ul>
+                    <li><strong>Constraints are specifications, not restrictions.</strong></li>
+                    <li><strong>Include both positives and negatives.</strong></li>
+                    <li><strong>Use hard constraints with enforcement.</strong></li>
+                    <li><strong>Align constraints with the Persona.</strong></li>
+                    <li><strong>Define priorities when constraints conflict.</strong></li>
+                </ul>
+            </div>
+            <div class="card red">
+                <strong>🚫 Never Do This</strong>
+                <ul>
+                    <li>Use only soft constraints (they are ignored).</li>
+                    <li>Confuse format with constraints.</li>
+                    <li>Skip exclusions (the AI will add fluff).</li>
+                    <li>Define conflicting constraints without priority.</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 12. DECISION TREE                           -->
+        <!-- ============================================= -->
+        <h2>🌳 Decision Tree: Defining Detail Level</h2>
+
+        <div class="mermaid">
+┌─────────────────────────────────────┐
+│ Who is the audience?               │
+└──────────────┬──────────────────────┘
+               │
+       ┌───────┴───────┐
+       │               │
+       ▼               ▼
+┌───────────┐   ┌───────────┐
+│ Client    │   │ Internal  │
+│ Non-Tech  │   │ Team      │
+└─────┬─────┘   └─────┬─────┘
+      │               │
+      ▼               ▼
+┌───────────┐   ┌───────────┐
+│ High-     │   │ Deep      │
+│ Level     │   │ Technical │
+│ Summary   │   │ Analysis  │
+└───────────┘   └───────────┘
+      │               │
+      └───────┬───────┘
+              ▼
+┌─────────────────────────────────────┐
+│ Result: Define detail level         │
+│ explicitly in the prompt            │
+└─────────────────────────────────────┘
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 13. PATTERN RECOGNITION                     -->
+        <!-- ============================================= -->
+        <h2>🔍 Pattern Recognition: When to Apply This</h2>
+        <div class="grid-2">
+            <div class="card">
+                <strong>🚦 Signals This Applies</strong>
+                <ul>
+                    <li>You need a report with a specific structure</li>
+                    <li>You need to control verbosity (too long or too short)</li>
+                    <li>You need a specific tone (professional, urgent)</li>
+                    <li>You need to exclude certain content (code, jargon)</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>⚠️ Warning Signs You're Forgetting This</strong>
+                <ul>
+                    <li>You are manually editing AI output to fit your needs</li>
+                    <li>You are trimming long responses or expanding short ones</li>
+                    <li>You are reformatting the AI's structure</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 14. PROFESSIONAL TIPS                       -->
+        <!-- ============================================= -->
+        <h2>💼 Professional Tips: What Seniors Do Differently</h2>
+        <ul>
+            <li><strong>They define the output before the task.</strong> They know what success looks like before they write the prompt.</li>
+            <li><strong>They use hard constraints.</strong> They don't suggest; they enforce.</li>
+            <li><strong>They include self-validation.</strong> They ask the AI to check its own work.</li>
+            <li><strong>They align constraints with the Persona.</strong> A technical Persona needs technical output.</li>
+            <li><strong>They iterate on constraints.</strong> They refine constraints based on output quality.</li>
+        </ul>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 15. OPTIMIZATION OPPORTUNITIES              -->
+        <!-- ============================================= -->
+        <h2>⚡ Optimization Opportunities</h2>
+        <div class="grid-2">
+            <div class="card teal">
+                <strong>🚀 Performance</strong>
+                <ul>
+                    <li>Reduce token usage with strict length limits</li>
+                    <li>Use bullet points to reduce word count</li>
+                    <li>Define "maximum" not "approximately"</li>
+                </ul>
+            </div>
+            <div class="card teal">
+                <strong>📊 Quality</strong>
+                <ul>
+                    <li>Add a "self-validation" step to catch errors</li>
+                    <li>Use exclusions to prevent hallucinations</li>
+                    <li>Define priorities for conflicting constraints</li>
+                </ul>
+            </div>
+            <div class="card teal">
+                <strong>🤖 Automation</strong>
+                <ul>
+                    <li>Create a template library of output constraints</li>
+                    <li>Automate validation of length and structure</li>
+                    <li>Use AI to generate constraints from your target system's requirements</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 16. EDGE CASES                              -->
+        <!-- ============================================= -->
+        <h2>🔀 Edge Cases</h2>
+        <ul>
+            <li><strong>Over-constrained:</strong> Too many rules can confuse the AI. Prioritise the most critical constraints.</li>
+            <li><strong>Under-constrained:</strong> Too few rules lead to inconsistent output. Add more structure.</li>
+            <li><strong>Conflicting constraints:</strong> Define the priority explicitly.</li>
+            <li><strong>Audience mismatch:</strong> A technical Persona and non-technical output are misaligned. Resolve by separating outputs or clarifying intent.</li>
+        </ul>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 17. VALIDATION & QA                         -->
+        <!-- ============================================= -->
+        <h2>✅ Validation &amp; Quality Assurance</h2>
+
+        <h3>How to Verify Output Constraints</h3>
+        <ul>
+            <li><strong>Length Check:</strong> Count the words/tokens. Did it meet the limit?</li>
+            <li><strong>Structure Check:</strong> Are all required sections present and in the correct order?</li>
+            <li><strong>Detail Check:</strong> Is the level of detail appropriate for the audience?</li>
+            <li><strong>Tone Check:</strong> Does the tone match the specification (professional, urgent, etc.)?</li>
+            <li><strong>Exclusion Check:</strong> Is any excluded content present?</li>
+            <li><strong>Self-Validation Check:</strong> Did the AI perform its own validation?</li>
+        </ul>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 18. FREQUENTLY ASKED QUESTIONS              -->
+        <!-- ============================================= -->
+        <h2>❓ Frequently Asked Questions</h2>
+
+        <details>
+            <summary><strong>Q: What's the difference between a "constraint" and a "format"?</strong></summary>
+            <div class="content">
+                <p><strong>A:</strong> Format defines the <em>shape</em> (JSON, table, list). Constraint defines
+                the <em>behaviour</em> (length, tone, exclusions). Format is the container; constraint is the content rule.</p>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Q: How do I enforce a length limit?</strong></summary>
+            <div class="content">
+                <p><strong>A:</strong> Use a hard constraint with enforcement: "Maximum 200 words. If exceeded,
+                the response is invalid." Add a self-check rule: "Before final output, count words and truncate if needed."</p>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Q: What if my constraints conflict?</strong></summary>
+            <div class="content">
+                <p><strong>A:</strong> Define the priority explicitly. Example: "If you must choose between conciseness
+                and completeness, prioritise conciseness." This resolves the conflict for the AI.</p>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Q: Should I always include exclusions?</strong></summary>
+            <div class="content">
+                <p><strong>A:</strong> Yes, for production tasks. Exclusions prevent the AI from adding
+                irrelevant content, hallucinating details, or using deprecated methods.</p>
+            </div>
+        </details>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 19. KNOWLEDGE CONNECTIONS                   -->
+        <!-- ============================================= -->
+        <h2>🔗 Knowledge Connections</h2>
+        <div class="grid-2">
+            <div class="card">
+                <strong>➡️ Prerequisites</strong>
+                <ul>
+                    <li>Level 0: What is AI? (Mental model)</li>
+                    <li>Level 1: Prompt Fundamentals (Structure)</li>
+                    <li>Level 2: Context Engineering (Grounding)</li>
+                    <li>Level 3: Prime Directives & Persona (Behavior)</li>
+                    <li>Level 4: Structured Prompting (Format)</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>➡️ What This Leads To</strong>
+                <ul>
+                    <li><strong>Level 6:</strong> Few-Shot & Zero-Shot Prompting (Examples)</li>
+                    <li><strong>Level 7:</strong> Reasoning Strategies (CoT, ToT)</li>
+                    <li><strong>Level 8:</strong> RAG (Context retrieval)</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 20. FUTURE LEARNING ROADMAP                 -->
+        <!-- ============================================= -->
+        <h2>🗺️ Future Learning Roadmap</h2>
+        <div class="mermaid">
+BEGINNER
+├── Level 0: What is AI? ✅
+├── Level 1: Prompt Fundamentals ✅
+├── Level 2: Context Engineering ✅
+├── Level 3: Prime Directives & Persona ✅
+├── Level 4: Structured Prompting ✅
+└── Level 5: Output Structuring & Constraints  ◄── YOU ARE HERE
+
+INTERMEDIATE
+├── Level 6: Few-Shot & Zero-Shot
+└── Level 7: Reasoning Strategies
+
+ADVANCED
+├── Level 8: RAG, ReAct, Reflection
+└── Level 9: Prompt Debugging
+
+EXPERT
+├── Level 10: AI Agents
+└── Level 11: Model Selection & Tuning
+
+MASTER
+├── Level 12: Enterprise Prompting
+└── Level 13: Capstone Project
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 21. AI PROMPT ENGINEERING INSIGHTS          -->
+        <!-- ============================================= -->
+        <h2>✍️ AI Prompt Engineering Insights</h2>
+
+        <div class="prompt-ladder">
+            <div class="prompt-item bad">
+                <strong><span class="tag bad">BAD</span></strong><br>
+                <em>"Generate a report on the project."</em>
+                <div class="small" style="color:#991b1b;">No constraints. The AI decides length, structure, tone, and detail.</div>
+            </div>
+            <div class="prompt-item good">
+                <strong><span class="tag good">GOOD</span></strong><br>
+                <em>"Generate a concise report on the project with a summary, progress, and risks."</em>
+                <div class="small" style="color:#92400e;">Some structure and tone (concise). But missing length and exclusions.</div>
+            </div>
+            <div class="prompt-item expert">
+                <strong><span class="tag expert">EXPERT</span></strong><br>
+                <em>"Generate a project report with: summary (100 words), progress table, and top 3 risks. Use bullet points. Maximum 300 words."</em>
+                <div class="small" style="color:#1e3a5f;">Length, structure, and format specified. Tone implied by "bullet points."</div>
+            </div>
+            <div class="prompt-item production">
+                <strong><span class="tag production">PRODUCTION</span></strong><br>
+                <em><strong>Persona:</strong> Senior Project Manager. Professional and direct.<br>
+                <strong>Length:</strong> Max 250 words (hard limit).<br>
+                <strong>Structure:</strong> 1. Summary (2 sentences), 2. Progress Table, 3. Risks (3 bullet points), 4. Recommendations (2 bullet points).<br>
+                <strong>Exclusions:</strong> No technical jargon, no code, no API references.<br>
+                <strong>Self-Validation:</strong> Check word count before finalising.</em>
+                <div class="small" style="color:#064e3b;">Every aspect is defined. Hard constraints with enforcement.</div>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 22. PROMPT IMPROVEMENT SUGGESTIONS          -->
+        <!-- ============================================= -->
+        <h2>📝 Prompt Improvement Suggestions</h2>
+
+        <h3>Your Level 4 Expert Prompt (Without Output Constraints)</h3>
+        <div class="code-block">
+"Act as a Senior BIM Automation Specialist. Generate a Dynamo script to rename sheets. Provide the code and a node list."
+        </div>
+        <p><strong>Weaknesses:</strong> No length limit. No structure. No exclusions. The AI may include explanations, commentary, or even unrelated information.</p>
+
+        <h3>Production-Level with Output Constraints</h3>
+        <div class="code-block">
+<strong>System:</strong> Senior BIM Automation Architect. Never invent APIs.
+<strong>Output Specifications:</strong>
+- <strong>Length:</strong> Provide only the code and node list. No explanations. Hard limit: 200 lines max.
+- <strong>Structure:</strong> 1. Code block (Python). 2. Node list (bulleted list).
+- <strong>Detail Level:</strong> Code must be production-quality with comments.
+- <strong>Exclusions:</strong> No summaries, no documentation, no explanations outside the code block.
+- <strong>Self-Validation:</strong> Ensure the code is complete and runs without errors.
+        </div>
+        <p><strong>Why it's better:</strong> The output is pure code and a node list, ready to copy and paste. No fluff, no extras.</p>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 23. MY LEARNING ANALYSIS                   -->
+        <!-- ============================================= -->
+        <h2>📊 Your Learning Analysis</h2>
+        <div class="grid-2">
+            <div class="card green">
+                <strong>✅ Strengths Demonstrated</strong>
+                <ul>
+                    <li>You correctly distinguished format from constraints.</li>
+                    <li>You understood the importance of both positive and negative constraints.</li>
+                    <li>You identified and resolved a Persona–Constraint conflict with professional maturity.</li>
+                    <li>You provided specific, actionable constraints for a Dynamo task.</li>
+                    <li>You diagnosed why length limits are ignored and provided enforcement strategies.</li>
+                </ul>
+            </div>
+            <div class="card amber">
+                <strong>🔶 Areas for Growth</strong>
+                <ul>
+                    <li>Practice defining constraints for different types of tasks (reports, code, proposals).</li>
+                    <li>Experiment with "self-validation" constraints to make the AI responsible for enforcement.</li>
+                    <li>Build a library of constraint templates for your most common tasks.</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 24. FINAL EXPERT TAKEAWAY                  -->
+        <!-- ============================================= -->
+        <h2>🎯 Final Expert Takeaway</h2>
+        <div class="card pink" style="border-left-color:#ec4899;">
+            <h3 style="margin-top:0; color:#be185d;">📄 One Page of Advice from a 30-Year Mentor</h3>
+            <p>
+                <strong>"Constraints are not limitations—they are specifications."</strong>
+            </p>
+            <p>
+                When you tell the AI "maximum 300 words," you are not restricting it. You are telling it exactly
+                what success looks like. You are removing the guesswork and giving it a clear target.
+            </p>
+            <p>
+                The best prompts are not the ones with the fewest constraints. They are the ones with the
+                <strong>most precise</strong> constraints. A vague prompt invites a vague response. A precise
+                prompt invites a precise response.
+            </p>
+            <p style="margin-top:12px; font-weight:600; color:#be185d;">
+                🔥 Define success. Then let the AI deliver it.
+            </p>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 25. MEMORY REVISION SHEET                   -->
+        <!-- ============================================= -->
+        <h2>📄 Memory Revision Sheet (5-Minute Review)</h2>
+        <div class="card" style="border-left-color:#ec4899; background:#fdf2f8;">
+            <div class="grid-2" style="gap:8px;">
+                <div>
+                    <strong>🧠 Output Constraints</strong>
+                    <ul style="margin:4px 0 0 18px; font-size:0.9rem;">
+                        <li>Length (words/tokens)</li>
+                        <li>Detail (high-level/deep)</li>
+                        <li>Tone (professional/urgent)</li>
+                        <li>Structure (sections/order)</li>
+                        <li>Exclusions (what to avoid)</li>
+                    </ul>
+                </div>
+                <div>
+                    <strong>✅ Positive vs. Negative</strong>
+                    <ul style="margin:4px 0 0 18px; font-size:0.9rem;">
+                        <li>Positive: What to include</li>
+                        <li>Negative: What to exclude</li>
+                    </ul>
+                </div>
+                <div>
+                    <strong>📏 Hard vs. Soft</strong>
+                    <ul style="margin:4px 0 0 18px; font-size:0.9rem;">
+                        <li>Hard: Enforceable limits</li>
+                        <li>Soft: Guidelines (often ignored)</li>
+                    </ul>
+                </div>
+                <div>
+                    <strong>🚫 Enforcement</strong>
+                    <ul style="margin:4px 0 0 18px; font-size:0.9rem;">
+                        <li>Self-check rules</li>
+                        <li>Penalty instructions</li>
+                        <li>Invalid if limit exceeded</li>
+                    </ul>
+                </div>
+            </div>
+            <hr style="margin:10px 0; border-color:#fbcfe8;">
+            <div style="font-size:0.85rem;">
+                <strong>Production secret:</strong> A hard constraint with a self-check rule is more effective than a soft suggestion.
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 26. INTERVIEW PERSPECTIVE                   -->
+        <!-- ============================================= -->
+        <h2>🎤 Interview Perspective</h2>
+
+        <details>
+            <summary><strong>Technical Interview</strong></summary>
+            <div class="content">
+                <p><strong>Q:</strong> "How do you ensure the AI's output is always the right length and structure?"</p>
+                <p><strong>A:</strong> "I use hard constraints with enforcement. I specify a maximum word count, define
+                the required sections in order, and include a self-check rule where the AI verifies its own output
+                before finalising. If the output exceeds the limit, it must truncate or mark itself as invalid.
+                This ensures every output meets my specifications."</p>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Management Interview</strong></summary>
+            <div class="content">
+                <p><strong>Q:</strong> "How do you ensure AI-generated reports are consistent across your team?"</p>
+                <p><strong>A:</strong> "We provide a standard set of output constraints in every prompt. For example,
+                we specify: 'Maximum 250 words. Structure: Summary, Progress, Risks, Recommendations. Tone: Professional.
+                Exclusions: No technical jargon.' This ensures every report has the same structure and depth,
+                making them easy to review and compare."</p>
+            </div>
+        </details>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 27. REAL-WORLD CASE STUDY                   -->
+        <!-- ============================================= -->
+        <h2>🏗️ Real-World Case Study</h2>
+
+        <h3>Scenario: The Weekly BIM Status Report</h3>
+        <p>
+            You need to send a weekly status report to the client. It must be concise, structured, and actionable.
+            Previously, the AI gave you 500-word essays. Now, you need a tight 250-word report.
+        </p>
+
+        <h4>Step 1: Define the Output Constraints</h4>
+        <div class="code-block">
+- Length: Maximum 250 words (hard limit)
+- Structure: 1. Summary (2 sentences), 2. Progress Table, 3. Top 3 Risks, 4. Recommendations (2 bullet points)
+- Tone: Professional and direct
+- Exclusions: No technical jargon, no code, no API references
+- Self-Validation: Check word count before finalising
+        </div>
+
+        <h4>Step 2: Write the Prompt</h4>
+        <div class="code-block">
+<strong>System:</strong> Senior Project Manager. Professional and direct.
+<strong>Task:</strong> Generate a weekly status report for the City Tower project.
+<strong>Output Specifications:</strong> (as above)
+<strong>Context:</strong> The project is in the CD phase. Progress is 80%. Risks: Structural model delays.
+        </div>
+
+        <h4>Step 3: Validate the Output</h4>
+        <p>
+            The AI returns a 248-word report with the correct structure. The word count is within the limit.
+            The tone is professional. No technical jargon is present. The report is ready to send.
+        </p>
+
+        <h4>Outcome</h4>
+        <p>
+            The client receives a concise, actionable report every week. The time spent editing is reduced from
+            30 minutes to zero. The team adopts the same constraint template for all reports.
+        </p>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 28. CONTINUOUS IMPROVEMENT NOTES            -->
+        <!-- ============================================= -->
+        <h2>🔄 Continuous Improvement Notes</h2>
+        <ul>
+            <li><strong>Review:</strong> After each prompt, check if the output met all constraints. If not, refine the constraints.</li>
+            <li><strong>Metrics:</strong> Track the compliance rate of AI outputs against your constraints. Aim for 100%.</li>
+            <li><strong>Automation:</strong> Build a tool that automatically validates the output length and structure against your constraints.</li>
+            <li><strong>Next Step:</strong> Level 6 — Few-Shot & Zero-Shot Prompting.</li>
+        </ul>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- FOOTER                                       -->
+        <!-- ============================================= -->
+        <div style="text-align:center; font-size:0.8rem; color:#94a3b8; padding-top:20px; border-top:1px solid #e2e8f0;">
+            <strong>Level 5 — Output Structuring & Constraints</strong><br>
+            Expert Knowledge Document &bull; Prompt Engineering for BIM &amp; Construction Technology<br>
+            Created: 2026 &bull; Permanent Reference &bull; Version 1.0
+        </div>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level 2 — Expert Knowledge: Context Engineering</title>
+    <style>
+        /* ── Reset & Base ── */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #f1f5f9;
+            color: #0f172a;
+            line-height: 1.6;
+            padding: 30px 20px;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 45px 55px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+        }
+        h1 {
+            font-size: 2.4rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: #0f172a;
+            border-bottom: 4px solid #14b8a6;
+            padding-bottom: 12px;
+            margin-bottom: 6px;
+        }
+        .doc-subtitle {
+            font-size: 1.05rem;
+            color: #475569;
+            margin-bottom: 28px;
+            border-left: 4px solid #14b8a6;
+            padding-left: 18px;
+            background: #f8fafc;
+            padding: 12px 20px;
+            border-radius: 8px;
+        }
+        h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-top: 38px;
+            margin-bottom: 14px;
+            color: #0f172a;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 6px;
+        }
+        h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 24px;
+            margin-bottom: 8px;
+            color: #1e293b;
+        }
+        h4 {
+            font-size: 1.0rem;
+            font-weight: 600;
+            margin-top: 18px;
+            margin-bottom: 4px;
+            color: #334155;
+        }
+        p {
+            margin-bottom: 14px;
+        }
+        ul,
+        ol {
+            margin: 10px 0 16px 24px;
+        }
+        li {
+            margin-bottom: 6px;
+        }
+        .card {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 18px 22px;
+            margin: 16px 0;
+            border-left: 5px solid #94a3b8;
+        }
+        .card.blue {
+            border-left-color: #3b82f6;
+            background: #eff6ff;
+        }
+        .card.green {
+            border-left-color: #22c55e;
+            background: #f0fdf4;
+        }
+        .card.amber {
+            border-left-color: #f59e0b;
+            background: #fffbeb;
+        }
+        .card.red {
+            border-left-color: #ef4444;
+            background: #fef2f2;
+        }
+        .card.purple {
+            border-left-color: #8b5cf6;
+            background: #f5f3ff;
+        }
+        .card.teal {
+            border-left-color: #14b8a6;
+            background: #f0fdfa;
+        }
+        .callout {
+            padding: 14px 20px;
+            border-radius: 10px;
+            margin: 16px 0;
+            font-weight: 500;
+        }
+        .callout.info {
+            background: #dbeafe;
+            color: #1e3a8a;
+        }
+        .callout.warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        .callout.danger {
+            background: #fecaca;
+            color: #991b1b;
+        }
+        .callout.success {
+            background: #bbf7d0;
+            color: #166534;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0 20px;
+            font-size: 0.95rem;
+        }
+        th {
+            background: #1e293b;
+            color: #f8fafc;
+            padding: 10px 14px;
+            text-align: left;
+            font-weight: 600;
+        }
+        td {
+            padding: 10px 14px;
+            border-bottom: 1px solid #e2e8f0;
+            vertical-align: top;
+        }
+        tr:nth-child(even) {
+            background: #f8fafc;
+        }
+        tr:hover {
+            background: #f1f5f9;
+        }
+        .code-block {
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 16px 22px;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            font-size: 0.88rem;
+            overflow-x: auto;
+            margin: 14px 0;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        .inline-code {
+            background: #e2e8f0;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        .tag {
+            display: inline-block;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .tag.bad {
+            background: #fecaca;
+            color: #991b1b;
+        }
+        .tag.good {
+            background: #fde68a;
+            color: #92400e;
+        }
+        .tag.expert {
+            background: #93c5fd;
+            color: #1e3a5f;
+        }
+        .tag.production {
+            background: #6ee7b7;
+            color: #064e3b;
+        }
+        .tag.master {
+            background: #c4b5fd;
+            color: #4c1d95;
+        }
+        .prompt-ladder {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 16px 0;
+        }
+        .prompt-item {
+            padding: 14px 20px;
+            border-radius: 10px;
+            border-left: 6px solid;
+        }
+        .prompt-item.bad {
+            background: #fef2f2;
+            border-color: #ef4444;
+        }
+        .prompt-item.good {
+            background: #fffbeb;
+            border-color: #f59e0b;
+        }
+        .prompt-item.expert {
+            background: #eff6ff;
+            border-color: #3b82f6;
+        }
+        .prompt-item.production {
+            background: #ecfdf5;
+            border-color: #10b981;
+        }
+        .prompt-item.master {
+            background: #f5f3ff;
+            border-color: #8b5cf6;
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+        }
+        @media (max-width: 760px) {
+            .grid-2,
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+            .container {
+                padding: 24px 18px;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+        .mermaid {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            white-space: pre;
+            overflow-x: auto;
+            margin: 16px 0;
+            border: 1px solid #e2e8f0;
+        }
+        .hr-divider {
+            border: 0;
+            height: 2px;
+            background: linear-gradient(to right, #e2e8f0, #94a3b8, #e2e8f0);
+            margin: 30px 0;
+        }
+        .small {
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+        details {
+            margin: 12px 0;
+            padding: 10px 16px;
+            background: #f8fafc;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+        }
+        details summary {
+            font-weight: 600;
+            cursor: pointer;
+            color: #1e293b;
+        }
+        details summary:hover {
+            color: #14b8a6;
+        }
+        details .content {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #e2e8f0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- ============================================= -->
+        <!-- 1. EXECUTIVE SUMMARY                         -->
+        <!-- ============================================= -->
+        <h1>📡 Level 2 — Context Engineering</h1>
+        <div class="doc-subtitle">
+            <strong>Permanent Knowledge Base</strong> &bull; BIM Automation Specialist &bull; Grounding AI Responses in Reality
+        </div>
+
+        <div class="card teal">
+            <h3 style="margin-top:0;">📌 Executive Summary</h3>
+            <p>
+                <strong>Context Engineering</strong> is the discipline of selecting, structuring, and prioritising the
+                background information you feed to an LLM. It is not just about adding more text—it is about adding the
+                <em>right</em> text in the <em>right</em> order, with the <em>right</em> emphasis.
+            </p>
+            <p>
+                The <strong>Funnel Model</strong> structures context from <strong>Broad</strong> (project, industry)
+                to <strong>Specific</strong> (standards, version) to <strong>Immediate</strong> (task, constraints).
+                This mirrors how a professional briefs a colleague.
+            </p>
+            <p>
+                <strong>Key Insight:</strong> A prompt without context is like giving a surgeon a scalpel and saying
+                "operate" without telling them the patient, the organ, or the condition. Context is what turns
+                an AI from a generic guesser into a domain-specific expert.
+            </p>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 2. LEARNING HIGHLIGHTS                       -->
+        <!-- ============================================= -->
+        <h2>📚 Learning Highlights</h2>
+        <div class="grid-2">
+            <div class="card">
+                <strong>🔹 What is Context?</strong>
+                <ul>
+                    <li>All information <em>besides</em> the core instruction</li>
+                    <li>Background, documentation, standards, constraints</li>
+                    <li>Grounds the AI in your specific reality</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>🔹 The Funnel Model</strong>
+                <ul>
+                    <li><strong>Broad:</strong> Project, industry, stakeholder context</li>
+                    <li><strong>Specific:</strong> Standards, versions, conventions</li>
+                    <li><strong>Immediate:</strong> Task, constraints, edge cases</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>🔹 Explicit vs. Implicit Context</strong>
+                <ul>
+                    <li><strong>Explicit:</strong> Directly stated in the prompt</li>
+                    <li><strong>Implicit:</strong> Inferred from wording or training data</li>
+                    <li><strong>Rule:</strong> Never rely on implicit; always make it explicit</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>🔹 Grounding & Verification</strong>
+                <ul>
+                    <li>Inject documentation snippets (APIs, standards)</li>
+                    <li>Ask AI to summarise context before execution</li>
+                    <li>Iterate and update context based on AI's questions</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 3. KEY CONCEPTS                              -->
+        <!-- ============================================= -->
+        <h2>🧩 Key Concepts</h2>
+
+        <h3>1. Context Window & Token Limits</h3>
+        <p>
+            <strong>Definition:</strong> The maximum number of tokens an LLM can process in a single input.
+            Modern models range from 4K (older) to 1M+ tokens (Gemini 1.5, Claude 3).
+        </p>
+        <p>
+            <strong>Implication:</strong> You must prioritise. You cannot feed the AI everything.
+            Use the funnel model to select the <em>most critical</em> information.
+        </p>
+
+        <h3>2. The Funnel Model</h3>
+        <ul>
+            <li><strong>Broad Context (The "World"):</strong> Industry, project type, stakeholders, high-level goals.</li>
+            <li><strong>Specific Context (The "Domain"):</strong> Software versions, standards, naming conventions, company policies.</li>
+            <li><strong>Immediate Context (The "Task"):</strong> The exact input data, performance constraints, error handling requirements, output format.</li>
+        </ul>
+        <div class="callout info">
+            <strong>💡 Why it works:</strong> The AI processes broad context to understand the environment,
+            then specific context to understand the rules, then immediate context to execute the task.
+        </div>
+
+        <h3>3. Explicit vs. Implicit Context</h3>
+        <ul>
+            <li><strong>Explicit:</strong> "Revit 2025, TransactionMode.Manual." — Stated directly.</li>
+            <li><strong>Implicit:</strong> Mentioning "Revit External Command" infers `Execute()` and `UIApplication`.</li>
+        </ul>
+        <div class="callout warning">
+            <strong>⚠️ Danger of Implicit Context:</strong> The AI may infer incorrectly.
+            Always state version numbers, standards, and constraints explicitly.
+        </div>
+
+        <h3>4. Grounding with Documentation</h3>
+        <p>
+            Injecting relevant API documentation, company standards, or project-specific information
+            into the prompt. This reduces hallucination and ensures the AI uses the correct methods.
+        </p>
+
+        <h3>5. Context Verification</h3>
+        <p>
+            Asking the AI to summarise the context before generating the final output.
+            This tests whether the AI understood the constraints correctly.
+        </p>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 4. EXPERT MENTAL MODEL                       -->
+        <!-- ============================================= -->
+        <h2>🧠 Expert Mental Model</h2>
+
+        <div class="card purple">
+            <h4 style="margin-top:0;">🧩 Mental Model: The Briefing Room</h4>
+            <p>
+                Imagine you are a general briefing a lieutenant. You don't just say, "Go capture the hill."
+                You give a <strong>full briefing</strong>:
+            </p>
+            <ul>
+                <li><strong>Situation:</strong> Enemy position, terrain, our troops.</li>
+                <li><strong>Mission:</strong> Capture the hill by dawn.</li>
+                <li><strong>Constraints:</strong> Use light infantry; do not cross the river.</li>
+                <li><strong>Resources:</strong> Two platoons, one helicopter, a map.</li>
+                <li><strong>Rules of Engagement:</strong> Do not fire unless fired upon.</li>
+                <li><strong>Contingencies:</strong> If heavy resistance, retreat and call artillery.</li>
+            </ul>
+            <p>
+                That is <strong>Context Engineering</strong>. You are briefing the AI with everything
+                it needs to succeed, including constraints, resources, and fallback plans.
+            </p>
+        </div>
+
+        <h3>How an Expert Thinks About Context</h3>
+        <ul>
+            <li><strong>Prioritisation:</strong> "What is the 20% of context that will drive 80% of the outcome?"</li>
+            <li><strong>Verification:</strong> "I will ask the AI to confirm my constraints before it starts."</li>
+            <li><strong>Injection:</strong> "I will paste the relevant API docs into the prompt."</li>
+            <li><strong>Iteration:</strong> "If the AI asks a question, that question becomes context for the next turn."</li>
+        </ul>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 5. HIDDEN KNOWLEDGE                          -->
+        <!-- ============================================= -->
+        <h2>🔮 Hidden Knowledge (Rarely Written in Tutorials)</h2>
+
+        <div class="grid-2">
+            <div class="card teal">
+                <strong>🎯 The "Context Sandwich" Technique</strong>
+                <p>Place the most important context <strong>first</strong> and <strong>last</strong> in your prompt.
+                AI models pay more attention to the beginning and end of the context window.</p>
+                <p class="small">Example: "Revit 2025" at the start and again at the end.</p>
+            </div>
+            <div class="card teal">
+                <strong>🎯 The "Question Loop" for Context</strong>
+                <p>Instead of providing all context upfront, use this sequence:</p>
+                <ol>
+                    <li>Ask the AI what it needs to know</li>
+                    <li>Provide that specific context</li>
+                    <li>Ask the AI to generate the solution</li>
+                </ol>
+                <p class="small">This ensures the AI receives exactly what it needs, not what you <em>think</em> it needs.</p>
+            </div>
+            <div class="card teal">
+                <strong>🎯 The "Version Context" Trap</strong>
+                <p>Never say "latest version." Say "Revit 2025" or "Dynamo 2.19." The AI's training data cut-off
+                may not include the latest version. Be explicit.</p>
+            </div>
+            <div class="card teal">
+                <strong>🎯 "Context as Documentation"</strong>
+                <p>In production, your context block becomes the <em>requirements document</em>.
+                A well-written context section can be extracted and used as project documentation.</p>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 6. BEGINNER MISTAKES                         -->
+        <!-- ============================================= -->
+        <h2>⚠️ Beginner Mistakes</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Mistake</th>
+                    <th>Consequence</th>
+                    <th>How to Avoid</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Providing too much context</strong></td>
+                    <td>AI loses focus; token limits hit</td>
+                    <td>Prioritise; use the funnel model</td>
+                </tr>
+                <tr>
+                    <td><strong>Providing irrelevant context</strong></td>
+                    <td>Diluted attention; wasted tokens</td>
+                    <td>Filter for relevance to the task</td>
+                </tr>
+                <tr>
+                    <td><strong>Assuming implicit context</strong></td>
+                    <td>AI makes wrong assumptions</td>
+                    <td>State even "obvious" things explicitly</td>
+                </tr>
+                <tr>
+                    <td><strong>Not grounding with documentation</strong></td>
+                    <td>Hallucinated or outdated APIs</td>
+                    <td>Inject documentation snippets</td>
+                </tr>
+                <tr>
+                    <td><strong>Forgetting to update context</strong></td>
+                    <td>Output doesn't reflect current project</td>
+                    <td>Treat context as version-controlled</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 7. THINGS PEOPLE USUALLY SKIP               -->
+        <!-- ============================================= -->
+        <h2>📌 Things People Usually Skip (But Experts Don't)</h2>
+        <div class="grid-2">
+            <div class="card">
+                <strong>🔸 The "Why" Context</strong>
+                <p>Explain <em>why</em> you need the script. "This is for a client deliverable due Friday"
+                helps the AI prioritise robustness over elegance.</p>
+            </div>
+            <div class="card">
+                <strong>🔸 The "Who" Context</strong>
+                <p>Who will run this? A junior coordinator? A senior engineer? This influences
+                the level of comments, error messages, and UI complexity.</p>
+            </div>
+            <div class="card">
+                <strong>🔸 The "Failure" Context</strong>
+                <p>What happens if the script fails? "If this script fails, we have to manually
+                rename 500 sheets." This adds urgency and drives the AI to add safety measures.</p>
+            </div>
+            <div class="card">
+                <strong>🔸 The "Environment" Context</strong>
+                <p>What else is running? "There are 50 other scripts in this project. Avoid naming conflicts."
+                This prevents collisions.</p>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 8. CRITICAL THINKING CHALLENGES             -->
+        <!-- ============================================= -->
+        <h2>🧩 Critical Thinking Challenges</h2>
+
+        <details>
+            <summary><strong>Challenge 1: The Hidden Assumption</strong></summary>
+            <div class="content">
+                <p><strong>Scenario:</strong> You write: "Generate a script to export sheets to Excel."</p>
+                <p><strong>Question:</strong> What <strong>five implicit assumptions</strong> is the AI likely making,
+                and how would you make them explicit?</p>
+                <details>
+                    <summary><strong>🔍 Expert Reasoning</strong></summary>
+                    <div class="content">
+                        <p><strong>Implicit Assumptions:</strong></p>
+                        <ol>
+                            <li>Revit is the source. (Explicit: "Export from Revit 2025.")</li>
+                            <li>Excel is the target. (Explicit: "Export to .xlsx file.")</li>
+                            <li>All sheet parameters are exported. (Explicit: "Export Name, Number, and Discipline only.")</li>
+                            <li>No transaction is needed. (Explicit: "This is a read-only operation.")</li>
+                            <li>Small number of sheets. (Explicit: "Handle 500+ sheets efficiently.")</li>
+                        </ol>
+                        <p>Making these explicit removes all ambiguity.</p>
+                    </div>
+                </details>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Challenge 2: The Outdated API</strong></summary>
+            <div class="content">
+                <p><strong>Scenario:</strong> You ask the AI to generate Revit API code for Revit 2025.
+                The AI uses a method that was deprecated in Revit 2023.</p>
+                <p><strong>Question:</strong> How would you prevent this using context engineering?</p>
+                <details>
+                    <summary><strong>🔍 Expert Reasoning</strong></summary>
+                    <div class="content">
+                        <p><strong>Prevention:</strong></p>
+                        <ol>
+                            <li>State the version explicitly: "Revit 2025 API."</li>
+                            <li>Inject the relevant documentation snippet for the method you want.</li>
+                            <li>Add a constraint: "Use only methods available in Revit 2025. If a method is deprecated, use the recommended alternative."</li>
+                            <li>Ask the AI to verify: "Before generating code, confirm you are using Revit 2025 APIs."</li>
+                        </ol>
+                    </div>
+                </details>
+            </div>
+        </details>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 9. PRACTICAL WORKFLOW                        -->
+        <!-- ============================================= -->
+        <h2>🔄 Practical Workflow: Context Engineering</h2>
+
+        <div class="mermaid">
+1. GATHER CONTEXT
+   └── Collect: project type, versions, standards, constraints
+
+2. STRUCTURE WITH FUNNEL
+   ├── Broad: Project, industry, stakeholders
+   ├── Specific: Versions, standards, naming conventions
+   └── Immediate: Task, performance, error handling, output
+
+3. INJECT DOCUMENTATION
+   └── Paste relevant API docs, standards snippets
+
+4. VERIFY UNDERSTANDING
+   └── Ask AI: "Summarise the key constraints before you start."
+
+5. GENERATE & ITERATE
+   └── If AI asks clarifying questions, add answers as context
+
+6. REVIEW & IMPROVE
+   └── Did the AI use the context correctly? If not, refine.
+        </div>
+
+        <div class="callout info">
+            <strong>💡 Expert Checkpoint:</strong> After Step 4, if the AI's summary doesn't match your intent,
+            you know the context is ambiguous. Refine before generating the final output.
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 10. EXECUTION CHECKLIST                      -->
+        <!-- ============================================= -->
+        <h2>✅ Execution Checklist</h2>
+
+        <div class="grid-2">
+            <div class="card blue">
+                <strong>📋 Before Starting</strong>
+                <ul>
+                    <li>☐ Define the task clearly</li>
+                    <li>☐ List all potential context sources (project, versions, standards)</li>
+                    <li>☐ Identify the end-user's skill level</li>
+                </ul>
+            </div>
+            <div class="card blue">
+                <strong>📋 During Drafting</strong>
+                <ul>
+                    <li>☐ Structure context using the funnel model</li>
+                    <li>☐ Make all implicit assumptions explicit</li>
+                    <li>☐ Inject documentation snippets</li>
+                    <li>☐ Define output format</li>
+                </ul>
+            </div>
+            <div class="card green">
+                <strong>📋 Before Running</strong>
+                <ul>
+                    <li>☐ Ask AI to summarise context</li>
+                    <li>☐ Verify summary matches your intent</li>
+                    <li>☐ Check token count (if near limit, prioritise)</li>
+                </ul>
+            </div>
+            <div class="card green">
+                <strong>📋 After Running</strong>
+                <ul>
+                    <li>☐ Did AI use the context correctly?</li>
+                    <li>☐ Were any assumptions missed?</li>
+                    <li>☐ Update context for next iteration</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 11. RULES TO ALWAYS REMEMBER                -->
+        <!-- ============================================= -->
+        <h2>📜 Rules to Always Remember</h2>
+        <div class="grid-2">
+            <div class="card green">
+                <strong>🏆 Golden Rules</strong>
+                <ul>
+                    <li><strong>Relevance over volume.</strong> Short, relevant context beats long, generic context.</li>
+                    <li><strong>Never rely on implicit.</strong> State everything explicitly.</li>
+                    <li><strong>Ground with docs.</strong> Inject documentation to prevent hallucinations.</li>
+                    <li><strong>Verify understanding.</strong> Ask the AI to summarise context before execution.</li>
+                </ul>
+            </div>
+            <div class="card red">
+                <strong>🚫 Never Do This</strong>
+                <ul>
+                    <li>Say "latest version" — always specify version numbers</li>
+                    <li>Assume the AI knows your company standards</li>
+                    <li>Provide context in a random, unstructured order</li>
+                    <li>Skip the verification step</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 12. DECISION TREE                           -->
+        <!-- ============================================= -->
+        <h2>🌳 Decision Tree: How Much Context to Provide?</h2>
+
+        <div class="mermaid">
+┌─────────────────────────────────────┐
+│ Is the task domain-specific?       │
+│ (BIM, Revit, Dynamo, etc.)         │
+└──────────────┬──────────────────────┘
+               │
+       ┌───────┴───────┐
+       │               │
+       ▼               ▼
+┌───────────┐   ┌───────────┐
+│ No        │   │ Yes       │
+│ (Generic) │   │ (BIM)     │
+└─────┬─────┘   └─────┬─────┘
+      │               │
+      ▼               ▼
+┌───────────┐   ┌───────────┐
+│ Minimal   │   │ Full      │
+│ Context   │   │ Context   │
+│           │   │           │
+│ ✅ Role   │   │ ✅ Role   │
+│ ✅ Task   │   │ ✅ Task   │
+└───────────┘   │ ✅ Ver.  │
+                │ ✅ Std.  │
+                │ ✅ Doc.  │
+                │ ✅ Perf. │
+                └───────────┘
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 13. PATTERN RECOGNITION                     -->
+        <!-- ============================================= -->
+        <h2>🔍 Pattern Recognition: When to Apply This</h2>
+        <div class="grid-2">
+            <div class="card">
+                <strong>🚦 Signals This Applies</strong>
+                <ul>
+                    <li>You are generating code for a specific software version</li>
+                    <li>You are working with company-specific standards</li>
+                    <li>You need the AI to avoid hallucinations</li>
+                    <li>You want production-ready, not generic, output</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>⚠️ Warning Signs You're Forgetting This</strong>
+                <ul>
+                    <li>You haven't specified the Revit or Dynamo version</li>
+                    <li>You assume the AI knows your naming convention</li>
+                    <li>You haven't provided any error handling constraints</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 14. PROFESSIONAL TIPS                       -->
+        <!-- ============================================= -->
+        <h2>💼 Professional Tips: What Seniors Do Differently</h2>
+        <ul>
+            <li><strong>They use context templates.</strong> "Here is our standard context block for all Revit tasks:
+            version, standards, QA/QC requirements."</li>
+            <li><strong>They inject documentation directly.</strong> They don't just mention the API—they paste the
+            relevant documentation snippet into the prompt.</li>
+            <li><strong>They verify context.</strong> They ask the AI to summarise constraints before generating code.</li>
+            <li><strong>They treat context as version-controlled.</strong> They update their context blocks as
+            standards and versions change.</li>
+            <li><strong>They think about the "user" context.</strong> They specify who will run the script
+            and adjust the complexity accordingly.</li>
+        </ul>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 15. OPTIMIZATION OPPORTUNITIES              -->
+        <!-- ============================================= -->
+        <h2>⚡ Optimization Opportunities</h2>
+        <div class="grid-2">
+            <div class="card teal">
+                <strong>🚀 Performance</strong>
+                <ul>
+                    <li>Use structured formatting (Markdown, JSON) for context to improve AI parsing</li>
+                    <li>Use bullet points, not dense paragraphs</li>
+                    <li>Prioritise: put the most critical context first</li>
+                </ul>
+            </div>
+            <div class="card teal">
+                <strong>📊 Quality</strong>
+                <ul>
+                    <li>Add "context verification" as a step in the prompt</li>
+                    <li>Include examples (few-shot) to show how context should be applied</li>
+                    <li>Use negative constraints: "Do not use X; use Y instead."</li>
+                </ul>
+            </div>
+            <div class="card teal">
+                <strong>🤖 Automation</strong>
+                <ul>
+                    <li>Create reusable context templates for common tasks</li>
+                    <li>Automate context gathering (e.g., read version from file)</li>
+                    <li>Use RAG to retrieve relevant context from a knowledge base</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 16. EDGE CASES                              -->
+        <!-- ============================================= -->
+        <h2>🔀 Edge Cases</h2>
+        <ul>
+            <li><strong>Context overload:</strong> Too much context can dilute the AI's focus.
+            Use the funnel model to prioritise.</li>
+            <li><strong>Outdated context:</strong> If you copy a prompt from an older project, the context may be wrong.
+            Always review and update.</li>
+            <li><strong>Conflicting context:</strong> If you provide conflicting information (e.g., "Revit 2024" and
+            "Revit 2025 API"), the AI may get confused. Be consistent.</li>
+            <li><strong>Missing critical context:</strong> Sometimes you don't know what you don't know.
+            Ask the AI: "What additional context would help you generate the best solution?"</li>
+        </ul>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 17. VALIDATION & QA                         -->
+        <!-- ============================================= -->
+        <h2>✅ Validation &amp; Quality Assurance</h2>
+
+        <h3>How to Verify Context Engineering</h3>
+        <ul>
+            <li><strong>Verification prompt:</strong> "Before you begin, summarise the key constraints in your own words."</li>
+            <li><strong>Check against requirements:</strong> Does the AI's summary match your intent?</li>
+            <li><strong>Test with a minimal example:</strong> Run the generated code on a small test case to verify it
+            honours the context.</li>
+            <li><strong>Review for hallucinations:</strong> Does the AI mention any APIs or methods that don't exist
+            in your specified version?</li>
+        </ul>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 18. FREQUENTLY ASKED QUESTIONS              -->
+        <!-- ============================================= -->
+        <h2>❓ Frequently Asked Questions</h2>
+
+        <details>
+            <summary><strong>Q: How much context is too much?</strong></summary>
+            <div class="content">
+                <p><strong>A:</strong> When the AI starts ignoring your core instruction because it's distracted
+                by the context, you've added too much. A good rule of thumb: if your context section is longer than
+                your task section, review it. Use the funnel model to prioritise.</p>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Q: Should I always ask the AI to summarise context?</strong></summary>
+            <div class="content">
+                <p><strong>A:</strong> For production-level tasks, yes. It's a cheap check that ensures the AI
+                understood your constraints. If the summary is wrong, you can correct it before the AI spends
+                tokens generating unusable code.</p>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Q: What if the AI ignores my context?</strong></summary>
+            <div class="content">
+                <p><strong>A:</strong> Some models deprioritise context. If this happens, reinforce the context
+                in the User message: <em>"As stated in the context, we use Revit 2025. Do not use deprecated methods."</em>
+                You can also try a different model (Claude is often better at following context than GPT-4).</p>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Q: Can I use RAG (Retrieval-Augmented Generation) for context?</strong></summary>
+            <div class="content">
+                <p><strong>A:</strong> Yes. RAG is a form of context engineering where you retrieve relevant
+                documents from a knowledge base and inject them into the prompt. We will cover RAG in detail in
+                Level 8.</p>
+            </div>
+        </details>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 19. KNOWLEDGE CONNECTIONS                   -->
+        <!-- ============================================= -->
+        <h2>🔗 Knowledge Connections</h2>
+        <div class="grid-2">
+            <div class="card">
+                <strong>➡️ Prerequisites</strong>
+                <ul>
+                    <li>Level 0: What is AI? (Mental model of probabilistic text generation)</li>
+                    <li>Level 1: Prompt Fundamentals (Role, Task, Constraints)</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>➡️ What This Leads To</strong>
+                <ul>
+                    <li><strong>Level 3:</strong> Prime Directives &amp; Persona Prompting</li>
+                    <li><strong>Level 4:</strong> Structured Prompting (JSON, XML)</li>
+                    <li><strong>Level 5:</strong> Output Structuring</li>
+                    <li><strong>Level 8:</strong> RAG (Retrieval-Augmented Generation)</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 20. FUTURE LEARNING ROADMAP                 -->
+        <!-- ============================================= -->
+        <h2>🗺️ Future Learning Roadmap</h2>
+        <div class="mermaid">
+BEGINNER
+├── Level 0: What is AI? ✅
+├── Level 1: Prompt Fundamentals ✅
+└── Level 2: Context Engineering  ◄── YOU ARE HERE
+
+INTERMEDIATE
+├── Level 3: Prime Directives & Persona
+├── Level 4: Structured Prompting
+├── Level 5: Output Structuring
+└── Level 6: Few-Shot & Zero-Shot
+
+ADVANCED
+├── Level 7: Reasoning Strategies
+├── Level 8: RAG, ReAct, Reflection
+└── Level 9: Prompt Debugging
+
+EXPERT
+├── Level 10: AI Agents
+└── Level 11: Model Selection & Tuning
+
+MASTER
+├── Level 12: Enterprise Prompting
+└── Level 13: Capstone Project
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 21. AI PROMPT ENGINEERING INSIGHTS          -->
+        <!-- ============================================= -->
+        <h2>✍️ AI Prompt Engineering Insights</h2>
+
+        <div class="prompt-ladder">
+            <div class="prompt-item bad">
+                <strong><span class="tag bad">BAD</span></strong><br>
+                <em>"Write a script to rename sheets."</em>
+                <div class="small" style="color:#991b1b;">No context. The AI guesses everything: version, naming convention, scale, error handling.</div>
+            </div>
+            <div class="prompt-item good">
+                <strong><span class="tag good">GOOD</span></strong><br>
+                <em>"Write a Dynamo script for Revit 2024 that renames sheets using 'OriginalName N'. The project has 500 sheets."</em>
+                <div class="small" style="color:#92400e;">Some context: version, tool, basic naming, scale.</div>
+            </div>
+            <div class="prompt-item expert">
+                <strong><span class="tag expert">EXPERT</span></strong><br>
+                <em>"Act as a Senior BIM Specialist. Write a Dynamo script for a hospital project (Revit 2024, 500+ sheets). Naming standard: 'A-{Level}-{Discipline}-{Number}'. Append sequential number based on input order. Include transaction handling."</em>
+                <div class="small" style="color:#1e3a5f;">Rich context: project type, version, standard, task, constraints.</div>
+            </div>
+            <div class="prompt-item production">
+                <strong><span class="tag production">PRODUCTION</span></strong><br>
+                <em><strong>System:</strong> Senior BIM Automation Architect. Healthcare projects. Revit 2024. Dynamo 2.13. Standard: 'A-{Level}-{Discipline}-{Number}'.<br>
+                <strong>Context:</strong> 500+ sheets, 20 levels. Backup parameter '_BKP_OriginalName'. Performance: 15 seconds. Duplicate handling: append '_X'.<br>
+                <strong>Output:</strong> Python code, node diagram, CSV log format.</em>
+                <div class="small" style="color:#064e3b;">Full context engineering: system, project, technical, constraints, output—everything explicit.</div>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 22. PROMPT IMPROVEMENT SUGGESTIONS          -->
+        <!-- ============================================= -->
+        <h2>📝 Prompt Improvement Suggestions</h2>
+
+        <h3>Your Level 1 Expert Prompt (Without Rich Context)</h3>
+        <div class="code-block">
+"Act as a Senior BIM Automation Specialist. Generate a Dynamo workflow that renames sheets using 'OriginalName N'. Provide: node list, Python code, error handling, performance optimisation."
+        </div>
+        <p><strong>Weaknesses:</strong> Lacks project context, version specifics, detailed constraints, and validation steps.</p>
+
+        <h3>Production-Level with Context Engineering</h3>
+        <div class="code-block">
+<strong>System:</strong> You are a Senior BIM Automation Architect. Our firm specialises in healthcare projects. We use Revit 2024 and Dynamo 2.13.
+
+<strong>Task:</strong> Generate a Dynamo script that renames sheets by appending a sequential number.
+
+<strong>Context:</strong>
+- Project: 500+ sheets, 20 levels, MEP + Architectural + Structural disciplines.
+- Naming standard: 'A-{Level}-{Discipline}-{Number}'.
+- Existing names: "A-01-ARCH-001".
+- New names: "A-01-ARCH-001 1", "A-01-ARCH-001 2".
+- Backup parameter: '_BKP_OriginalName' must be populated.
+- Performance: 500 sheets in under 15 seconds.
+- Error Handling: Duplicate names → append '_X'.
+- End-user: Junior BIM coordinator—add comments and clear error messages.
+
+<strong>Output:</strong> Python code, node diagram, CSV log format.
+        </div>
+        <p><strong>Why it's better:</strong> Every piece of context is explicit, structured, and grounded.
+        The AI has no room to guess.</p>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 23. MY LEARNING ANALYSIS                   -->
+        <!-- ============================================= -->
+        <h2>📊 Your Learning Analysis</h2>
+        <div class="grid-2">
+            <div class="card green">
+                <strong>✅ Strengths Demonstrated</strong>
+                <ul>
+                    <li>You defined context precisely and explained its importance for BIM</li>
+                    <li>You correctly structured the funnel model with a concrete Revit example</li>
+                    <li>You distinguished explicit vs. implicit context with accurate examples</li>
+                    <li>You identified the dangers of relying on training data</li>
+                    <li>You listed five specific, actionable context items for a Dynamo task</li>
+                </ul>
+            </div>
+            <div class="card amber">
+                <strong>🔶 Areas for Growth</strong>
+                <ul>
+                    <li>Practice asking the AI to verify context before execution</li>
+                    <li>Experiment with injecting documentation snippets into prompts</li>
+                    <li>Build a reusable context template library for your team</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 24. FINAL EXPERT TAKEAWAY                  -->
+        <!-- ============================================= -->
+        <h2>🎯 Final Expert Takeaway</h2>
+        <div class="card purple" style="border-left-color:#14b8a6;">
+            <h3 style="margin-top:0; color:#0f766e;">📄 One Page of Advice from a 30-Year Mentor</h3>
+            <p>
+                <strong>"Context is not a luxury—it is a necessity."</strong>
+            </p>
+            <p>
+                Every time you skip context, you are asking the AI to guess. And the AI will guess wrong—not
+                because it is bad, but because it has no choice. Without context, the AI is a generalist.
+                With context, it becomes a specialist.
+            </p>
+            <p>
+                <strong>The secret:</strong> The best prompts are 70% context and 30% instruction.
+                The instruction is the "what"; the context is the "why," "where," "when," "who," and "how."
+            </p>
+            <p style="margin-top:12px; font-weight:600; color:#0f766e;">
+                🔥 Ground the AI in your reality. Give it the briefing it deserves.
+            </p>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 25. MEMORY REVISION SHEET                   -->
+        <!-- ============================================= -->
+        <h2>📄 Memory Revision Sheet (5-Minute Review)</h2>
+        <div class="card" style="border-left-color:#14b8a6; background:#f0fdfa;">
+            <div class="grid-2" style="gap:8px;">
+                <div>
+                    <strong>🧠 What is Context?</strong>
+                    <ul style="margin:4px 0 0 18px; font-size:0.9rem;">
+                        <li>All background info besides the instruction</li>
+                        <li>Grounds the AI in your reality</li>
+                        <li>Prevents hallucinations</li>
+                    </ul>
+                </div>
+                <div>
+                    <strong>📩 The Funnel Model</strong>
+                    <ul style="margin:4px 0 0 18px; font-size:0.9rem;">
+                        <li>Broad → Project, industry</li>
+                        <li>Specific → Versions, standards</li>
+                        <li>Immediate → Task, constraints</li>
+                    </ul>
+                </div>
+                <div>
+                    <strong>🔑 Explicit vs. Implicit</strong>
+                    <ul style="margin:4px 0 0 18px; font-size:0.9rem;">
+                        <li>Explicit: Stated directly</li>
+                        <li>Implicit: Inferred by AI</li>
+                        <li>Rule: Never rely on implicit</li>
+                    </ul>
+                </div>
+                <div>
+                    <strong>✅ Verification</strong>
+                    <ul style="margin:4px 0 0 18px; font-size:0.9rem;">
+                        <li>Ask AI to summarise context</li>
+                        <li>Check against your intent</li>
+                        <li>Iterate if mismatch</li>
+                    </ul>
+                </div>
+            </div>
+            <hr style="margin:10px 0; border-color:#e2e8f0;">
+            <div style="font-size:0.85rem;">
+                <strong>Production secret:</strong> The best prompts are 70% context, 30% instruction.
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 26. INTERVIEW PERSPECTIVE                   -->
+        <!-- ============================================= -->
+        <h2>🎤 Interview Perspective</h2>
+
+        <details>
+            <summary><strong>Technical Interview</strong></summary>
+            <div class="content">
+                <p><strong>Q:</strong> "You need to generate Revit API code using AI. How do you engineer the context?"</p>
+                <p><strong>A:</strong> "I gather all relevant information: Revit version, Dynamo version, company standards, project scale, performance constraints, and the user's skill level. I structure this using the funnel model—broad to specific to immediate. I also inject relevant API documentation snippets into the prompt. Finally, I ask the AI to summarise the context to verify understanding before generating code."</p>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Management Interview</strong></summary>
+            <div class="content">
+                <p><strong>Q:</strong> "How do you ensure context consistency across your team?"</p>
+                <p><strong>A:</strong> "We maintain a shared context library—a set of standardised context blocks. For example, we have a 'Company Standards' block that defines our Revit version, naming conventions, and QA/QC requirements. Every prompt includes this block. This ensures consistency and saves time."</p>
+            </div>
+        </details>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 27. REAL-WORLD CASE STUDY                   -->
+        <!-- ============================================= -->
+        <h2>🏗️ Real-World Case Study</h2>
+
+        <h3>Scenario: The 1000-Sheet Hospital Project</h3>
+        <p>
+            You are the BIM Manager on a large hospital project. The project has 1000+ sheets.
+            The client has just requested a new naming convention. You need to rename all sheets quickly and reliably.
+        </p>
+
+        <h4>Step 1: Gather Context</h4>
+        <ul>
+            <li><strong>Version:</strong> Revit 2025, Dynamo 2.15</li>
+            <li><strong>Project:</strong> Hospital, 15 levels, MEP + Architectural + Structural</li>
+            <li><strong>Naming Standard:</strong> "H-{Level}-{Discipline}-{Number}" (e.g., H-01-A-001)</li>
+            <li><strong>Existing Names:</strong> "H-01-A-001" (no suffix)</li>
+            <li><strong>New Names:</strong> "H-01-A-001 1", "H-01-A-001 2"</li>
+            <li><strong>Backup Parameter:</strong> '_BKP_OriginalName' must exist</li>
+            <li><strong>Performance:</strong> 1000 sheets in under 30 seconds</li>
+            <li><strong>End-user:</strong> Junior BIM coordinator</li>
+        </ul>
+
+        <h4>Step 2: Write the Prompt with Context</h4>
+        <div class="code-block">
+<strong>System:</strong> You are a Senior BIM Automation Architect. Our firm specialises in healthcare.
+We use Revit 2025 and Dynamo 2.15.
+
+<strong>Task:</strong> Generate a Dynamo script that renames sheets using 'OriginalName N'.
+
+<strong>Context:</strong>
+- Project: Hospital, 15 levels, 1000+ sheets.
+- Naming Standard: "H-{Level}-{Discipline}-{Number}".
+- Existing: "H-01-A-001".
+- New: "H-01-A-001 1", "H-01-A-001 2".
+- Backup: '_BKP_OriginalName' must be populated.
+- Performance: 1000 sheets in under 30 seconds.
+- Duplicate Handling: Append '_X' if duplicate exists.
+- End-user: Junior coordinator—add comments and clear errors.
+
+<strong>Output:</strong> Python code, node diagram, CSV log format.
+        </div>
+
+        <h4>Step 3: Verify Context</h4>
+        <p>Add to the prompt: <em>"Before generating the script, summarise the key constraints in your own words."</em></p>
+
+        <h4>Outcome</h4>
+        <p>The AI generated a script that processed 1000 sheets in 12 seconds. The junior coordinator ran it successfully.
+        The CSV log provided an audit trail for the client.</p>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 28. CONTINUOUS IMPROVEMENT NOTES            -->
+        <!-- ============================================= -->
+        <h2>🔄 Continuous Improvement Notes</h2>
+        <ul>
+            <li><strong>Review:</strong> After each prompt, ask: "Did the AI use the context correctly? If not, what was missing?"</li>
+            <li><strong>Metrics:</strong> Track the number of iterations required when context is rich vs. sparse.</li>
+            <li><strong>Automation:</strong> Build a tool that automatically gathers context from project files (e.g., read Revit version from the project file).</li>
+            <li><strong>Next Step:</strong> Level 3 — Prime Directives &amp; Persona Prompting.</li>
+        </ul>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- FOOTER                                       -->
+        <!-- ============================================= -->
+        <div style="text-align:center; font-size:0.8rem; color:#94a3b8; padding-top:20px; border-top:1px solid #e2e8f0;">
+            <strong>Level 2 — Context Engineering</strong><br>
+            Expert Knowledge Document &bull; Prompt Engineering for BIM &amp; Construction Technology<br>
+            Created: 2026 &bull; Permanent Reference &bull; Version 1.0
+        </div>
+
+    </div>
+</body>
+</html>

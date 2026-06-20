@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level 6 — Expert Knowledge: Few-Shot & Zero-Shot Prompting</title>
+    <style>
+        /* ── Reset & Base ── */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #f1f5f9;
+            color: #0f172a;
+            line-height: 1.6;
+            padding: 30px 20px;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 45px 55px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+        }
+        h1 {
+            font-size: 2.4rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: #0f172a;
+            border-bottom: 4px solid #06b6d4;
+            padding-bottom: 12px;
+            margin-bottom: 6px;
+        }
+        .doc-subtitle {
+            font-size: 1.05rem;
+            color: #475569;
+            margin-bottom: 28px;
+            border-left: 4px solid #06b6d4;
+            padding-left: 18px;
+            background: #f8fafc;
+            padding: 12px 20px;
+            border-radius: 8px;
+        }
+        h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-top: 38px;
+            margin-bottom: 14px;
+            color: #0f172a;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 6px;
+        }
+        h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 24px;
+            margin-bottom: 8px;
+            color: #1e293b;
+        }
+        h4 {
+            font-size: 1.0rem;
+            font-weight: 600;
+            margin-top: 18px;
+            margin-bottom: 4px;
+            color: #334155;
+        }
+        p {
+            margin-bottom: 14px;
+        }
+        ul,
+        ol {
+            margin: 10px 0 16px 24px;
+        }
+        li {
+            margin-bottom: 6px;
+        }
+        .card {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 18px 22px;
+            margin: 16px 0;
+            border-left: 5px solid #94a3b8;
+        }
+        .card.blue {
+            border-left-color: #3b82f6;
+            background: #eff6ff;
+        }
+        .card.green {
+            border-left-color: #22c55e;
+            background: #f0fdf4;
+        }
+        .card.amber {
+            border-left-color: #f59e0b;
+            background: #fffbeb;
+        }
+        .card.red {
+            border-left-color: #ef4444;
+            background: #fef2f2;
+        }
+        .card.purple {
+            border-left-color: #8b5cf6;
+            background: #f5f3ff;
+        }
+        .card.cyan {
+            border-left-color: #06b6d4;
+            background: #ecfeff;
+        }
+        .card.teal {
+            border-left-color: #14b8a6;
+            background: #f0fdfa;
+        }
+        .callout {
+            padding: 14px 20px;
+            border-radius: 10px;
+            margin: 16px 0;
+            font-weight: 500;
+        }
+        .callout.info {
+            background: #dbeafe;
+            color: #1e3a8a;
+        }
+        .callout.warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        .callout.danger {
+            background: #fecaca;
+            color: #991b1b;
+        }
+        .callout.success {
+            background: #bbf7d0;
+            color: #166534;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0 20px;
+            font-size: 0.95rem;
+        }
+        th {
+            background: #1e293b;
+            color: #f8fafc;
+            padding: 10px 14px;
+            text-align: left;
+            font-weight: 600;
+        }
+        td {
+            padding: 10px 14px;
+            border-bottom: 1px solid #e2e8f0;
+            vertical-align: top;
+        }
+        tr:nth-child(even) {
+            background: #f8fafc;
+        }
+        tr:hover {
+            background: #f1f5f9;
+        }
+        .code-block {
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 16px 22px;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            font-size: 0.88rem;
+            overflow-x: auto;
+            margin: 14px 0;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        .inline-code {
+            background: #e2e8f0;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        .tag {
+            display: inline-block;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .tag.bad {
+            background: #fecaca;
+            color: #991b1b;
+        }
+        .tag.good {
+            background: #fde68a;
+            color: #92400e;
+        }
+        .tag.expert {
+            background: #93c5fd;
+            color: #1e3a5f;
+        }
+        .tag.production {
+            background: #6ee7b7;
+            color: #064e3b;
+        }
+        .tag.master {
+            background: #c4b5fd;
+            color: #4c1d95;
+        }
+        .prompt-ladder {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 16px 0;
+        }
+        .prompt-item {
+            padding: 14px 20px;
+            border-radius: 10px;
+            border-left: 6px solid;
+        }
+        .prompt-item.bad {
+            background: #fef2f2;
+            border-color: #ef4444;
+        }
+        .prompt-item.good {
+            background: #fffbeb;
+            border-color: #f59e0b;
+        }
+        .prompt-item.expert {
+            background: #eff6ff;
+            border-color: #3b82f6;
+        }
+        .prompt-item.production {
+            background: #ecfdf5;
+            border-color: #10b981;
+        }
+        .prompt-item.master {
+            background: #f5f3ff;
+            border-color: #8b5cf6;
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+        }
+        @media (max-width: 760px) {
+            .grid-2,
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+            .container {
+                padding: 24px 18px;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+        .mermaid {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            white-space: pre;
+            overflow-x: auto;
+            margin: 16px 0;
+            border: 1px solid #e2e8f0;
+        }
+        .hr-divider {
+            border: 0;
+            height: 2px;
+            background: linear-gradient(to right, #e2e8f0, #94a3b8, #e2e8f0);
+            margin: 30px 0;
+        }
+        .small {
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+        details {
+            margin: 12px 0;
+            padding: 10px 16px;
+            background: #f8fafc;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+        }
+        details summary {
+            font-weight: 600;
+            cursor: pointer;
+            color: #1e293b;
+        }
+        details summary:hover {
+            color: #06b6d4;
+        }
+        details .content {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #e2e8f0;
+        }
+        .badge {
+            display: inline-block;
+            background: #f1f5f9;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #475569;
+        }
+        .example-box {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin: 10px 0;
+            border: 1px solid #e2e8f0;
+        }
+        .example-box strong {
+            color: #0f172a;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- ============================================= -->
+        <!-- 1. EXECUTIVE SUMMARY                         -->
+        <!-- ============================================= -->
+        <h1>🎓 Level 6 — Few-Shot & Zero-Shot Prompting</h1>
+        <div class="doc-subtitle">
+            <strong>Permanent Knowledge Base</strong> &bull; BIM Automation Specialist &bull; Teaching AI Through Examples
+        </div>
+
+        <div class="card cyan">
+            <h3 style="margin-top:0;">📌 Executive Summary</h3>
+            <p>
+                <strong>Zero-Shot</strong> prompting relies solely on instructions, with no examples.
+                <strong>One-Shot</strong> provides a single example. <strong>Few-Shot</strong> provides
+                3-5 examples that demonstrate the desired pattern, logic, and style.
+            </p>
+            <p>
+                The core principle is: <strong>"An example is worth a thousand words of instruction."</strong>
+                Examples define the output space, set reasoning patterns, establish boundaries, and reduce ambiguity
+                more effectively than long instructions.
+            </p>
+            <p>
+                <strong>Key Insight:</strong> For BIM automation, few-shot prompting is essential for complex,
+                multi-step workflows (e.g., mapping Excel data to Revit elements with validation). Zero-shot is
+                best for simple, deterministic tasks (e.g., listing available wall types). The choice depends on
+                the complexity and pattern-dependence of the task.
+            </p>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 2. LEARNING HIGHLIGHTS                       -->
+        <!-- ============================================= -->
+        <h2>📚 Learning Highlights</h2>
+        <div class="grid-2">
+            <div class="card">
+                <strong>🔹 Zero-Shot Prompting</strong>
+                <ul>
+                    <li>No examples provided</li>
+                    <li>Relies on training data and instructions</li>
+                    <li>Best for simple, deterministic tasks</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>🔹 One-Shot Prompting</strong>
+                <ul>
+                    <li>One example provided</li>
+                    <li>Provides basic pattern guidance</li>
+                    <li>Better than zero-shot for structured outputs</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>🔹 Few-Shot Prompting</strong>
+                <ul>
+                    <li>3-5 examples provided</li>
+                    <li>Teaches the AI the pattern, logic, and style</li>
+                    <li>Essential for complex, multi-step workflows</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>🔹 Chain of Thought (CoT)</strong>
+                <ul>
+                    <li>Shows the reasoning behind the example</li>
+                    <li>Reduces hallucinations</li>
+                    <li>Makes transformations transparent</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 3. KEY CONCEPTS                              -->
+        <!-- ============================================= -->
+        <h2>🧩 Key Concepts</h2>
+
+        <h3>1. Zero-Shot, One-Shot, Few-Shot Defined</h3>
+        <table>
+            <thead>
+                <tr><th>Technique</th><th>Examples</th><th>Description</th><th>BIM Example</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Zero-Shot</strong></td>
+                    <td>0</td>
+                    <td>AI performs task based solely on instructions</td>
+                    <td>"List all Revit wall types."</td>
+                </tr>
+                <tr>
+                    <td><strong>One-Shot</strong></td>
+                    <td>1</td>
+                    <td>AI is given a single example</td>
+                    <td>Input: Wall type A, Output: Properties → One example</td>
+                </tr>
+                <tr>
+                    <td><strong>Few-Shot</strong></td>
+                    <td>3-5</td>
+                    <td>AI is given multiple examples demonstrating the pattern</td>
+                    <td>Excel row → wall creation (basic, with validation, with error handling)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>2. Why Examples Work</h3>
+        <ul>
+            <li><strong>Encode Implicit Logic:</strong> Examples show the pattern, not just the rules.</li>
+            <li><strong>Reduce Ambiguity:</strong> Examples clarify vague instructions.</li>
+            <li><strong>Define the Output Space:</strong> Examples demonstrate the expected format and style.</li>
+            <li><strong>Set Reasoning Patterns:</strong> Examples show *how* to think about the problem.</li>
+            <li><strong>Establish Boundaries:</strong> Examples illustrate what a good answer looks like.</li>
+        </ul>
+
+        <h3>3. Chain of Thought (CoT) Reasoning</h3>
+        <p>
+            <strong>Definition:</strong> A reasoning method where the model is guided to break a problem into
+            intermediate logical steps before producing the final answer.
+        </p>
+        <ul>
+            <li><strong>How it works:</strong> The AI explains its reasoning step-by-step.</li>
+            <li><strong>Why it's valuable:</strong> Reduces hallucinations, makes logic transparent, improves accuracy.</li>
+            <li><strong>BIM application:</strong> Mapping Excel data → Revit elements → parameters → transactions.</li>
+        </ul>
+        <div class="callout info">
+            <strong>💡 Example:</strong> Instead of just showing the final wall creation script, show the steps:
+            "1. Read Excel. 2. Validate coordinates. 3. Create curve. 4. Assign wall type. 5. Apply height. 6. Check for errors."
+        </div>
+
+        <h3>4. The E.X.A.M.P.L.E. Framework</h3>
+        <table>
+            <thead>
+                <tr><th>Letter</th><th>Meaning</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>E</strong></td><td>Edge Cases</td><td>Include examples that cover edge cases (nulls, duplicates, errors).</td></tr>
+                <tr><td><strong>X</strong></td><td>X-Ray the Logic</td><td>Show the reasoning behind the example.</td></tr>
+                <tr><td><strong>A</strong></td><td>Align with Task</td><td>Ensure examples are directly relevant to the task.</td></tr>
+                <tr><td><strong>M</strong></td><td>Mirror Desired Output</td><td>The example output should match the exact format you want.</td></tr>
+                <tr><td><strong>P</strong></td><td>Pattern Consistency</td><td>All examples should follow the same pattern.</td></tr>
+                <tr><td><strong>L</strong></td><td>Limit to 5</td><td>Use 3-5 examples maximum.</td></tr>
+                <tr><td><strong>E</strong></td><td>Evaluate and Iterate</td><td>If the output is wrong, improve your examples.</td></tr>
+            </tbody>
+        </table>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 4. EXPERT MENTAL MODEL                       -->
+        <!-- ============================================= -->
+        <h2>🧠 Expert Mental Model</h2>
+
+        <div class="card purple">
+            <h4 style="margin-top:0;">🧩 Mental Model: The Apprentice</h4>
+            <p>
+                Imagine you are training a new employee. You don't just give them a manual. You show them:
+            </p>
+            <ul>
+                <li><strong>Zero-Shot:</strong> "Here is the task. Figure it out from the manual."</li>
+                <li><strong>One-Shot:</strong> "Here is one completed task. Do the next one the same way."</li>
+                <li><strong>Few-Shot:</strong> "Here are three completed tasks. Now do the fourth one following the same pattern."</li>
+            </ul>
+            <p>
+                The examples are not just demonstrations—they are <strong>templates</strong> that the apprentice
+                uses to understand the pattern of the work.
+            </p>
+        </div>
+
+        <h3>How an Expert Thinks</h3>
+        <ul>
+            <li><strong>Pattern First:</strong> "What is the pattern I want the AI to learn? I'll show it through examples."</li>
+            <li><strong>Edge Cases Matter:</strong> "I'll include examples that show how to handle errors and edge cases."</li>
+            <li><strong>Reasoning is Key:</strong> "I'll show the reasoning (CoT) so the AI learns *how* to think, not just *what* to output."</li>
+            <li><strong>Quality Over Quantity:</strong> "3-5 well-chosen examples are better than 10 mediocre ones."</li>
+        </ul>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 5. HIDDEN KNOWLEDGE                          -->
+        <!-- ============================================= -->
+        <h2>🔮 Hidden Knowledge (Rarely Written in Tutorials)</h2>
+
+        <div class="grid-2">
+            <div class="card teal">
+                <strong>🎯 The "Progressive Complexity" Strategy</strong>
+                <p>Start with a simple example, then a medium one, then a complex one. This teaches the AI
+                the pattern in stages and shows how to handle increasing complexity.</p>
+            </div>
+            <div class="card teal">
+                <strong>🎯 The "Negative Example" Technique</strong>
+                <p>Include an example of what *not* to do, followed by the corrected version. This teaches
+                the AI the boundaries of the pattern.</p>
+            </div>
+            <div class="card teal">
+                <strong>🎯 The "Input-Output Only" Rule</strong>
+                <p>For code generation, provide only the input and output in the examples. The AI will learn
+                the pattern without needing explicit instructions.</p>
+            </div>
+            <div class="card teal">
+                <strong>🎯 The "Chain of Thought" Injection</strong>
+                <p>Including the reasoning in your examples is the most powerful way to teach the AI.
+                It learns the *logic*, not just the *syntax*.</p>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 6. BEGINNER MISTAKES                         -->
+        <!-- ============================================= -->
+        <h2>⚠️ Beginner Mistakes</h2>
+        <table>
+            <thead>
+                <tr><th>Mistake</th><th>Consequence</th><th>How to Avoid</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Too few examples</strong></td>
+                    <td>AI may overfit to the single example</td>
+                    <td>Use 3-5 examples for complex tasks</td>
+                </tr>
+                <tr>
+                    <td><strong>Too many examples</strong></td>
+                    <td>AI gets confused; token limits hit</td>
+                    <td>Use 3-5 well-chosen examples</td>
+                </tr>
+                <tr>
+                    <td><strong>Irrelevant examples</strong></td>
+                    <td>AI follows the wrong pattern</td>
+                    <td>Select examples that cover the key variations</td>
+                </tr>
+                <tr>
+                    <td><strong>Inconsistent examples</strong></td>
+                    <td>AI doesn't know which pattern to follow</td>
+                    <td>Ensure all examples follow the same pattern</td>
+                </tr>
+                <tr>
+                    <td><strong>No edge cases</strong></td>
+                    <td>AI fails on edge cases</td>
+                    <td>Include edge cases in the examples</td>
+                </tr>
+                <tr>
+                    <td><strong>Examples too complex</strong></td>
+                    <td>AI is overwhelmed</td>
+                    <td>Start with a simple example, then add complexity</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 7. THINGS PEOPLE USUALLY SKIP               -->
+        <!-- ============================================= -->
+        <h2>📌 Things People Usually Skip (But Experts Don't)</h2>
+        <div class="grid-2">
+            <div class="card">
+                <strong>🔸 The "Chain of Thought" Addition</strong>
+                <p>Most people only show the input and output. Experts show the *reasoning* behind the output,
+                teaching the AI *how* to think.</p>
+            </div>
+            <div class="card">
+                <strong>🔸 The "Edge Case" Example</strong>
+                <p>Most people only show the happy path. Experts include an example of an edge case (e.g., null data,
+                duplicate names) to teach the AI how to handle errors.</p>
+            </div>
+            <div class="card">
+                <strong>🔸 The "Negative Example"</strong>
+                <p>Experts sometimes include an example of what *not* to do, followed by the corrected version.</p>
+            </div>
+            <div class="card">
+                <strong>🔸 The "Progressive Complexity" Pattern</strong>
+                <p>Experts don't show 3 examples of the same difficulty. They show a progression from simple to complex.</p>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 8. CRITICAL THINKING CHALLENGES             -->
+        <!-- ============================================= -->
+        <h2>🧩 Critical Thinking Challenges</h2>
+
+        <details>
+            <summary><strong>Challenge 1: The Overfit Example</strong></summary>
+            <div class="content">
+                <p><strong>Scenario:</strong> You provide one example of a wall creation script for a specific wall type.
+                The AI generates scripts that only work for that wall type.</p>
+                <p><strong>Question:</strong> How would you modify your examples to teach the AI a general pattern?</p>
+                <details>
+                    <summary><strong>🔍 Expert Reasoning</strong></summary>
+                    <div class="content">
+                        <p><strong>Solution:</strong> Provide multiple examples with different wall types, parameters,
+                        and scenarios. Show the pattern: "For any wall type, the logic is: read data, create curve,
+                        assign type, apply parameters." Include a simple case, a case with a different wall type,
+                        and a case with validation.</p>
+                    </div>
+                </details>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Challenge 2: The Missing Reasoning</strong></summary>
+            <div class="content">
+                <p><strong>Scenario:</strong> You provide examples of the final code, but the AI still makes logic errors.</p>
+                <p><strong>Question:</strong> How would you modify your examples to improve the AI's reasoning?</p>
+                <details>
+                    <summary><strong>🔍 Expert Reasoning</strong></summary>
+                    <div class="content">
+                        <p><strong>Solution:</strong> Add Chain of Thought reasoning to your examples. Show the
+                        step-by-step logic: "1. Read Excel. 2. Validate coordinates. 3. Create curve. 4. Assign wall type.
+                        5. Apply height. 6. Check for errors." This teaches the AI *how* to think, not just *what* to output.</p>
+                    </div>
+                </details>
+            </div>
+        </details>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 9. PRACTICAL WORKFLOW                        -->
+        <!-- ============================================= -->
+        <h2>🔄 Practical Workflow: Few-Shot Prompting</h2>
+
+        <div class="mermaid">
+1. DEFINE THE TASK
+   └── What pattern does the AI need to learn?
+
+2. IDENTIFY KEY VARIATIONS
+   └── What are the different scenarios? (simple, medium, complex)
+
+3. CREATE 3-5 EXAMPLES
+   └── Each example: Input → Reasoning (CoT) → Output
+         └── Cover edge cases and error handling
+
+4. STRUCTURE THE EXAMPLES
+   └── Use consistent labels, format, and logic
+         └── Show the progression from simple to complex
+
+5. ADD CONTEXT (Persona, Constraints)
+   └── Define the AI's role and output rules
+
+6. TEST & ITERATE
+   └── Run the prompt. Adjust examples if the output is wrong.
+        </div>
+
+        <div class="callout info">
+            <strong>💡 Expert Checkpoint:</strong> If the AI's output follows the same pattern as your examples,
+            your few-shot prompting is working. If it deviates, your examples are not clear or comprehensive enough.
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 10. EXECUTION CHECKLIST                      -->
+        <!-- ============================================= -->
+        <h2>✅ Execution Checklist</h2>
+
+        <div class="grid-2">
+            <div class="card blue">
+                <strong>📋 Examples Selection</strong>
+                <ul>
+                    <li>☐ 3-5 examples selected</li>
+                    <li>☐ Examples cover key variations</li>
+                    <li>☐ Edge cases included</li>
+                </ul>
+            </div>
+            <div class="card blue">
+                <strong>📋 Example Structure</strong>
+                <ul>
+                    <li>☐ Input provided</li>
+                    <li>☐ Reasoning (CoT) included</li>
+                    <li>☐ Output provided</li>
+                    <li>☐ Pattern is consistent across examples</li>
+                </ul>
+            </div>
+            <div class="card green">
+                <strong>📋 Before Running</strong>
+                <ul>
+                    <li>☐ Examples are aligned with the task</li>
+                    <li>☐ Examples are not too complex</li>
+                    <li>☐ Examples are not too simple</li>
+                </ul>
+            </div>
+            <div class="card green">
+                <strong>📋 After Running</strong>
+                <ul>
+                    <li>☐ AI followed the pattern in the examples</li>
+                    <li>☐ AI handled edge cases</li>
+                    <li>☐ AI applied the reasoning correctly</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 11. RULES TO ALWAYS REMEMBER                -->
+        <!-- ============================================= -->
+        <h2>📜 Rules to Always Remember</h2>
+        <div class="grid-2">
+            <div class="card green">
+                <strong>🏆 Golden Rules</strong>
+                <ul>
+                    <li><strong>An example is worth a thousand words.</strong></li>
+                    <li><strong>Use 3-5 examples for complex tasks.</strong></li>
+                    <li><strong>Include Chain of Thought reasoning.</strong></li>
+                    <li><strong>Cover edge cases in your examples.</strong></li>
+                    <li><strong>Keep examples consistent.</strong></li>
+                </ul>
+            </div>
+            <div class="card red">
+                <strong>🚫 Never Do This</strong>
+                <ul>
+                    <li>Use only one example for a complex task.</li>
+                    <li>Provide inconsistent examples.</li>
+                    <li>Skip edge cases.</li>
+                    <li>Show only the output, not the reasoning.</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 12. DECISION TREE                           -->
+        <!-- ============================================= -->
+        <h2>🌳 Decision Tree: Zero-Shot vs. Few-Shot</h2>
+
+        <div class="mermaid">
+┌─────────────────────────────────────┐
+│ Is the task simple and             │
+│ deterministic?                      │
+└──────────────┬──────────────────────┘
+               │
+       ┌───────┴───────┐
+       │               │
+       ▼               ▼
+┌───────────┐   ┌───────────┐
+│ Yes       │   │ No        │
+│ (Simple)  │   │ (Complex) │
+└─────┬─────┘   └─────┬─────┘
+      │               │
+      ▼               ▼
+┌───────────┐   ┌───────────┐
+│ Zero-Shot │   │ Few-Shot  │
+│           │   │           │
+│ ✅ Direct │   │ ✅ Teach  │
+│ ✅ Simple │   │   pattern │
+│ ✅ No     │   │ ✅ Edge  │
+│   pattern │   │   cases  │
+└───────────┘   │ ✅ CoT   │
+                └───────────┘
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 13. PATTERN RECOGNITION                     -->
+        <!-- ============================================= -->
+        <h2>🔍 Pattern Recognition: When to Apply This</h2>
+        <div class="grid-2">
+            <div class="card">
+                <strong>🚦 Signals This Applies</strong>
+                <ul>
+                    <li>You need consistent, patterned outputs</li>
+                    <li>You are dealing with complex, multi-step workflows</li>
+                    <li>You need to teach the AI a specific logic or reasoning pattern</li>
+                    <li>You are generating code or structured data</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>⚠️ Warning Signs You're Forgetting This</strong>
+                <ul>
+                    <li>You are writing long, complex instructions</li>
+                    <li>You are getting inconsistent outputs</li>
+                    <li>You are manually correcting the AI's logic</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 14. PROFESSIONAL TIPS                       -->
+        <!-- ============================================= -->
+        <h2>💼 Professional Tips: What Seniors Do Differently</h2>
+        <ul>
+            <li><strong>They use examples to define the pattern.</strong> They don't just describe it.</li>
+            <li><strong>They include reasoning (CoT).</strong> They show *how* to think, not just *what* to output.</li>
+            <li><strong>They cover edge cases.</strong> They teach the AI how to handle errors and unusual inputs.</li>
+            <li><strong>They start simple and add complexity.</strong> They show a progression in their examples.</li>
+            <li><strong>They test and iterate.</strong> If the output is wrong, they improve the examples, not just the instructions.</li>
+        </ul>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 15. OPTIMIZATION OPPORTUNITIES              -->
+        <!-- ============================================= -->
+        <h2>⚡ Optimization Opportunities</h2>
+        <div class="grid-2">
+            <div class="card teal">
+                <strong>🚀 Performance</strong>
+                <ul>
+                    <li>Use 3-5 examples (fewer tokens than long instructions)</li>
+                    <li>Keep examples concise and focused</li>
+                    <li>Use bullet points for reasoning (CoT) to reduce token usage</li>
+                </ul>
+            </div>
+            <div class="card teal">
+                <strong>📊 Quality</strong>
+                <ul>
+                    <li>Include Chain of Thought reasoning in every example</li>
+                    <li>Cover edge cases to prevent hallucinations</li>
+                    <li>Use "negative examples" to teach boundaries</li>
+                </ul>
+            </div>
+            <div class="card teal">
+                <strong>🤖 Automation</strong>
+                <ul>
+                    <li>Build a library of example templates for common tasks</li>
+                    <li>Automate the generation of examples from past outputs</li>
+                    <li>Use AI to generate examples for you</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 16. EDGE CASES                              -->
+        <!-- ============================================= -->
+        <h2>🔀 Edge Cases</h2>
+        <ul>
+            <li><strong>Overfitting:</strong> The AI may mimic the examples too closely and fail on variations.</li>
+            <li><strong>Insufficient coverage:</strong> The examples don't cover all variations.</li>
+            <li><strong>Conflicting examples:</strong> The examples follow different patterns.</li>
+            <li><strong>Token limits:</strong> Too many examples may exceed the context window.</li>
+        </ul>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 17. VALIDATION & QA                         -->
+        <!-- ============================================= -->
+        <h2>✅ Validation &amp; Quality Assurance</h2>
+
+        <h3>How to Verify Few-Shot Effectiveness</h3>
+        <ul>
+            <li><strong>Pattern Consistency:</strong> Does the AI follow the same pattern as your examples?</li>
+            <li><strong>Edge Case Handling:</strong> Does the AI handle the edge cases you included?</li>
+            <li><strong>Reasoning Alignment:</strong> Does the AI's reasoning match the CoT you provided?</li>
+            <li><strong>Variation Handling:</strong> Does the AI apply the pattern to new variations?</li>
+            <li><strong>Output Quality:</strong> Is the output accurate and complete?</li>
+        </ul>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 18. FREQUENTLY ASKED QUESTIONS              -->
+        <!-- ============================================= -->
+        <h2>❓ Frequently Asked Questions</h2>
+
+        <details>
+            <summary><strong>Q: How many examples should I use for few-shot prompting?</strong></summary>
+            <div class="content">
+                <p><strong>A:</strong> 3-5 examples is the sweet spot. Fewer than 3 may not show the full pattern.
+                More than 5 may confuse the AI or hit token limits.</p>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Q: Should I include Chain of Thought in every example?</strong></summary>
+            <div class="content">
+                <p><strong>A:</strong> Yes, especially for complex tasks. CoT teaches the AI *how* to think,
+                not just *what* to output. It reduces hallucinations and makes the logic transparent.</p>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Q: What if my examples are too specific and the AI overfits?</strong></summary>
+            <div class="content">
+                <p><strong>A:</strong> Include variations in your examples. Show different scenarios, inputs,
+                and edge cases. This teaches the AI the *general pattern*, not just a specific instance.</p>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Q: Can I use few-shot with structured outputs (JSON)?</strong></summary>
+            <div class="content">
+                <p><strong>A:</strong> Yes. In fact, combining few-shot with structured outputs is very powerful.
+                Show the AI examples of the JSON structure you want, and it will mimic that structure.</p>
+            </div>
+        </details>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 19. KNOWLEDGE CONNECTIONS                   -->
+        <!-- ============================================= -->
+        <h2>🔗 Knowledge Connections</h2>
+        <div class="grid-2">
+            <div class="card">
+                <strong>➡️ Prerequisites</strong>
+                <ul>
+                    <li>Level 0: What is AI? (Mental model)</li>
+                    <li>Level 1: Prompt Fundamentals (Structure)</li>
+                    <li>Level 2: Context Engineering (Grounding)</li>
+                    <li>Level 3: Prime Directives & Persona (Behavior)</li>
+                    <li>Level 4: Structured Prompting (Format)</li>
+                    <li>Level 5: Output Structuring (Constraints)</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>➡️ What This Leads To</strong>
+                <ul>
+                    <li><strong>Level 7:</strong> Reasoning Strategies (CoT, ToT, Self-Consistency)</li>
+                    <li><strong>Level 8:</strong> RAG (Retrieval-Augmented Generation)</li>
+                    <li><strong>Level 10:</strong> AI Agents (Multi-agent workflows)</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 20. FUTURE LEARNING ROADMAP                 -->
+        <!-- ============================================= -->
+        <h2>🗺️ Future Learning Roadmap</h2>
+        <div class="mermaid">
+BEGINNER
+├── Level 0: What is AI? ✅
+├── Level 1: Prompt Fundamentals ✅
+├── Level 2: Context Engineering ✅
+├── Level 3: Prime Directives & Persona ✅
+├── Level 4: Structured Prompting ✅
+├── Level 5: Output Structuring & Constraints ✅
+└── Level 6: Few-Shot & Zero-Shot  ◄── YOU ARE HERE
+
+INTERMEDIATE
+└── Level 7: Reasoning Strategies (CoT, ToT, Self-Consistency)
+
+ADVANCED
+├── Level 8: RAG, ReAct, Reflection
+└── Level 9: Prompt Debugging
+
+EXPERT
+├── Level 10: AI Agents
+└── Level 11: Model Selection & Tuning
+
+MASTER
+├── Level 12: Enterprise Prompting
+└── Level 13: Capstone Project
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 21. AI PROMPT ENGINEERING INSIGHTS          -->
+        <!-- ============================================= -->
+        <h2>✍️ AI Prompt Engineering Insights</h2>
+
+        <div class="prompt-ladder">
+            <div class="prompt-item bad">
+                <strong><span class="tag bad">BAD</span></strong><br>
+                <em>"Generate a Dynamo script to create walls from Excel."</em>
+                <div class="small" style="color:#991b1b;">Zero-shot. No examples. The AI will guess the pattern.</div>
+            </div>
+            <div class="prompt-item good">
+                <strong><span class="tag good">GOOD</span></strong><br>
+                <em>"Generate a Dynamo script to create walls from Excel. Example: Excel row → wall creation logic."</em>
+                <div class="small" style="color:#92400e;">One-shot. Basic pattern guidance.</div>
+            </div>
+            <div class="prompt-item expert">
+                <strong><span class="tag expert">EXPERT</span></strong><br>
+                <em>"Generate a Dynamo script to create walls from Excel. Examples: (1) Basic wall creation, (2) Wall with validation, (3) Wall with error handling. Each example shows Input → Logic → Output."</em>
+                <div class="small" style="color:#1e3a5f;">Few-shot with 3 examples. Pattern is clear.</div>
+            </div>
+            <div class="prompt-item production">
+                <strong><span class="tag production">PRODUCTION</span></strong><br>
+                <em><strong>System:</strong> Senior Dynamo Developer. <strong>Task:</strong> Generate a Dynamo script to create walls from Excel.<br>
+                <strong>Examples:</strong> (1) Basic: Input → Logic → Output. (2) Complex: Input → Logic (with CoT) → Output. (3) Error Handling: Input → Logic (with validation) → Output.<br>
+                <strong>Constraints:</strong> Use transactions, handle 500+ rows, provide CSV logs.<br>
+                <strong>Self-Validation:</strong> Ensure the script follows the pattern from the examples.</em>
+                <div class="small" style="color:#064e3b;">Few-shot + CoT + constraints + self-validation. Maximum control.</div>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 22. PROMPT IMPROVEMENT SUGGESTIONS          -->
+        <!-- ============================================= -->
+        <h2>📝 Prompt Improvement Suggestions</h2>
+
+        <h3>Your Level 5 Expert Prompt (Without Few-Shot)</h3>
+        <div class="code-block">
+"Act as a Senior BIM Automation Specialist. Generate a Dynamo script to create walls from Excel. Use transactions. Provide error handling."
+        </div>
+        <p><strong>Weaknesses:</strong> No examples. The AI must infer the pattern from the instructions alone.</p>
+
+        <h3>Production-Level with Few-Shot + CoT</h3>
+        <div class="code-block">
+<strong>System:</strong> Senior BIM Automation Architect. Your code is production-quality.
+<strong>Task:</strong> Generate a Dynamo script to create walls from Excel.
+<strong>Examples:</strong>
+Example 1 (Basic):
+Input: Excel row {Level: L1, Start: (0,0), End: (5,0), Type: Basic Wall, Height: 3000}
+Logic: Read Excel → Create points → Line.ByStartPointEndPoint → Wall.ByCurveAndHeight
+Output: Wall created on L1
+Example 2 (Complex):
+Input: Excel row {Level: L2, Start: (2,2), End: (10,2), Type: Curtain Wall, Height: 4000}
+Logic: Read Excel → Validate coordinates → Create curve → Assign wall type → Apply height
+Output: Curtain Wall created on L2
+Example 3 (Error Handling):
+Input: Excel row {Level: L3, Start: (1,1), End: (1,8), Type: Interior Wall, Height: 2700}
+Logic: Read Excel → Validate → Create curve → Create wall → Check for errors → Log results
+Output: Wall created with validation passed
+<strong>Now generate the script following this pattern.</strong>
+        </div>
+        <p><strong>Why it's better:</strong> The examples teach the AI the pattern, logic, and error handling approach.</p>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 23. MY LEARNING ANALYSIS                   -->
+        <!-- ============================================= -->
+        <h2>📊 Your Learning Analysis</h2>
+        <div class="grid-2">
+            <div class="card green">
+                <strong>✅ Strengths Demonstrated</strong>
+                <ul>
+                    <li>You correctly defined Zero-Shot, One-Shot, and Few-Shot with clear examples.</li>
+                    <li>You explained why examples are more effective than long instructions.</li>
+                    <li>You defined Chain of Thought and explained its value in reducing hallucinations.</li>
+                    <li>You wrote a textbook-perfect few-shot prompt for wall creation with 3 examples.</li>
+                    <li>You made the right decision about when to use zero-shot vs. few-shot in BIM scenarios.</li>
+                </ul>
+            </div>
+            <div class="card amber">
+                <strong>🔶 Areas for Growth</strong>
+                <ul>
+                    <li>Practice writing few-shot prompts for different BIM tasks (clash detection, QA/QC).</li>
+                    <li>Experiment with "negative examples" to teach boundaries.</li>
+                    <li>Build a library of few-shot templates for your team.</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 24. FINAL EXPERT TAKEAWAY                  -->
+        <!-- ============================================= -->
+        <h2>🎯 Final Expert Takeaway</h2>
+        <div class="card cyan" style="border-left-color:#06b6d4;">
+            <h3 style="margin-top:0; color:#0e7490;">📄 One Page of Advice from a 30-Year Mentor</h3>
+            <p>
+                <strong>"Show, don't just tell."</strong>
+            </p>
+            <p>
+                You can describe a pattern to the AI in 1000 words, or you can show it 3 examples. The examples
+                will always be more effective. Why? Because examples encode the implicit logic, the subtle nuances,
+                and the contextual understanding that words alone cannot convey.
+            </p>
+            <p>
+                When you provide examples, you are not just giving the AI data—you are giving it a <strong>template
+                for thinking</strong>. You are showing it *how* to approach the problem, not just *what* the answer
+                should look like.
+            </p>
+            <p style="margin-top:12px; font-weight:600; color:#0e7490;">
+                🔥 An example is worth a thousand words. Use them wisely.
+            </p>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 25. MEMORY REVISION SHEET                   -->
+        <!-- ============================================= -->
+        <h2>📄 Memory Revision Sheet (5-Minute Review)</h2>
+        <div class="card" style="border-left-color:#06b6d4; background:#ecfeff;">
+            <div class="grid-2" style="gap:8px;">
+                <div>
+                    <strong>🧠 Zero-Shot</strong>
+                    <ul style="margin:4px 0 0 18px; font-size:0.9rem;">
+                        <li>0 examples</li>
+                        <li>Relies on instructions</li>
+                        <li>Simple tasks</li>
+                    </ul>
+                </div>
+                <div>
+                    <strong>🧠 One-Shot</strong>
+                    <ul style="margin:4px 0 0 18px; font-size:0.9rem;">
+                        <li>1 example</li>
+                        <li>Basic pattern guidance</li>
+                        <li>Better than zero-shot</li>
+                    </ul>
+                </div>
+                <div>
+                    <strong>🧠 Few-Shot</strong>
+                    <ul style="margin:4px 0 0 18px; font-size:0.9rem;">
+                        <li>3-5 examples</li>
+                        <li>Teaches pattern and logic</li>
+                        <li>Essential for complex tasks</li>
+                    </ul>
+                </div>
+                <div>
+                    <strong>🧠 Chain of Thought</strong>
+                    <ul style="margin:4px 0 0 18px; font-size:0.9rem;">
+                        <li>Shows reasoning</li>
+                        <li>Reduces hallucinations</li>
+                        <li>Makes logic transparent</li>
+                    </ul>
+                </div>
+            </div>
+            <hr style="margin:10px 0; border-color:#a5f3fc;">
+            <div style="font-size:0.85rem;">
+                <strong>Production secret:</strong> Few-shot + CoT + Edge Cases = Maximum control and reliability.
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 26. INTERVIEW PERSPECTIVE                   -->
+        <!-- ============================================= -->
+        <h2>🎤 Interview Perspective</h2>
+
+        <details>
+            <summary><strong>Technical Interview</strong></summary>
+            <div class="content">
+                <p><strong>Q:</strong> "How do you teach the AI a complex pattern for a Dynamo script?"</p>
+                <p><strong>A:</strong> "I use few-shot prompting with 3-5 examples. Each example shows the input,
+                the reasoning (Chain of Thought), and the output. The examples cover different scenarios: a simple case,
+                a case with validation, and a case with error handling. This teaches the AI the pattern and logic,
+                not just the format."</p>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Management Interview</strong></summary>
+            <div class="content">
+                <p><strong>Q:</strong> "How do you ensure the AI consistently applies the same logic across different tasks?"</p>
+                <p><strong>A:</strong> "We use few-shot prompting with consistent examples. For example, we have a
+                template of 3 examples for creating walls, 3 for creating sheets, and 3 for generating reports.
+                The AI learns the pattern from these examples and applies it consistently across tasks."</p>
+            </div>
+        </details>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 27. REAL-WORLD CASE STUDY                   -->
+        <!-- ============================================= -->
+        <h2>🏗️ Real-World Case Study</h2>
+
+        <h3>Scenario: Excel-to-Wall Automation</h3>
+        <p>
+            You need to generate a Dynamo script that creates walls from an Excel file. The Excel file has 500+ rows,
+            with different wall types and parameters. The script must handle errors and validate the data.
+        </p>
+
+        <h4>Step 1: Define the Pattern</h4>
+        <p>The pattern is: Read Excel → Create curve → Assign wall type → Apply parameters → Validate.</p>
+
+        <h4>Step 2: Create Examples</h4>
+        <div class="example-box">
+            <strong>Example 1 (Basic):</strong><br>
+            Input: L1, (0,0), (5,0), Basic Wall, 3000<br>
+            Logic: Read Excel → Create points → Line.ByStartPointEndPoint → Wall.ByCurveAndHeight<br>
+            Output: Wall created on L1
+        </div>
+        <div class="example-box">
+            <strong>Example 2 (Complex):</strong><br>
+            Input: L2, (2,2), (10,2), Curtain Wall, 4000<br>
+            Logic: Read Excel → Validate coordinates → Create curve → Assign Curtain Wall type → Apply height<br>
+            Output: Curtain Wall created on L2
+        </div>
+        <div class="example-box">
+            <strong>Example 3 (Error Handling):</strong><br>
+            Input: L3, (1,1), (1,8), Interior Wall, 2700<br>
+            Logic: Read Excel → Validate → Create curve → Create wall → Check for errors → Log results<br>
+            Output: Wall created with validation passed
+        </div>
+
+        <h4>Step 3: Write the Prompt</h4>
+        <div class="code-block">
+<strong>System:</strong> Senior Dynamo Developer.
+<strong>Task:</strong> Generate a Dynamo script to create walls from Excel.
+<strong>Examples:</strong> (as above)
+<strong>Constraints:</strong> Use transactions, handle 500+ rows, provide CSV logs.
+        </div>
+
+        <h4>Step 4: Validate the Output</h4>
+        <p>
+            The AI generates a script that follows the pattern from the examples. It handles basic walls, complex walls,
+            and error handling. The script processes 500 rows in under 10 seconds.
+        </p>
+
+        <h4>Outcome</h4>
+        <p>
+            The automation is successful. The script is used across 5 projects, saving 20 hours per project.
+            The few-shot examples ensured consistency and reliability.
+        </p>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- 28. CONTINUOUS IMPROVEMENT NOTES            -->
+        <!-- ============================================= -->
+        <h2>🔄 Continuous Improvement Notes</h2>
+        <ul>
+            <li><strong>Review:</strong> After each prompt, check if the AI followed the pattern in your examples.</li>
+            <li><strong>Metrics:</strong> Track the consistency of AI outputs across tasks. Use few-shot to improve consistency.</li>
+            <li><strong>Automation:</strong> Build a library of example templates for common tasks.</li>
+            <li><strong>Next Step:</strong> Level 7 — Reasoning Strategies (CoT, ToT, Self-Consistency).</li>
+        </ul>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================= -->
+        <!-- FOOTER                                       -->
+        <!-- ============================================= -->
+        <div style="text-align:center; font-size:0.8rem; color:#94a3b8; padding-top:20px; border-top:1px solid #e2e8f0;">
+            <strong>Level 6 — Few-Shot & Zero-Shot Prompting</strong><br>
+            Expert Knowledge Document &bull; Prompt Engineering for BIM &amp; Construction Technology<br>
+            Created: 2026 &bull; Permanent Reference &bull; Version 1.0
+        </div>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level 8 — Expert Knowledge: Advanced Strategies</title>
+    <style>
+        /* ── Reset & Base ── */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #f1f5f9;
+            color: #0f172a;
+            line-height: 1.6;
+            padding: 30px 20px;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 45px 55px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+        }
+        h1 {
+            font-size: 2.4rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: #0f172a;
+            border-bottom: 4px solid #0d9488;
+            padding-bottom: 12px;
+            margin-bottom: 6px;
+        }
+        .doc-subtitle {
+            font-size: 1.05rem;
+            color: #475569;
+            margin-bottom: 28px;
+            border-left: 4px solid #0d9488;
+            padding-left: 18px;
+            background: #f8fafc;
+            padding: 12px 20px;
+            border-radius: 8px;
+        }
+        h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-top: 38px;
+            margin-bottom: 14px;
+            color: #0f172a;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 6px;
+        }
+        h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 24px;
+            margin-bottom: 8px;
+            color: #1e293b;
+        }
+        h4 {
+            font-size: 1.0rem;
+            font-weight: 600;
+            margin-top: 18px;
+            margin-bottom: 4px;
+            color: #334155;
+        }
+        p {
+            margin-bottom: 14px;
+        }
+        ul, ol {
+            margin: 10px 0 16px 24px;
+        }
+        li {
+            margin-bottom: 6px;
+        }
+        .card {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 18px 22px;
+            margin: 16px 0;
+            border-left: 5px solid #94a3b8;
+        }
+        .card.blue {
+            border-left-color: #3b82f6;
+            background: #eff6ff;
+        }
+        .card.green {
+            border-left-color: #22c55e;
+            background: #f0fdf4;
+        }
+        .card.amber {
+            border-left-color: #f59e0b;
+            background: #fffbeb;
+        }
+        .card.red {
+            border-left-color: #ef4444;
+            background: #fef2f2;
+        }
+        .card.purple {
+            border-left-color: #8b5cf6;
+            background: #f5f3ff;
+        }
+        .card.teal {
+            border-left-color: #14b8a6;
+            background: #f0fdfa;
+        }
+        .card.cyan {
+            border-left-color: #0d9488;
+            background: #ecfdf5;
+        }
+        .callout {
+            padding: 14px 20px;
+            border-radius: 10px;
+            margin: 16px 0;
+            font-weight: 500;
+        }
+        .callout.info {
+            background: #dbeafe;
+            color: #1e3a8a;
+        }
+        .callout.warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        .callout.danger {
+            background: #fecaca;
+            color: #991b1b;
+        }
+        .callout.success {
+            background: #bbf7d0;
+            color: #166534;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0 20px;
+            font-size: 0.95rem;
+        }
+        th {
+            background: #1e293b;
+            color: #f8fafc;
+            padding: 10px 14px;
+            text-align: left;
+            font-weight: 600;
+        }
+        td {
+            padding: 10px 14px;
+            border-bottom: 1px solid #e2e8f0;
+            vertical-align: top;
+        }
+        tr:nth-child(even) {
+            background: #f8fafc;
+        }
+        tr:hover {
+            background: #f1f5f9;
+        }
+        .code-block {
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 16px 22px;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            font-size: 0.88rem;
+            overflow-x: auto;
+            margin: 14px 0;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        .inline-code {
+            background: #e2e8f0;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        .tag {
+            display: inline-block;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .tag.bad { background: #fecaca; color: #991b1b; }
+        .tag.good { background: #fde68a; color: #92400e; }
+        .tag.expert { background: #93c5fd; color: #1e3a5f; }
+        .tag.production { background: #6ee7b7; color: #064e3b; }
+        .tag.master { background: #c4b5fd; color: #4c1d95; }
+        .prompt-ladder {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 16px 0;
+        }
+        .prompt-item {
+            padding: 14px 20px;
+            border-radius: 10px;
+            border-left: 6px solid;
+        }
+        .prompt-item.bad { background: #fef2f2; border-color: #ef4444; }
+        .prompt-item.good { background: #fffbeb; border-color: #f59e0b; }
+        .prompt-item.expert { background: #eff6ff; border-color: #3b82f6; }
+        .prompt-item.production { background: #ecfdf5; border-color: #10b981; }
+        .prompt-item.master { background: #f5f3ff; border-color: #8b5cf6; }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+        }
+        @media (max-width: 760px) {
+            .grid-2, .grid-3 { grid-template-columns: 1fr; }
+            .container { padding: 24px 18px; }
+            h1 { font-size: 1.8rem; }
+        }
+        .mermaid {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            white-space: pre;
+            overflow-x: auto;
+            margin: 16px 0;
+            border: 1px solid #e2e8f0;
+        }
+        .hr-divider {
+            border: 0;
+            height: 2px;
+            background: linear-gradient(to right, #e2e8f0, #94a3b8, #e2e8f0);
+            margin: 30px 0;
+        }
+        .small { font-size: 0.85rem; color: #64748b; }
+        details {
+            margin: 12px 0;
+            padding: 10px 16px;
+            background: #f8fafc;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+        }
+        details summary {
+            font-weight: 600;
+            cursor: pointer;
+            color: #1e293b;
+        }
+        details summary:hover { color: #0d9488; }
+        details .content {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #e2e8f0;
+        }
+        .framework-box {
+            background: #ecfdf5;
+            border: 2px solid #0d9488;
+            border-radius: 12px;
+            padding: 18px 22px;
+            margin: 16px 0;
+        }
+        .framework-box h4 {
+            color: #0d9488;
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <!-- ============================================= -->
+    <!-- 1. EXECUTIVE SUMMARY                         -->
+    <!-- ============================================= -->
+    <h1>⚡ Level 8 — Advanced Strategies</h1>
+    <div class="doc-subtitle">
+        <strong>Permanent Knowledge Base</strong> &bull; BIM Automation Specialist &bull; Orchestrating AI Systems
+    </div>
+
+    <div class="card cyan">
+        <h3 style="margin-top:0;">📌 Executive Summary</h3>
+        <p>
+            <strong>Advanced Strategies</strong> extend the AI's capabilities beyond a single, static prompt.
+            They enable the AI to retrieve external knowledge, break down complex tasks, simulate expert teams,
+            take actions, and self-improve.
+        </p>
+        <p>
+            The core principle is: <strong>"The best prompt is often not a single prompt at all."</strong>
+        </p>
+        <ul>
+            <li><strong>RAG:</strong> Grounding the AI in external documents and data.</li>
+            <li><strong>Prompt Chaining:</strong> Breaking tasks into sequential steps.</li>
+            <li><strong>Multi-Agent:</strong> Simulating a team of specialized experts.</li>
+            <li><strong>ReAct:</strong> Combining reasoning with action (tool use).</li>
+            <li><strong>Reflection:</strong> Self-critique and iterative improvement.</li>
+        </ul>
+        <p>
+            <strong>Key Insight:</strong> For production BIM automation, these strategies transform the AI
+            from a conversational partner into an <em>orchestrated system</em> that retrieves, reasons, acts,
+            and improves.
+        </p>
+    </div>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 2. LEARNING HIGHLIGHTS                       -->
+    <!-- ============================================= -->
+    <h2>📚 Learning Highlights</h2>
+    <div class="grid-2">
+        <div class="card">
+            <strong>🔹 RAG (Retrieval-Augmented Generation)</strong>
+            <ul>
+                <li>Grounds AI in external knowledge</li>
+                <li>Reduces hallucinations</li>
+                <li>Ensures compliance with standards</li>
+            </ul>
+        </div>
+        <div class="card">
+            <strong>🔹 Prompt Chaining</strong>
+            <ul>
+                <li>Breaks complex tasks into sequential steps</li>
+                <li>Each step builds on the previous</li>
+                <li>Best for multi-phase workflows</li>
+            </ul>
+        </div>
+        <div class="card">
+            <strong>🔹 Multi-Agent Prompting</strong>
+            <ul>
+                <li>Simulates a team of specialized experts</li>
+                <li>Parallel validation and synthesis</li>
+                <li>Best for strategic decisions</li>
+            </ul>
+        </div>
+        <div class="card">
+            <strong>🔹 ReAct &amp; Reflection</strong>
+            <ul>
+                <li><strong>ReAct:</strong> Reason + Act (tool use, API calls)</li>
+                <li><strong>Reflection:</strong> Self-review and correction</li>
+                <li>Best for dynamic, iterative tasks</li>
+            </ul>
+        </div>
+    </div>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 3. KEY CONCEPTS                              -->
+    <!-- ============================================= -->
+    <h2>🧩 Key Concepts</h2>
+
+    <h3>1. RAG (Retrieval-Augmented Generation)</h3>
+    <p>
+        <strong>Definition:</strong> A method where the AI retrieves relevant external information (standards, docs,
+        databases) and then generates an answer using that retrieved context.
+    </p>
+    <ul>
+        <li><strong>Why it's important for BIM:</strong> BIM relies on external truth sources—ISO 19650 standards,
+        company BEPs, Revit API docs, naming conventions, parameter libraries.</li>
+        <li><strong>Without RAG:</strong> The AI may guess API behavior, invent parameters, or miss project-specific rules.</li>
+        <li><strong>With RAG:</strong> Output is grounded in real project data, hallucinations are reduced, and compliance is ensured.</li>
+    </ul>
+
+    <h3>2. Prompt Chaining</h3>
+    <p>
+        <strong>Definition:</strong> A technique where a single AI processes steps sequentially, with the output of
+        one step becoming the input to the next.
+    </p>
+    <ul>
+        <li><strong>Structure:</strong> Step 1 → Step 2 → Step 3 → Final Output.</li>
+        <li><strong>Best for:</strong> Complex, multi-stage tasks like code generation, report creation, and workflow design.</li>
+        <li><strong>BIM example:</strong> Extract Excel data → Validate → Generate Dynamo script → Format output.</li>
+    </ul>
+
+    <h3>3. Multi-Agent Prompting</h3>
+    <p>
+        <strong>Definition:</strong> A technique where multiple AI "roles" work independently, each with a specialized
+        function. Outputs are combined or reviewed.
+    </p>
+    <ul>
+        <li><strong>Structure:</strong> Agent A + Agent B + Agent C → Synthesis → Final Output.</li>
+        <li><strong>Best for:</strong> Strategic decisions, complex validations, and team simulations.</li>
+        <li><strong>BIM example:</strong> Data Extraction Agent + Revit API Developer Agent + QA/QC Reviewer Agent + Standards Compliance Agent.</li>
+    </ul>
+
+    <h3>4. ReAct (Reason + Act)</h3>
+    <p>
+        <strong>Definition:</strong> A strategy that interleaves reasoning (thinking) with action (tool use, API calls,
+        data fetching). The AI reasons, takes an action, observes the result, and reasons again.
+    </p>
+    <ul>
+        <li><strong>How it works:</strong> Reason → Act → Observe → Reason → Act → ... → Final Answer.</li>
+        <li><strong>BIM example:</strong> Check Revit model → extract elements → modify sheets → validate result.</li>
+    </ul>
+
+    <h3>5. Reflection</h3>
+    <p>
+        <strong>Definition:</strong> A process where the AI reviews its own output, identifies mistakes or missing logic,
+        and improves the solution before finalizing it. Acts as a "self-QA" stage.
+    </p>
+    <ul>
+        <li><strong>How it works:</strong> Draft → Review → Identify weaknesses → Rewrite → Finalize.</li>
+        <li><strong>BIM example:</strong> Generate script → Review for compatibility, performance, and edge cases → Rewrite → Final script.</li>
+    </ul>
+
+    <h3>6. The A.D.V.A.N.C.E. Framework</h3>
+    <table>
+        <thead>
+            <tr><th>Letter</th><th>Meaning</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+            <tr><td><strong>A</strong></td><td>Access</td><td>Use RAG to access external knowledge.</td></tr>
+            <tr><td><strong>D</strong></td><td>Decompose</td><td>Use Prompt Chaining to break complex tasks into steps.</td></tr>
+            <tr><td><strong>V</strong></td><td>Validate</td><td>Use Self-Consistency to verify outputs.</td></tr>
+            <tr><td><strong>A</strong></td><td>Act</td><td>Use ReAct to interact with tools and APIs.</td></tr>
+            <tr><td><strong>N</strong></td><td>Negotiate</td><td>Use Multi-Agent to simulate teams and synthesize solutions.</td></tr>
+            <tr><td><strong>C</strong></td><td>Critique</td><td>Use Reflection to self-review and improve.</td></tr>
+            <tr><td><strong>E</strong></td><td>Evaluate</td><td>Iterate and refine based on results.</td></tr>
+        </tbody>
+    </table>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 4. EXPERT MENTAL MODEL                       -->
+    <!-- ============================================= -->
+    <h2>🧠 Expert Mental Model</h2>
+
+    <div class="card purple">
+        <h4 style="margin-top:0;">🧩 Mental Model: The Command Center</h4>
+        <p>
+            Imagine you are leading a team of experts on a critical project. You don't do everything yourself. You:
+        </p>
+        <ol>
+            <li><strong>RAG (The Librarian):</strong> Assign a librarian to fetch the latest documentation, standards, and project data.</li>
+            <li><strong>Prompt Chaining (The Project Manager):</strong> Break the project into phases: requirements → design → implementation → testing.</li>
+            <li><strong>Multi-Agent (The Expert Team):</strong> Assign a developer, a QA engineer, and a BIM manager to work together.</li>
+            <li><strong>ReAct (The Executioner):</strong> Give an engineer the tools to run calculations, fetch data, and update systems.</li>
+            <li><strong>Reflection (The Reviewer):</strong> Have a senior expert review the team's work and provide feedback.</li>
+        </ol>
+        <p>That is <strong>Advanced Strategies</strong>. You are orchestrating a team of AI agents, each with a specific role.</p>
+    </div>
+
+    <h3>How an Expert Thinks</h3>
+    <ul>
+        <li><strong>System Orchestration:</strong> "I don't need one prompt—I need a system of prompts."</li>
+        <li><strong>Knowledge First:</strong> "I'll retrieve the latest documentation before I ask for anything."</li>
+        <li><strong>Break It Down:</strong> "I'll decompose the task into 3-5 phases."</li>
+        <li><strong>Simulate a Team:</strong> "I'll assign different experts to different aspects of the problem."</li>
+        <li><strong>Iterate and Improve:</strong> "I'll ask the AI to review and improve its own work."</li>
+    </ul>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 5. HIDDEN KNOWLEDGE                          -->
+    <!-- ============================================= -->
+    <h2>🔮 Hidden Knowledge (Rarely Written in Tutorials)</h2>
+
+    <div class="grid-2">
+        <div class="card teal">
+            <strong>🎯 The "Retrieval-Augmented" Prompt Pattern</strong>
+            <p>Always structure your RAG prompts as: Context (retrieved docs) → Task → Constraints. The context
+            should be at the top, immediately after the system message.</p>
+        </div>
+        <div class="card teal">
+            <strong>🎯 The "Checkpoint" in Prompt Chaining</strong>
+            <p>After each chain step, add a "validation" step: "Confirm you have completed Step 1 before proceeding
+            to Step 2." This ensures the AI doesn't skip ahead.</p>
+        </div>
+        <div class="card teal">
+            <strong>🎯 The "Synthesis Agent" in Multi-Agent</strong>
+            <p>Always include a "Synthesis Agent" in your multi-agent system. Its job is to resolve conflicts
+            and combine the best elements from other agents' outputs.</p>
+        </div>
+        <div class="card teal">
+            <strong>🎯 The "ReAct as Testing"</strong>
+            <p>ReAct can be used as a testing tool: "Simulate running this script and report the results."
+            This catches errors before actual execution.</p>
+        </div>
+    </div>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 6. BEGINNER MISTAKES                         -->
+    <!-- ============================================= -->
+    <h2>⚠️ Beginner Mistakes</h2>
+    <table>
+        <thead>
+            <tr><th>Mistake</th><th>Consequence</th><th>How to Avoid</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Not using RAG when needed</strong></td>
+                <td>Outdated or incorrect outputs</td>
+                <td>Always provide current documentation.</td>
+            </tr>
+            <tr>
+                <td><strong>Breaking tasks too finely</strong></td>
+                <td>The AI loses context</td>
+                <td>Keep chains to 3-5 steps.</td>
+            </tr>
+            <tr>
+                <td><strong>Multi-agent without coordination</strong></td>
+                <td>The team works in silos</td>
+                <td>Include a synthesis step.</td>
+            </tr>
+            <tr>
+                <td><strong>ReAct without a tool specification</strong></td>
+                <td>The AI invents actions</td>
+                <td>Define the tools and actions explicitly.</td>
+            </tr>
+            <tr>
+                <td><strong>Reflection without action</strong></td>
+                <td>The AI identifies issues but doesn't fix them</td>
+                <td>Always follow reflection with a rewrite.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 7. THINGS PEOPLE USUALLY SKIP               -->
+    <!-- ============================================= -->
+    <h2>📌 Things People Usually Skip (But Experts Don't)</h2>
+    <div class="grid-2">
+        <div class="card">
+            <strong>🔸 The "Knowledge Retrieval" Step</strong>
+            <p>Most people assume the AI knows everything. Experts explicitly retrieve and inject the latest documentation.</p>
+        </div>
+        <div class="card">
+            <strong>🔸 The "Chain Checkpoint"</strong>
+            <p>Most people chain prompts without verification. Experts add a "confirm step" between chain links.</p>
+        </div>
+        <div class="card">
+            <strong>🔸 The "Synthesis Agent"</strong>
+            <p>Most people ask for multiple agents but forget to synthesize. Experts always include a synthesis step.</p>
+        </div>
+        <div class="card">
+            <strong>🔸 The "Action Simulation"</strong>
+            <p>Most people only use ReAct with real tools. Experts also use it to simulate tool execution for testing.</p>
+        </div>
+    </div>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 8. CRITICAL THINKING CHALLENGES             -->
+    <!-- ============================================= -->
+    <h2>🧩 Critical Thinking Challenges</h2>
+
+    <details>
+        <summary><strong>Challenge 1: The Outdated API</strong></summary>
+        <div class="content">
+            <p><strong>Scenario:</strong> You ask the AI to generate a Revit API method. It uses a method that was
+            deprecated in Revit 2024.</p>
+            <p><strong>Question:</strong> How would you use RAG to prevent this?</p>
+            <details>
+                <summary><strong>🔍 Expert Reasoning</strong></summary>
+                <div class="content">
+                    <p><strong>Solution:</strong> Use RAG to retrieve the latest Revit API documentation for the
+                    specific version (e.g., Revit 2025). Inject the relevant documentation snippet into the prompt
+                    before asking the AI to generate the method. This grounds the AI in the correct API methods.</p>
+                </div>
+            </details>
+        </div>
+    </details>
+
+    <details>
+        <summary><strong>Challenge 2: The Uncoordinated Multi-Agent Team</strong></summary>
+        <div class="content">
+            <p><strong>Scenario:</strong> You ask for three agents: Developer, QA, BIM Manager. Each produces a
+            report, but they conflict with each other.</p>
+            <p><strong>Question:</strong> How would you modify your prompt to resolve the conflicts?</p>
+            <details>
+                <summary><strong>🔍 Expert Reasoning</strong></summary>
+                <div class="content">
+                    <p><strong>Solution:</strong> Add a "Synthesis Agent" that reviews the reports from all three
+                    agents, identifies conflicts, and synthesizes a unified solution. Also, add a clear hierarchy:
+                    "If there is a conflict, the BIM Manager's decision takes priority."</p>
+                </div>
+            </details>
+        </div>
+    </details>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 9. PRACTICAL WORKFLOW                        -->
+    <!-- ============================================= -->
+    <h2>🔄 Practical Workflow: Applying Advanced Strategies</h2>
+
+    <div class="mermaid">
+1. ASSESS THE TASK
+   └── Is it simple (single prompt) or complex (multi-step, multi-agent)?
+
+2. APPLY RAG (If needed)
+   └── Retrieve relevant documentation, standards, and data.
+
+3. APPLY PROMPT CHAINING (If complex)
+   └── Break task into 3-5 sequential phases.
+
+4. APPLY MULTI-AGENT (If strategic)
+   └── Assign specialized agents to different aspects.
+
+5. APPLY REACT (If actions needed)
+   └── Reason → Act → Observe → Iterate.
+
+6. APPLY REFLECTION
+   └── Review → Identify weaknesses → Rewrite → Finalize.
+
+7. SYNTHESIZE & FINALIZE
+   └── Combine the best elements from all strategies.
+    </div>
+
+    <div class="callout info">
+        <strong>💡 Expert Checkpoint:</strong> If your prompt does not include at least RAG and Reflection for
+        production tasks, you are missing critical quality assurance.
+    </div>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 10. EXECUTION CHECKLIST                      -->
+    <!-- ============================================= -->
+    <h2>✅ Execution Checklist</h2>
+
+    <div class="grid-2">
+        <div class="card blue">
+            <strong>📋 RAG &amp; Chaining</strong>
+            <ul>
+                <li>☐ Relevant documentation retrieved (RAG)</li>
+                <li>☐ Task broken into 3-5 phases (Chaining)</li>
+                <li>☐ Checkpoints included between phases</li>
+            </ul>
+        </div>
+        <div class="card blue">
+            <strong>📋 Multi-Agent &amp; ReAct</strong>
+            <ul>
+                <li>☐ Specialized agents defined (Multi-Agent)</li>
+                <li>☐ Synthesis step included</li>
+                <li>☐ Actions and tools specified (ReAct)</li>
+            </ul>
+        </div>
+        <div class="card green">
+            <strong>📋 Reflection &amp; Finalization</strong>
+            <ul>
+                <li>☐ Self-review requested (Reflection)</li>
+                <li>☐ Weaknesses identified and fixed</li>
+                <li>☐ Final output polished</li>
+            </ul>
+        </div>
+    </div>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 11. RULES TO ALWAYS REMEMBER                -->
+    <!-- ============================================= -->
+    <h2>📜 Rules to Always Remember</h2>
+    <div class="grid-2">
+        <div class="card green">
+            <strong>🏆 Golden Rules</strong>
+            <ul>
+                <li><strong>Always use RAG</strong> for production tasks.</li>
+                <li><strong>Chain complex tasks</strong> to avoid cognitive overload.</li>
+                <li><strong>Use Multi-Agent</strong> for strategic decisions.</li>
+                <li><strong>Use ReAct</strong> for dynamic, action-oriented tasks.</li>
+                <li><strong>Always use Reflection</strong> for production-ready outputs.</li>
+            </ul>
+        </div>
+        <div class="card red">
+            <strong>🚫 Never Do This</strong>
+            <ul>
+                <li>Skip RAG for API or standards-dependent tasks.</li>
+                <li>Chain too many steps without checkpoints.</li>
+                <li>Use Multi-Agent without a synthesis step.</li>
+                <li>Use ReAct without defining tools.</li>
+                <li>Use Reflection without requiring a rewrite.</li>
+            </ul>
+        </div>
+    </div>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 12. DECISION TREE                           -->
+    <!-- ============================================= -->
+    <h2>🌳 Decision Tree: Which Advanced Strategy to Use?</h2>
+
+    <div class="mermaid">
+┌─────────────────────────────────────┐
+│ What is the task type?             │
+└──────────────┬──────────────────────┘
+               │
+       ┌───────┼───────────────┐
+       │       │               │
+       ▼       ▼               ▼
+┌───────────┐ ┌───────────┐ ┌───────────┐
+│ Knowledge │ │ Multi-    │ │ Dynamic/  │
+│ Dependent │ │ Step      │ │ Action    │
+└─────┬─────┘ └─────┬─────┘ └─────┬─────┘
+      │             │             │
+      ▼             ▼             ▼
+┌───────────┐ ┌───────────┐ ┌───────────┐
+│ RAG       │ │ Prompt    │ │ ReAct     │
+│           │ │ Chaining  │ │           │
+└───────────┘ └─────┬─────┘ └───────────┘
+                    │
+                    ▼
+              ┌───────────┐
+              │ Multi-    │
+              │ Agent     │
+              │ (If       │
+              │ strategic)│
+              └─────┬─────┘
+                    │
+                    ▼
+              ┌───────────┐
+              │ Reflect   │
+              │ (Always)  │
+              └───────────┘
+    </div>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 13. PATTERN RECOGNITION                     -->
+    <!-- ============================================= -->
+    <h2>🔍 Pattern Recognition: When to Apply This</h2>
+    <div class="grid-2">
+        <div class="card">
+            <strong>🚦 Signals This Applies</strong>
+            <ul>
+                <li>You need to retrieve external knowledge (RAG).</li>
+                <li>The task is complex and multi-stage (Prompt Chaining).</li>
+                <li>You need strategic input from multiple perspectives (Multi-Agent).</li>
+                <li>The task requires tools or actions (ReAct).</li>
+                <li>You need production-ready quality (Reflection).</li>
+            </ul>
+        </div>
+        <div class="card">
+            <strong>⚠️ Warning Signs You're Forgetting This</strong>
+            <ul>
+                <li>You are relying on the AI's training data for API knowledge (need RAG).</li>
+                <li>You are trying to fit a complex task into a single prompt (need Chaining).</li>
+                <li>You are getting conflicting outputs (need Multi-Agent synthesis).</li>
+                <li>You are manually correcting the AI's outputs (need Reflection).</li>
+            </ul>
+        </div>
+    </div>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 14. PROFESSIONAL TIPS                       -->
+    <!-- ============================================= -->
+    <h2>💼 Professional Tips: What Seniors Do Differently</h2>
+    <ul>
+        <li><strong>They always start with RAG.</strong> They retrieve documentation and standards before any generation.</li>
+        <li><strong>They chain complex tasks.</strong> They never try to cram everything into one prompt.</li>
+        <li><strong>They simulate teams for strategic decisions.</strong> They assign different roles to different agents.</li>
+        <li><strong>They use ReAct for action-oriented tasks.</strong> They define the tools and actions explicitly.</li>
+        <li><strong>They always use Reflection.</strong> They treat the first draft as a draft, not the final answer.</li>
+    </ul>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 15. OPTIMIZATION OPPORTUNITIES              -->
+    <!-- ============================================= -->
+    <h2>⚡ Optimization Opportunities</h2>
+    <div class="grid-2">
+        <div class="card teal">
+            <strong>🚀 Performance</strong>
+            <ul>
+                <li>Use RAG to reduce hallucinations (fewer iterations).</li>
+                <li>Use Prompt Chaining to avoid cognitive overload.</li>
+                <li>Use Multi-Agent to parallelize validation.</li>
+            </ul>
+        </div>
+        <div class="card teal">
+            <strong>📊 Quality</strong>
+            <ul>
+                <li>RAG ensures compliance with standards.</li>
+                <li>Multi-Agent catches errors from multiple perspectives.</li>
+                <li>Reflection polishes outputs to production quality.</li>
+            </ul>
+        </div>
+        <div class="card teal">
+            <strong>🤖 Automation</strong>
+            <ul>
+                <li>Automate RAG by retrieving documents from a knowledge base.</li>
+                <li>Automate Prompt Chaining with a template system.</li>
+                <li>Automate Multi-Agent with predefined agent roles.</li>
+                <li>Automate Reflection with a self-review prompt template.</li>
+            </ul>
+        </div>
+    </div>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 16. EDGE CASES                              -->
+    <!-- ============================================= -->
+    <h2>🔀 Edge Cases</h2>
+    <ul>
+        <li><strong>RAG overload:</strong> Too much retrieved context can confuse the AI. Summarise or prioritise the documentation.</li>
+        <li><strong>Chain breakage:</strong> If one chain step fails, the rest may fail. Add checkpoints and fallbacks.</li>
+        <li><strong>Multi-Agent conflict:</strong> Agents may disagree. Add a clear hierarchy or synthesis rule.</li>
+        <li><strong>ReAct without tools:</strong> If the AI cannot actually use tools, ReAct becomes a simulation. This is still useful for testing logic.</li>
+    </ul>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 17. VALIDATION & QA                         -->
+    <!-- ============================================= -->
+    <h2>✅ Validation &amp; Quality Assurance</h2>
+
+    <h3>How to Verify Advanced Strategies</h3>
+    <ul>
+        <li><strong>RAG Check:</strong> Did the AI use the retrieved documentation correctly?</li>
+        <li><strong>Chain Check:</strong> Were all steps completed and validated?</li>
+        <li><strong>Multi-Agent Check:</strong> Were all agents' perspectives considered and synthesized?</li>
+        <li><strong>ReAct Check:</strong> Were the actions executed correctly and iterated upon?</li>
+        <li><strong>Reflection Check:</strong> Were weaknesses identified and fixed?</li>
+    </ul>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 18. FREQUENTLY ASKED QUESTIONS              -->
+    <!-- ============================================= -->
+    <h2>❓ Frequently Asked Questions</h2>
+
+    <details>
+        <summary><strong>Q: Can I combine all advanced strategies in one prompt?</strong></summary>
+        <div class="content">
+            <p><strong>A:</strong> It's better to use them as a system of prompts rather than one monolithic prompt.
+            However, you can define the entire system in a single prompt by outlining the agents, chain steps,
+            and reflection process. The AI can simulate the entire system in one response.</p>
+        </div>
+    </details>
+
+    <details>
+        <summary><strong>Q: How do I retrieve documents for RAG?</strong></summary>
+        <div class="content">
+            <p><strong>A:</strong> You can copy-paste relevant excerpts into the prompt, or use a vector database
+            for large-scale retrieval. For simplicity, we recommend copy-pasting the most relevant sections
+            (up to 3-5 pages).</p>
+        </div>
+    </details>
+
+    <details>
+        <summary><strong>Q: What if Multi-Agent agents disagree?</strong></summary>
+        <div class="content">
+            <p><strong>A:</strong> Add a "Synthesis Agent" whose job is to resolve conflicts. Also, define a
+            clear hierarchy: "If there is a conflict, the BIM Manager's decision takes priority."</p>
+        </div>
+    </details>
+
+    <details>
+        <summary><strong>Q: Can ReAct be used without actual tools?</strong></summary>
+        <div class="content">
+            <p><strong>A:</strong> Yes. ReAct can be used to simulate tool execution. The AI "pretends" to run
+            a script and reports the results. This is useful for testing logic before actual implementation.</p>
+        </div>
+    </details>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 19. KNOWLEDGE CONNECTIONS                   -->
+    <!-- ============================================= -->
+    <h2>🔗 Knowledge Connections</h2>
+    <div class="grid-2">
+        <div class="card">
+            <strong>➡️ Prerequisites</strong>
+            <ul>
+                <li>Level 0: What is AI? (Mental model)</li>
+                <li>Level 1: Prompt Fundamentals (Structure)</li>
+                <li>Level 2: Context Engineering (Grounding)</li>
+                <li>Level 3: Prime Directives & Persona (Behavior)</li>
+                <li>Level 4: Structured Prompting (Format)</li>
+                <li>Level 5: Output Structuring (Constraints)</li>
+                <li>Level 6: Few-Shot & Zero-Shot (Examples)</li>
+                <li>Level 7: Reasoning Strategies (CoT, ToT, Self-Consistency)</li>
+            </ul>
+        </div>
+        <div class="card">
+            <strong>➡️ What This Leads To</strong>
+            <ul>
+                <li><strong>Level 9:</strong> Prompt Debugging</li>
+                <li><strong>Level 10:</strong> AI Agents (Full implementation)</li>
+                <li><strong>Level 11:</strong> Model Selection & Tuning</li>
+                <li><strong>Level 12:</strong> Enterprise Prompting</li>
+            </ul>
+        </div>
+    </div>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 20. FUTURE LEARNING ROADMAP                 -->
+    <!-- ============================================= -->
+    <h2>🗺️ Future Learning Roadmap</h2>
+    <div class="mermaid">
+BEGINNER
+├── Level 0: What is AI? ✅
+├── Level 1: Prompt Fundamentals ✅
+├── Level 2: Context Engineering ✅
+├── Level 3: Prime Directives & Persona ✅
+├── Level 4: Structured Prompting ✅
+├── Level 5: Output Structuring & Constraints ✅
+├── Level 6: Few-Shot & Zero-Shot ✅
+├── Level 7: Reasoning Strategies ✅
+└── Level 8: Advanced Strategies  ◄── YOU ARE HERE
+
+ADVANCED
+├── Level 9: Prompt Debugging
+├── Level 10: AI Agents
+└── Level 11: Model Selection & Tuning
+
+MASTER
+├── Level 12: Enterprise Prompting
+└── Level 13: Capstone Project
+    </div>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 21. AI PROMPT ENGINEERING INSIGHTS          -->
+    <!-- ============================================= -->
+    <h2>✍️ AI Prompt Engineering Insights</h2>
+
+    <div class="prompt-ladder">
+        <div class="prompt-item bad">
+            <strong><span class="tag bad">BAD</span></strong><br>
+            <em>"Write a Revit API plugin."</em>
+            <div class="small" style="color:#991b1b;">No strategies. Relies entirely on AI's training data.</div>
+        </div>
+        <div class="prompt-item good">
+            <strong><span class="tag good">GOOD</span></strong><br>
+            <em>"Write a Revit API plugin. Use the latest Revit API documentation."</em>
+            <div class="small" style="color:#92400e;">RAG (implied). Grounding in documentation.</div>
+        </div>
+        <div class="prompt-item expert">
+            <strong><span class="tag expert">EXPERT</span></strong><br>
+            <em>"Write a Revit API plugin. Break it into 3 phases: design, code, review. Use a Developer and QA agent."</em>
+            <div class="small" style="color:#1e3a5f;">Prompt Chaining + Multi-Agent.</div>
+        </div>
+        <div class="prompt-item production">
+            <strong><span class="tag production">PRODUCTION</span></strong><br>
+            <em><strong>RAG:</strong> Retrieve Revit 2025 API docs.<br>
+            <strong>Chain:</strong> Design → Code → Review → Test.<br>
+            <strong>Multi-Agent:</strong> Developer + QA + BIM Manager.<br>
+            <strong>ReAct:</strong> Simulate execution and test results.<br>
+            <strong>Reflection:</strong> Self-review and improve.<br>
+            <strong>Output:</strong> Production-ready plugin.</em>
+            <div class="small" style="color:#064e3b;">Full stack: RAG + Chaining + Multi-Agent + ReAct + Reflection.</div>
+        </div>
+    </div>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 22. PROMPT IMPROVEMENT SUGGESTIONS          -->
+    <!-- ============================================= -->
+    <h2>📝 Prompt Improvement Suggestions</h2>
+
+    <h3>Your Level 7 Expert Prompt (Without Advanced Strategies)</h3>
+    <div class="code-block">
+"Act as a Senior BIM Automation Architect. Generate a Revit API plugin to create views from an Excel list. Use transactions."
+    </div>
+    <p><strong>Weaknesses:</strong> No RAG, no chaining, no multi-agent, no reflection.</p>
+
+    <h3>Production-Level with Advanced Strategies</h3>
+    <div class="code-block">
+<strong>System:</strong> Senior BIM Automation Architect.
+<strong>RAG:</strong> Retrieved Revit 2025 API documentation for ViewPlan.Create.
+<strong>Chain:</strong> Phase 1: Design → Phase 2: Code → Phase 3: Review.
+<strong>Multi-Agent:</strong> Developer (code), QA (validate), BIM Manager (standards).
+<strong>ReAct:</strong> Simulate execution and validate results.
+<strong>Reflection:</strong> Self-review for errors, edge cases, and performance.
+<strong>Output:</strong> Production-ready plugin with full documentation.
+    </div>
+    <p><strong>Why it's better:</strong> The system is grounded in documentation, broken into manageable steps,
+    validated by multiple perspectives, simulated, and self-improved.</p>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 23. MY LEARNING ANALYSIS                   -->
+    <!-- ============================================= -->
+    <h2>📊 Your Learning Analysis</h2>
+    <div class="grid-2">
+        <div class="card green">
+            <strong>✅ Strengths Demonstrated</strong>
+            <ul>
+                <li>You defined RAG correctly and identified its importance for BIM.</li>
+                <li>You distinguished Prompt Chaining (sequential pipeline) from Multi-Agent (parallel specialists).</li>
+                <li>You explained ReAct and its difference from CoT with a perfect BIM example.</li>
+                <li>You described Reflection as a self-review and correction loop with specific Dynamo evaluation questions.</li>
+                <li>You designed a comprehensive combined framework: RAG → Chain → Multi-Agent → Reflection.</li>
+            </ul>
+        </div>
+        <div class="card amber">
+            <strong>🔶 Areas for Growth</strong>
+            <ul>
+                <li>Practice implementing the combined framework in a real prompt.</li>
+                <li>Experiment with automated RAG retrieval (vector databases).</li>
+                <li>Apply Multi-Agent to strategic BIM decisions (BEP, project planning).</li>
+            </ul>
+        </div>
+    </div>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 24. FINAL EXPERT TAKEAWAY                  -->
+    <!-- ============================================= -->
+    <h2>🎯 Final Expert Takeaway</h2>
+    <div class="card cyan" style="border-left-color:#0d9488;">
+        <h3 style="margin-top:0; color:#0f766e;">📄 One Page of Advice from a 30-Year Mentor</h3>
+        <p>
+            <strong>"A single prompt is a conversation. A system of prompts is a symphony."</strong>
+        </p>
+        <p>
+            You are no longer a user of AI—you are an <strong>orchestrator</strong>. Your job is to design systems
+            that retrieve knowledge, break down complexity, simulate expertise, take actions, and self-improve.
+            This is how you build production-grade AI automation for BIM.
+        </p>
+        <p>
+            When you combine RAG, Prompt Chaining, Multi-Agent, ReAct, and Reflection, you are not just getting an
+            answer—you are building a <em>self-correcting, knowledge-grounded, expert-validated</em> system.
+            This is the future of BIM automation.
+        </p>
+        <p style="margin-top:12px; font-weight:600; color:#0f766e;">
+            🔥 Don't write prompts. Design systems.
+        </p>
+    </div>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 25. MEMORY REVISION SHEET                   -->
+    <!-- ============================================= -->
+    <h2>📄 Memory Revision Sheet (5-Minute Review)</h2>
+    <div class="card" style="border-left-color:#0d9488; background:#ecfdf5;">
+        <div class="grid-2" style="gap:8px;">
+            <div>
+                <strong>🧠 RAG</strong>
+                <ul style="margin:4px 0 0 18px; font-size:0.9rem;">
+                    <li>External knowledge</li>
+                    <li>Grounds the AI</li>
+                    <li>Reduces hallucinations</li>
+                </ul>
+            </div>
+            <div>
+                <strong>🧠 Prompt Chaining</strong>
+                <ul style="margin:4px 0 0 18px; font-size:0.9rem;">
+                    <li>Sequential steps</li>
+                    <li>Single thinker</li>
+                    <li>Complex tasks</li>
+                </ul>
+            </div>
+            <div>
+                <strong>🧠 Multi-Agent</strong>
+                <ul style="margin:4px 0 0 18px; font-size:0.9rem;">
+                    <li>Parallel specialists</li>
+                    <li>Synthesis required</li>
+                    <li>Strategic decisions</li>
+                </ul>
+            </div>
+            <div>
+                <strong>🧠 ReAct &amp; Reflection</strong>
+                <ul style="margin:4px 0 0 18px; font-size:0.9rem;">
+                    <li>ReAct: Reason + Act</li>
+                    <li>Reflection: Self-review</li>
+                    <li>Iterative improvement</li>
+                </ul>
+            </div>
+        </div>
+        <hr style="margin:10px 0; border-color:#99f6e4;">
+        <div style="font-size:0.85rem;">
+            <strong>Production secret:</strong> RAG + Chaining + Multi-Agent + ReAct + Reflection = Production-grade BIM automation system.
+        </div>
+    </div>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 26. INTERVIEW PERSPECTIVE                   -->
+    <!-- ============================================= -->
+    <h2>🎤 Interview Perspective</h2>
+
+    <details>
+        <summary><strong>Technical Interview</strong></summary>
+        <div class="content">
+            <p><strong>Q:</strong> "How would you design an AI system to generate a production-ready Revit API plugin?"</p>
+            <p><strong>A:</strong> "I would design a multi-stage system. First, I would use RAG to retrieve the latest
+            Revit API documentation. Second, I would use Prompt Chaining to break the task into design, code, and review
+            phases. Third, I would use Multi-Agent to simulate a Developer, a QA Engineer, and a BIM Manager. Fourth,
+            I would use ReAct to simulate execution and test results. Finally, I would use Reflection to self-review
+            and improve the output. This ensures the plugin is grounded, well-designed, validated, and polished."</p>
+        </div>
+    </details>
+
+    <details>
+        <summary><strong>Management Interview</strong></summary>
+        <div class="content">
+            <p><strong>Q:</strong> "How do you ensure AI-generated project plans are comprehensive and risk-aware?"</p>
+            <p><strong>A:</strong> "We use Multi-Agent prompting to simulate a team of experts: a BIM Manager for
+            strategy, a Technical Lead for implementation, and a Risk Manager for mitigation. We then use Reflection
+            to review the plan from different perspectives. Finally, we use RAG to ground the plan in company
+            standards and project data. This ensures the plan is comprehensive, realistic, and risk-aware."</p>
+        </div>
+    </details>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 27. REAL-WORLD CASE STUDY                   -->
+    <!-- ============================================= -->
+    <h2>🏗️ Real-World Case Study</h2>
+
+    <h3>Scenario: The Production Plugin System</h3>
+    <p>
+        You need to generate a Revit API plugin that creates views from an Excel list. The plugin must be production-ready,
+        compliant with company standards, and thoroughly validated.
+    </p>
+
+    <div class="framework-box">
+        <h4>Step 1: RAG — Knowledge Retrieval</h4>
+        <p>Retrieve Revit 2025 API documentation for ViewPlan.Create and View.Name.</p>
+
+        <h4>Step 2: Prompt Chaining — Design → Code → Review</h4>
+        <p><strong>Phase 1:</strong> Design the method signature and logic.</p>
+        <p><strong>Phase 2:</strong> Write the C# code.</p>
+        <p><strong>Phase 3:</strong> Review the code for errors and edge cases.</p>
+
+        <h4>Step 3: Multi-Agent — Expert Validation</h4>
+        <p><strong>Agent 1 (Developer):</strong> Generate the code.</p>
+        <p><strong>Agent 2 (QA):</strong> Validate the code for bugs and edge cases.</p>
+        <p><strong>Agent 3 (BIM Manager):</strong> Ensure compliance with standards.</p>
+        <p><strong>Synthesis:</strong> Combine the best elements from all agents.</p>
+
+        <h4>Step 4: ReAct — Simulated Execution</h4>
+        <p>Simulate running the plugin on a test project and report the results.</p>
+
+        <h4>Step 5: Reflection — Self-Review and Improvement</h4>
+        <p>Review the final plugin for errors, performance, and completeness. Rewrite if needed.</p>
+    </div>
+
+    <h4>Outcome</h4>
+    <p>
+        The plugin is production-ready. It was grounded in the latest API documentation, designed systematically,
+        validated by multiple experts, simulated, and self-improved. It is now used across 10+ projects.
+    </p>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- 28. CONTINUOUS IMPROVEMENT NOTES            -->
+    <!-- ============================================= -->
+    <h2>🔄 Continuous Improvement Notes</h2>
+    <ul>
+        <li><strong>Review:</strong> After each system, check if all strategies were applied and effective.</li>
+        <li><strong>Metrics:</strong> Track how often Reflection catches errors (a sign of its value).</li>
+        <li><strong>Automation:</strong> Build a framework that automatically applies RAG, Chaining, Multi-Agent, ReAct, and Reflection.</li>
+        <li><strong>Next Step:</strong> Level 9 — Prompt Debugging.</li>
+    </ul>
+
+    <hr class="hr-divider">
+
+    <!-- ============================================= -->
+    <!-- FOOTER                                       -->
+    <!-- ============================================= -->
+    <div style="text-align:center; font-size:0.8rem; color:#94a3b8; padding-top:20px; border-top:1px solid #e2e8f0;">
+        <strong>Level 8 — Advanced Strategies</strong><br>
+        Expert Knowledge Document &bull; Prompt Engineering for BIM &amp; Construction Technology<br>
+        Created: 2026 &bull; Permanent Reference &bull; Version 1.0
+    </div>
+
+</div>
+</body>
+</html>

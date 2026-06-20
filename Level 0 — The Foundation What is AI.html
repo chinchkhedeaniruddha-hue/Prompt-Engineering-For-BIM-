@@ -1,0 +1,1832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level 0 — Expert Knowledge: The Foundation of AI</title>
+    <style>
+        /* ── Reset & Base ── */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #f1f5f9;
+            color: #0f172a;
+            line-height: 1.6;
+            padding: 30px 20px;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 45px 55px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+        }
+
+        /* ── Typography ── */
+        h1 {
+            font-size: 2.4rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: #0f172a;
+            border-bottom: 4px solid #3b82f6;
+            padding-bottom: 12px;
+            margin-bottom: 6px;
+        }
+        .doc-subtitle {
+            font-size: 1.05rem;
+            color: #475569;
+            margin-bottom: 28px;
+            border-left: 4px solid #3b82f6;
+            padding-left: 18px;
+            background: #f8fafc;
+            padding: 12px 20px;
+            border-radius: 8px;
+        }
+        h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-top: 38px;
+            margin-bottom: 14px;
+            color: #0f172a;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 6px;
+        }
+        h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 24px;
+            margin-bottom: 8px;
+            color: #1e293b;
+        }
+        h4 {
+            font-size: 1.0rem;
+            font-weight: 600;
+            margin-top: 18px;
+            margin-bottom: 4px;
+            color: #334155;
+        }
+        p {
+            margin-bottom: 14px;
+        }
+
+        /* ── Lists ── */
+        ul,
+        ol {
+            margin: 10px 0 16px 24px;
+        }
+        li {
+            margin-bottom: 6px;
+        }
+
+        /* ── Cards & Boxes ── */
+        .card {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 18px 22px;
+            margin: 16px 0;
+            border-left: 5px solid #94a3b8;
+        }
+        .card.blue {
+            border-left-color: #3b82f6;
+            background: #eff6ff;
+        }
+        .card.green {
+            border-left-color: #22c55e;
+            background: #f0fdf4;
+        }
+        .card.amber {
+            border-left-color: #f59e0b;
+            background: #fffbeb;
+        }
+        .card.red {
+            border-left-color: #ef4444;
+            background: #fef2f2;
+        }
+        .card.purple {
+            border-left-color: #8b5cf6;
+            background: #f5f3ff;
+        }
+        .card.teal {
+            border-left-color: #14b8a6;
+            background: #f0fdfa;
+        }
+
+        .callout {
+            padding: 14px 20px;
+            border-radius: 10px;
+            margin: 16px 0;
+            font-weight: 500;
+        }
+        .callout.info {
+            background: #dbeafe;
+            color: #1e3a8a;
+        }
+        .callout.warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        .callout.danger {
+            background: #fecaca;
+            color: #991b1b;
+        }
+        .callout.success {
+            background: #bbf7d0;
+            color: #166534;
+        }
+
+        /* ── Tables ── */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0 20px;
+            font-size: 0.95rem;
+        }
+        th {
+            background: #1e293b;
+            color: #f8fafc;
+            padding: 10px 14px;
+            text-align: left;
+            font-weight: 600;
+        }
+        td {
+            padding: 10px 14px;
+            border-bottom: 1px solid #e2e8f0;
+            vertical-align: top;
+        }
+        tr:nth-child(even) {
+            background: #f8fafc;
+        }
+        tr:hover {
+            background: #f1f5f9;
+        }
+
+        /* ── Code ── */
+        .code-block {
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 16px 22px;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            font-size: 0.88rem;
+            overflow-x: auto;
+            margin: 14px 0;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        .code-block .comment {
+            color: #94a3b8;
+        }
+        .code-block .keyword {
+            color: #c084fc;
+        }
+        .code-block .string {
+            color: #34d399;
+        }
+        .code-block .function {
+            color: #60a5fa;
+        }
+        .code-block .number {
+            color: #fbbf24;
+        }
+        .inline-code {
+            background: #e2e8f0;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        /* ── Tags ── */
+        .tag {
+            display: inline-block;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .tag.bad {
+            background: #fecaca;
+            color: #991b1b;
+        }
+        .tag.good {
+            background: #fde68a;
+            color: #92400e;
+        }
+        .tag.expert {
+            background: #93c5fd;
+            color: #1e3a5f;
+        }
+        .tag.production {
+            background: #6ee7b7;
+            color: #064e3b;
+        }
+        .tag.master {
+            background: #c4b5fd;
+            color: #4c1d95;
+        }
+
+        /* ── Prompt Ladder ── */
+        .prompt-ladder {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 16px 0;
+        }
+        .prompt-item {
+            padding: 14px 20px;
+            border-radius: 10px;
+            border-left: 6px solid;
+        }
+        .prompt-item.bad {
+            background: #fef2f2;
+            border-color: #ef4444;
+        }
+        .prompt-item.good {
+            background: #fffbeb;
+            border-color: #f59e0b;
+        }
+        .prompt-item.expert {
+            background: #eff6ff;
+            border-color: #3b82f6;
+        }
+        .prompt-item.production {
+            background: #ecfdf5;
+            border-color: #10b981;
+        }
+        .prompt-item.master {
+            background: #f5f3ff;
+            border-color: #8b5cf6;
+        }
+
+        /* ── Grid ── */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+        }
+        @media (max-width: 760px) {
+            .grid-2,
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+            .container {
+                padding: 24px 18px;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* ── Mermaid fallback ── */
+        .mermaid {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            white-space: pre;
+            overflow-x: auto;
+            margin: 16px 0;
+            border: 1px solid #e2e8f0;
+        }
+
+        /* ── Misc ── */
+        .hr-divider {
+            border: 0;
+            height: 2px;
+            background: linear-gradient(to right, #e2e8f0, #94a3b8, #e2e8f0);
+            margin: 30px 0;
+        }
+        .icon {
+            font-size: 1.3em;
+            margin-right: 6px;
+        }
+        .small {
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+        .highlight {
+            background: #fef9c3;
+            padding: 0 4px;
+            border-radius: 3px;
+        }
+        .footnote {
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-top: 6px;
+        }
+        details {
+            margin: 12px 0;
+            padding: 10px 16px;
+            background: #f8fafc;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+        }
+        details summary {
+            font-weight: 600;
+            cursor: pointer;
+            color: #1e293b;
+        }
+        details summary:hover {
+            color: #3b82f6;
+        }
+        details .content {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #e2e8f0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- ════════════════════════════════════════════ -->
+        <!-- 1. EXECUTIVE SUMMARY                         -->
+        <!-- ════════════════════════════════════════════ -->
+        <h1>🧠 Level 0 — The Foundation: What is AI?</h1>
+        <div class="doc-subtitle">
+            <strong>Permanent Knowledge Base</strong> &bull; BIM Automation Specialist &bull; Prompt Engineering Mastery
+        </div>
+
+        <div class="card blue">
+            <h3 style="margin-top:0;">📌 Executive Summary</h3>
+            <p>
+                An LLM (Large Language Model) is <strong>not an intelligent being</strong> — it is a
+                <strong>probabilistic pattern-matching engine</strong> that predicts the next token based on
+                statistical patterns learned from massive text datasets. It does <em>not</em> "know" facts,
+                <em>cannot</em> see your Revit model, and <em>will not</em> infer your intent.
+            </p>
+            <p>
+                The quality of the AI's output is a <strong>direct mirror</strong> of the quality of your input.
+                "Garbage in, garbage out" is the golden rule. This means that <strong>prompt engineering is not
+                optional</strong> — it is the skill that determines whether AI is a productivity multiplier or a
+                source of frustration.
+            </p>
+            <p>
+                <strong>Key insight for BIM professionals:</strong> Your domain expertise (Revit, Dynamo, construction)
+                is your competitive advantage. The AI knows language patterns. Combined, you are unstoppable — but only
+                if you learn to <em>communicate</em> your expertise effectively through prompts.
+            </p>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ════════════════════════════════════════════ -->
+        <!-- 2. LEARNING HIGHLIGHTS                       -->
+        <!-- ════════════════════════════════════════════ -->
+        <h2>📚 Learning Highlights</h2>
+
+        <div class="grid-2">
+            <div class="card">
+                <strong>🔹 What an LLM Actually Is</strong>
+                <ul>
+                    <li>Probabilistic text generator, not a knowledge base</li>
+                    <li>Predicts the <em>statistically most likely</em> next token</li>
+                    <li>Learns patterns, not facts</li>
+                    <li>No common sense, no reasoning (in the human sense)</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>🔹 Why This Matters for You</strong>
+                <ul>
+                    <li>AI cannot "see" your Revit model</li>
+                    <li>It only reads what you <em>write</em></li>
+                    <li>Output quality = Input quality</li>
+                    <li>Domain expertise + Prompt skill = Superpower</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>🔹 The Prompt Ladder</strong>
+                <ul>
+                    <li>Bad → Good → Expert → Production → Master</li>
+                    <li>Each level adds specificity, constraints, context</li>
+                    <li>Your baseline was "Good"; you reached "Expert"</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>🔹 Core Prompting Principles</strong>
+                <ul>
+                    <li>Be explicit &amp; specific</li>
+                    <li>Provide rich context</li>
+                    <li>Anticipate errors</li>
+                    <li>Define output format</li>
+                    <li>Iterate relentlessly</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ════════════════════════════════════════════ -->
+        <!-- 3. KEY CONCEPTS                              -->
+        <!-- ════════════════════════════════════════════ -->
+        <h2>🧩 Key Concepts</h2>
+
+        <h3>Large Language Model (LLM)</h3>
+        <p><strong>Definition:</strong> A neural network trained on massive text corpora to predict the next token
+        in a sequence. It encodes statistical relationships between words, phrases, and concepts.</p>
+        <p><strong>Purpose:</strong> To generate human-like text that is contextually appropriate and semantically
+        coherent.</p>
+        <p><strong>When to use:</strong> Any task involving text generation, summarisation, translation, code
+        generation, or question answering.</p>
+        <p><strong>When NOT to use:</strong> Tasks requiring true reasoning, real-time data, or guaranteed factual
+        accuracy without verification.</p>
+
+        <div class="grid-2">
+            <div class="card blue">
+                <strong>✅ Advantages</strong>
+                <ul>
+                    <li>Rapid content generation</li>
+                    <li>Contextual understanding</li>
+                    <li>Multilingual capability</li>
+                    <li>Code generation and debugging</li>
+                </ul>
+            </div>
+            <div class="card red">
+                <strong>❌ Disadvantages</strong>
+                <ul>
+                    <li>Can hallucinate facts</li>
+                    <li>No real-world grounding</li>
+                    <li>Bias from training data</li>
+                    <li>Limited by context window</li>
+                </ul>
+            </div>
+        </div>
+
+        <h3>Token</h3>
+        <p><strong>Definition:</strong> The smallest unit of text that an LLM processes. Roughly 1 token ≈ 0.75 words
+        in English, but varies by language.</p>
+        <p><strong>Why it matters:</strong> Context windows are measured in tokens. Costs are calculated per token.
+        Understanding tokens helps you optimise prompts for cost and performance.</p>
+
+        <h3>Context Window</h3>
+        <p><strong>Definition:</strong> The maximum number of tokens an LLM can consider at once.</p>
+        <ul>
+            <li>Older models: 4K–8K tokens</li>
+            <li>Modern models: 100K–1M+ tokens</li>
+        </ul>
+        <p><strong>Implication:</strong> Long-context prompting allows you to feed entire documents, project
+        specifications, or even complete Dynamo graphs as context.</p>
+
+        <h3>Temperature &amp; Top-P</h3>
+        <ul>
+            <li><strong>Temperature:</strong> Controls randomness. Low (0.0–0.3) = deterministic; high (0.8–1.0) =
+            creative.</li>
+            <li><strong>Top-P (Nucleus Sampling):</strong> Limits token selection to the most probable set. Lower =
+            more focused.</li>
+        </ul>
+        <p><strong>For BIM:</strong> Use low temperature (0.0–0.2) for code generation and API queries. Use higher
+        (0.5–0.7) for creative brainstorming or writing proposals.</p>
+
+        <hr class="hr-divider">
+
+        <!-- ════════════════════════════════════════════ -->
+        <!-- 4. EXPERT MENTAL MODEL                       -->
+        <!-- ════════════════════════════════════════════ -->
+        <h2>🧠 Expert Mental Model</h2>
+
+        <div class="card purple">
+            <h4 style="margin-top:0;">🔄 Mental Model: Supercharged Autocomplete</h4>
+            <p>
+                Your phone's keyboard predicts the next word based on what you usually type. An LLM is that, but:
+            </p>
+            <ul>
+                <li><strong>Massive scale:</strong> Trained on trillions of words</li>
+                <li><strong>Deep context:</strong> Understands paragraphs, chapters, code</li>
+                <li><strong>Pattern recognition:</strong> Sees structure in text, not just words</li>
+            </ul>
+            <p>
+                <strong>What this means for you:</strong> You are not "asking a knowledgeable person." You are
+                <strong>steering a pattern-matching engine</strong> toward the specific pattern you want.
+            </p>
+        </div>
+
+        <h3>How an Expert Thinks About Prompting</h3>
+        <ul>
+            <li><strong>Decisions first, words later:</strong> Experts decide what they want the AI to do,
+            then craft the prompt to make that outcome <em>statistically inevitable</em>.</li>
+            <li><strong>Constraint-driven:</strong> "What can go wrong?" is asked before "What can go right?"</li>
+            <li><strong>Iterative by default:</strong> The first prompt is always a draft. The second is a refinement.</li>
+            <li><strong>Context-rich:</strong> Experts feed the AI examples, schemas, and constraints before asking
+            the actual question.</li>
+        </ul>
+
+        <div class="callout info">
+            <strong>💡 Expert Trade-off Thinking:</strong> "Do I want a general answer quickly, or a specific answer correctly?
+            The prompt I write depends on the stakes. For a production script, I spend 80% of the time on constraints,
+            edge cases, and validation. For a brainstorming session, I spend 20%."
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ════════════════════════════════════════════ -->
+        <!-- 5. HIDDEN KNOWLEDGE                          -->
+        <!-- ════════════════════════════════════════════ -->
+        <h2>🔮 Hidden Knowledge (Rarely Written in Tutorials)</h2>
+
+        <div class="grid-2">
+            <div class="card teal">
+                <strong>🎯 Industry Trick: The "Refinement Loop"</strong>
+                <p>Never expect the first prompt to be perfect. Instead, use this workflow:</p>
+                <ol>
+                    <li>Write a rough prompt</li>
+                    <li>Get a rough answer</li>
+                    <li>Analyse what's missing</li>
+                    <li>Refine the prompt</li>
+                    <li>Repeat until satisfactory</li>
+                </ol>
+                <p class="small">This is how experts work. Not one-shot perfection, but iterative excellence.</p>
+            </div>
+            <div class="card teal">
+                <strong>🎯 Professional Habit: "Test with the Dumbest Person"</strong>
+                <p>Assume the AI will interpret your prompt in the <em>most literal, least intelligent</em> way possible.
+                Then write your prompt to survive that interpretation.</p>
+                <p class="small">This is the opposite of assuming the AI "knows what you mean."</p>
+            </div>
+            <div class="card teal">
+                <strong>🎯 Real Project Observation</strong>
+                <p>In production environments, the prompt is often more valuable than the code it generates.
+                A well-specified prompt becomes <strong>documentation</strong>, <strong>requirements</strong>,
+                and <strong>test cases</strong> all in one.</p>
+            </div>
+            <div class="card teal">
+                <strong>🎯 Experience-Based Insight</strong>
+                <p>When a prompt fails, the problem is usually <em>not</em> the AI's capability. It is the prompt's
+                <strong>ambiguity</strong>. Experts assume failure is their own prompt's fault first.</p>
+            </div>
+        </div>
+
+        <div class="card amber">
+            <strong>🕵️ The "But I Said That" Trap</strong>
+            <p>Novices often say: "But I <em>said</em> to handle errors!"</p>
+            <p>Experts know that "handle errors" is too vague. The AI doesn't know <em>which</em> errors or
+            <em>how</em> to handle them. You must specify:</p>
+            <ul>
+                <li>What errors (null sheets, duplicate names, read-only parameters)</li>
+                <li>How to handle each (skip, log, rollback, retry)</li>
+                <li>What to report to the user</li>
+            </ul>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ════════════════════════════════════════════ -->
+        <!-- 6. BEGINNER MISTAKES                         -->
+        <!-- ════════════════════════════════════════════ -->
+        <h2>⚠️ Beginner Mistakes</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Mistake</th>
+                    <th>Why It Happens</th>
+                    <th>Consequences</th>
+                    <th>How to Avoid</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Treating AI as human</strong></td>
+                    <td>Anthropomorphism; natural conversation habit</td>
+                    <td>AI misinterprets; output is generic or wrong</td>
+                    <td>Remember: it's a pattern engine. Be literal.</td>
+                </tr>
+                <tr>
+                    <td><strong>"You know what I mean"</strong></td>
+                    <td>Assuming shared context</td>
+                    <td>AI fills gaps with its own assumptions</td>
+                    <td>Explicitly state <em>everything</em></td>
+                </tr>
+                <tr>
+                    <td><strong>Asking for "the best" way</strong></td>
+                    <td>Natural question; sounds reasonable</td>
+                    <td>AI picks one arbitrarily; no justification</td>
+                    <td>Ask for "the most efficient," "most readable," or "most robust" with criteria</td>
+                </tr>
+                <tr>
+                    <td><strong>No error handling specified</strong></td>
+                    <td>Focus on the "happy path"</td>
+                    <td>Script fails on edge cases; no user feedback</td>
+                    <td>Always ask: "What can go wrong?"</td>
+                </tr>
+                <tr>
+                    <td><strong>Accepting output without verification</strong></td>
+                    <td>Trust in AI; time pressure</td>
+                    <td>Hallucinated APIs, wrong logic, security risks</td>
+                    <td>Always test; validate; review code</td>
+                </tr>
+                <tr>
+                    <td><strong>Vague "clear and precise"</strong></td>
+                    <td>Assumes AI knows what "clear" means</td>
+                    <td>Output is clear to AI but not to you</td>
+                    <td>Define what "clear" means (grouped nodes, comments, labels)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <hr class="hr-divider">
+
+        <!-- ════════════════════════════════════════════ -->
+        <!-- 7. THINGS PEOPLE USUALLY SKIP               -->
+        <!-- ════════════════════════════════════════════ -->
+        <h2>📌 Things People Usually Skip (But Experts Don't)</h2>
+
+        <div class="grid-2">
+            <div class="card">
+                <strong>🔸 Performance Considerations</strong>
+                <p>Novices ask for a script that works. Experts ask for a script that works <em>at scale</em>.
+                "How does it perform with 1000 sheets?" is an expert question.</p>
+            </div>
+            <div class="card">
+                <strong>🔸 Rollback Plans</strong>
+                <p>What happens if the script fails mid-execution? Experts build in backup parameters and
+                rollback logic before they write the main code.</p>
+            </div>
+            <div class="card">
+                <strong>🔸 User Experience</strong>
+                <p>Who is running this? A junior BIM coordinator? A manager? Experts design for the end-user,
+                not just the functionality.</p>
+            </div>
+            <div class="card">
+                <strong>🔸 Documentation as Code</strong>
+                <p>Experts treat their prompt as the <em>first draft of documentation</em>. A good prompt
+                explains the logic, constraints, and expected outputs.</p>
+            </div>
+            <div class="card">
+                <strong>🔸 Compatibility Matrices</strong>
+                <p>Which Revit versions? Which Dynamo versions? Experts specify version constraints
+                explicitly.</p>
+            </div>
+            <div class="card">
+                <strong>🔸 Test Matrices</strong>
+                <p>How do you know it works? Experts define test cases before they even see the AI's output.</p>
+            </div>
+        </div>
+
+        <div class="callout warning">
+            <strong>⚠️ Why This Matters:</strong> These are the differences between a script that works once on
+            your machine and a production tool that works reliably for a team of 50 on a live project.
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ════════════════════════════════════════════ -->
+        <!-- 8. CRITICAL THINKING CHALLENGES             -->
+        <!-- ════════════════════════════════════════════ -->
+        <h2>🧩 Critical Thinking Challenges</h2>
+
+        <details>
+            <summary><strong>Challenge 1: The Enterprise BIM Script</strong></summary>
+            <div class="content">
+                <p><strong>Scenario:</strong> You need to rename 500 sheets in a live Revit project. The project
+                is on a tight deadline. Your script must be <em>foolproof</em> because a junior coordinator will run it.</p>
+                <p><strong>Questions:</strong></p>
+                <ol>
+                    <li>What <strong>five safety checks</strong> would you build into the pre-execution validation?</li>
+                    <li>How would you handle a situation where the script runs, renames 300 sheets, then fails
+                    on sheet 301?</li>
+                    <li>What <strong>three things</strong> would you include in the error message to help the
+                    junior coordinator diagnose the issue?</li>
+                </ol>
+                <p><em>Think about this before reading the expert reasoning below.</em></p>
+                <details>
+                    <summary><strong>🔍 Expert Reasoning (Click to reveal)</strong></summary>
+                    <div class="content" style="border-top-color:#3b82f6;">
+                        <ol>
+                            <li><strong>Pre-execution checks:</strong>
+                                <ul>
+                                    <li>All selected items are valid ViewSheets</li>
+                                    <li>Sheet Name parameter is writable</li>
+                                    <li>Backup parameter exists and is writable</li>
+                                    <li>No active transaction exists</li>
+                                    <li>User has write access to the document</li>
+                                </ul>
+                            </li>
+                            <li><strong>Rollback strategy:</strong> Use a single transaction. If it fails,
+                            roll back <em>everything</em>. Restore from backup parameter. Log which sheet caused
+                            the failure.</li>
+                            <li><strong>Error message must include:</strong>
+                                <ul>
+                                    <li>Which sheet failed (Sheet ID, Sheet Name)</li>
+                                    <li>What the error was (e.g., "Parameter is read-only")</li>
+                                    <li>What the coordinator should do next (e.g., "Check sheet 301, then rerun")</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+                </details>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Challenge 2: The Ambiguous Client Request</strong></summary>
+            <div class="content">
+                <p><strong>Scenario:</strong> A client says: "We need to automate our sheet naming." They don't
+                know what they want. They just know they want it "better."</p>
+                <p><strong>Questions:</strong></p>
+                <ol>
+                    <li>What <strong>five questions</strong> would you ask before writing any prompt or code?</li>
+                    <li>How would you structure your prompt to handle this ambiguity?</li>
+                    <li>What is your <strong>strategy</strong> for managing scope creep?</li>
+                </ol>
+                <details>
+                    <summary><strong>🔍 Expert Reasoning (Click to reveal)</strong></summary>
+                    <div class="content" style="border-top-color:#3b82f6;">
+                        <ol>
+                            <li><strong>Five questions:</strong>
+                                <ul>
+                                    <li>What is the current naming convention? (examples)</li>
+                                    <li>What is the desired naming convention? (examples)</li>
+                                    <li>Which sheets need renaming? (all? some?)</li>
+                                    <li>What is the business value of this automation?</li>
+                                    <li>Who will run this script? (skill level)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Prompt strategy:</strong> Include a section for "Assumptions" and
+                            "Clarifications Needed." For example: "<em>Assumption: All sheets are selected.
+                            If this is incorrect, please clarify.</em>"</li>
+                            <li><strong>Scope management:</strong> Define MVP first. Add "nice-to-have" as separate
+                            requirements. Use a structured prompt that separates core logic from optional enhancements.</li>
+                        </ol>
+                    </div>
+                </details>
+            </div>
+        </details>
+
+        <hr class="hr-divider">
+
+        <!-- ════════════════════════════════════════════ -->
+        <!-- 9. PRACTICAL WORKFLOW                        -->
+        <!-- ════════════════════════════════════════════ -->
+        <h2>🔄 Practical Workflow: Expert Prompt Engineering Process</h2>
+
+        <div class="mermaid">
+┌─────────────────────────────────────────────────────────┐
+│  Phase 1: Define Requirements                          │
+│  • What is the goal?                                   │
+│  • What are the constraints? (time, budget, resources) │
+│  • Who is the end-user?                                │
+│  • What can go wrong?                                  │
+└────────────────────────┬────────────────────────────────┘
+                         ▼
+┌─────────────────────────────────────────────────────────┐
+│  Phase 2: Draft the Prompt                             │
+│  • Write the system role (who the AI should be)        │
+│  • Write the task (what the AI should do)              │
+│  • Add constraints (what the AI cannot do)             │
+│  • Define output format (what the AI should produce)   │
+└────────────────────────┬────────────────────────────────┘
+                         ▼
+┌─────────────────────────────────────────────────────────┐
+│  Phase 3: Review & Refine                              │
+│  • Read it as if you were the AI                       │
+│  • Identify ambiguities                                │
+│  • Add specifics (edge cases, error handling)          │
+│  • Check for assumptions                               │
+└────────────────────────┬────────────────────────────────┘
+                         ▼
+┌─────────────────────────────────────────────────────────┐
+│  Phase 4: Test & Iterate                               │
+│  • Run the prompt                                      │
+│  • Evaluate output                                     │
+│  • Compare to requirements                             │
+│  • Refine and repeat                                   │
+└────────────────────────┬────────────────────────────────┘
+                         ▼
+┌─────────────────────────────────────────────────────────┐
+│  Phase 5: Production Ready                             │
+│  • Add validation checklist                            │
+│  • Add test matrix                                     │
+│  • Document version/compatibility                      │
+│  • Create user guide                                   │
+└─────────────────────────────────────────────────────────┘
+        </div>
+
+        <div class="callout info">
+            <strong>💡 Expert Checkpoint:</strong> After Phase 2, experts ask: "If I gave this prompt to five different
+            AIs, would they all produce the same output?" If the answer is "no," the prompt is still ambiguous.
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ════════════════════════════════════════════ -->
+        <!-- 10. EXECUTION CHECKLIST                     -->
+        <!-- ════════════════════════════════════════════ -->
+        <h2>✅ Execution Checklist</h2>
+
+        <div class="grid-2">
+            <div class="card blue">
+                <strong>📋 Before Starting</strong>
+                <ul>
+                    <li>☐ Define the clear goal</li>
+                    <li>☐ Identify the end-user</li>
+                    <li>☐ List potential risks</li>
+                    <li>☐ Define success criteria</li>
+                    <li>☐ Gather examples (if few-shot)</li>
+                </ul>
+            </div>
+            <div class="card blue">
+                <strong>📋 During Drafting</strong>
+                <ul>
+                    <li>☐ System role defined</li>
+                    <li>☐ Task is explicit</li>
+                    <li>☐ Constraints are listed</li>
+                    <li>☐ Output format specified</li>
+                    <li>☐ Error handling included</li>
+                </ul>
+            </div>
+            <div class="card green">
+                <strong>📋 Before Running</strong>
+                <ul>
+                    <li>☐ Read prompt aloud (as if you're the AI)</li>
+                    <li>☐ Check for ambiguity</li>
+                    <li>☐ Verify no assumptions</li>
+                    <li>☐ Test with a small sample</li>
+                </ul>
+            </div>
+            <div class="card green">
+                <strong>📋 After Running</strong>
+                <ul>
+                    <li>☐ Compare output to requirements</li>
+                    <li>☐ Check for hallucinations</li>
+                    <li>☐ Validate code (syntax, logic)</li>
+                    <li>☐ Test edge cases</li>
+                </ul>
+            </div>
+            <div class="card amber">
+                <strong>📋 Before Submission</strong>
+                <ul>
+                    <li>☐ Documentation complete</li>
+                    <li>☐ Test matrix passed</li>
+                    <li>☐ Version compatibility checked</li>
+                    <li>☐ User guide written</li>
+                </ul>
+            </div>
+            <div class="card amber">
+                <strong>📋 After Submission</strong>
+                <ul>
+                    <li>☐ Gather feedback</li>
+                    <li>☐ Document lessons learned</li>
+                    <li>☐ Refine prompt for future</li>
+                    <li>☐ Share with team</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ════════════════════════════════════════════ -->
+        <!-- 11. RULES TO ALWAYS REMEMBER                -->
+        <!-- ════════════════════════════════════════════ -->
+        <h2>📜 Rules to Always Remember</h2>
+
+        <div class="grid-2">
+            <div class="card green">
+                <strong>🏆 Golden Rules</strong>
+                <ul>
+                    <li><strong>Garbage in, garbage out.</strong> Quality of output = quality of input.</li>
+                    <li><strong>Be explicit.</strong> Say what you mean. Mean what you say.</li>
+                    <li><strong>Iterate relentlessly.</strong> The first prompt is a draft.</li>
+                    <li><strong>Assume the worst.</strong> The AI will interpret your prompt literally.</li>
+                </ul>
+            </div>
+            <div class="card red">
+                <strong>🚨 Red Flags</strong>
+                <ul>
+                    <li>You wrote "you know what I mean"</li>
+                    <li>You didn't specify any error handling</li>
+                    <li>You didn't define the output format</li>
+                    <li>You're not sure what the AI will produce</li>
+                </ul>
+            </div>
+            <div class="card red">
+                <strong>🚫 Never Do This</strong>
+                <ul>
+                    <li>Assume the AI knows your project context</li>
+                    <li>Accept code without reviewing it</li>
+                    <li>Skip testing edge cases</li>
+                    <li>Trust hallucinations</li>
+                </ul>
+            </div>
+            <div class="card blue">
+                <strong>✅ Always Verify</strong>
+                <ul>
+                    <li>API methods exist in your version</li>
+                    <li>Nodes exist in your Dynamo version</li>
+                    <li>Code runs in your environment</li>
+                    <li>Output matches expected results</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ════════════════════════════════════════════ -->
+        <!-- 12. DECISION TREE                           -->
+        <!-- ════════════════════════════════════════════ -->
+        <h2>🌳 Decision Tree: How to Approach a Prompt</h2>
+
+        <div class="mermaid">
+┌─────────────────────────────┐
+│  What is the task?          │
+└──────────────┬──────────────┘
+               ▼
+┌─────────────────────────────┐
+│  Is this a one-off or       │
+│  production task?           │
+└──────────────┬──────────────┘
+               │
+       ┌───────┴───────┐
+       │               │
+       ▼               ▼
+┌───────────┐   ┌───────────┐
+│ One-off   │   │ Production│
+│           │   │           │
+│ ✅ Simple │   │ ❌ Complex│
+│ ✅ No QA  │   │ ✅ QA req.│
+│ ✅ Quick  │   │ ✅ Robust │
+└─────┬─────┘   └─────┬─────┘
+      │               │
+      ▼               ▼
+┌───────────┐   ┌───────────┐
+│ Write a   │   │ Write a   │
+│ Good      │   │ Production│
+│ Prompt    │   │ Prompt    │
+└───────────┘   └───────────┘
+      │               │
+      └───────┬───────┘
+              ▼
+┌─────────────────────────────┐
+│  Test & Iterate             │
+└─────────────────────────────┘
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ════════════════════════════════════════════ -->
+        <!-- 13. PATTERN RECOGNITION                     -->
+        <!-- ════════════════════════════════════════════ -->
+        <h2>🔍 Pattern Recognition: When Does This Apply?</h2>
+
+        <div class="grid-2">
+            <div class="card">
+                <strong>🚦 Signals This Knowledge Applies</strong>
+                <ul>
+                    <li>You are about to ask an AI to generate code</li>
+                    <li>You are writing requirements for automation</li>
+                    <li>You need to explain a technical concept to non-technical stakeholders</li>
+                    <li>You are documenting a workflow</li>
+                    <li>You are troubleshooting a script</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>⚠️ Warning Signs You're Forgetting This</strong>
+                <ul>
+                    <li>Your prompt is one sentence long</li>
+                    <li>You haven't thought about what can go wrong</li>
+                    <li>You're not sure what format the AI will return</li>
+                    <li>You're about to run production code without testing</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>📊 Common Scenarios</strong>
+                <ul>
+                    <li>Writing a Dynamo script for sheet management</li>
+                    <li>Creating a Revit API plugin</li>
+                    <li>Automating BIM QA/QC</li>
+                    <li>Generating project documentation</li>
+                    <li>Writing client proposals</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>🔄 When to Use This Mental Model</strong>
+                <ul>
+                    <li>Every time you interact with an LLM</li>
+                    <li>Every time you write requirements</li>
+                    <li>Every time you design a workflow</li>
+                    <li>Every time you review someone else's code</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ════════════════════════════════════════════ -->
+        <!-- 14. PROFESSIONAL TIPS                       -->
+        <!-- ════════════════════════════════════════════ -->
+        <h2>💼 Professional Tips: What Senior Professionals Do Differently</h2>
+
+        <div class="grid-2">
+            <div class="card purple">
+                <strong>🔹 Think in Systems, Not Tasks</strong>
+                <p>Junior: "I need to rename sheets."</p>
+                <p>Senior: "I need a reusable naming workflow that integrates with our BIM standards and
+                works across all projects."</p>
+            </div>
+            <div class="card purple">
+                <strong>🔹 Document as You Prompt</strong>
+                <p>Junior: Writes a prompt, gets code, moves on.</p>
+                <p>Senior: Writes a prompt that <em>itself</em> serves as documentation for the code it generates.</p>
+            </div>
+            <div class="card purple">
+                <strong>🔹 Think About the User First</strong>
+                <p>Junior: "Does this work?"</p>
+                <p>Senior: "Can a junior coordinator run this without breaking the project?"</p>
+            </div>
+            <div class="card purple">
+                <strong>🔹 Build in Observability</strong>
+                <p>Junior: Writes a script that runs silently.</p>
+                <p>Senior: Builds logging, progress reporting, and validation summaries.</p>
+            </div>
+            <div class="card purple">
+                <strong>🔹 Plan for Failure</strong>
+                <p>Junior: Writes the "happy path."</p>
+                <p>Senior: Writes the "sad path" first, then the happy path.</p>
+            </div>
+            <div class="card purple">
+                <strong>🔹 Iterate with Intention</strong>
+                <p>Junior: Changes the prompt randomly until something works.</p>
+                <p>Senior: Analyses <em>why</em> a prompt failed, then targets that specific gap.</p>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ════════════════════════════════════════════ -->
+        <!-- 15. OPTIMIZATION OPPORTUNITIES              -->
+        <!-- ════════════════════════════════════════════ -->
+        <h2>⚡ Optimization Opportunities</h2>
+
+        <div class="grid-2">
+            <div class="card teal">
+                <strong>🚀 Performance Improvements</strong>
+                <ul>
+                    <li>Use batch operations instead of loops where possible</li>
+                    <li>Cache parameter lookups (don't fetch the same parameter twice)</li>
+                    <li>Use <code>Transaction</code> for all-or-nothing operations</li>
+                    <li>Optimise for O(n) complexity</li>
+                </ul>
+            </div>
+            <div class="card teal">
+                <strong>📊 Quality Improvements</strong>
+                <ul>
+                    <li>Add pre-validation checks</li>
+                    <li>Add post-validation verification</li>
+                    <li>Build in dry-run mode</li>
+                    <li>Generate comprehensive logs</li>
+                </ul>
+            </div>
+            <div class="card teal">
+                <strong>🤖 Automation Opportunities</strong>
+                <ul>
+                    <li>Integrate with CI/CD pipelines for testing</li>
+                    <li>Use AI to generate documentation from prompts</li>
+                    <li>Create template prompts for common workflows</li>
+                    <li>Build a prompt library for your team</li>
+                </ul>
+            </div>
+            <div class="card teal">
+                <strong>🧠 AI Opportunities</strong>
+                <ul>
+                    <li>Use AI to review your prompts (as you did with ChatGPT)</li>
+                    <li>Use AI to generate test cases</li>
+                    <li>Use AI to create user guides</li>
+                    <li>Use AI to suggest improvements</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ════════════════════════════════════════════ -->
+        <!-- 16. EDGE CASES                              -->
+        <!-- ════════════════════════════════════════════ -->
+        <h2>🔀 Edge Cases</h2>
+
+        <div class="card red">
+            <strong>⚠️ Uncommon But Critical Scenarios</strong>
+            <ul>
+                <li><strong>Empty sheet list:</strong> What happens if the user selects no sheets?</li>
+                <li><strong>Single sheet with duplicate target name:</strong> How do you handle uniqueness?</li>
+                <li><strong>Read-only sheet parameter:</strong> What if the parameter is locked?</li>
+                <li><strong>Missing backup parameter:</strong> What if your safety net isn't there?</li>
+                <li><strong>User cancellation:</strong> What if the user stops the script mid-run?</li>
+                <li><strong>API version differences:</strong> What works in Revit 2022 but not 2026?</li>
+                <li><strong>Large-scale operations:</strong> 500+ sheets — will Revit freeze?</li>
+                <li><strong>Concurrent transactions:</strong> What if another script is already running?</li>
+            </ul>
+        </div>
+
+        <div class="card blue">
+            <strong>🔄 Recovery Strategies</strong>
+            <ul>
+                <li>Always have a rollback plan (backup parameters)</li>
+                <li>Use dry-run mode to preview changes</li>
+                <li>Log everything for post-mortem analysis</li>
+                <li>Design for idempotency (running twice = running once)</li>
+            </ul>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ════════════════════════════════════════════ -->
+        <!-- 17. VALIDATION & QA                         -->
+        <!-- ════════════════════════════════════════════ -->
+        <h2>✅ Validation &amp; Quality Assurance</h2>
+
+        <h3>How to Verify Your Work</h3>
+        <ul>
+            <li><strong>Test with sample data:</strong> Run on 3 sheets first, then 10, then 100.</li>
+            <li><strong>Test edge cases:</strong> Empty list, duplicate names, invalid inputs.</li>
+            <li><strong>Test rollback:</strong> Force a failure and verify the restore works.</li>
+            <li><strong>Test with different Revit versions:</strong> What works in 2022 may not work in 2026.</li>
+            <li><strong>Test with a junior user:</strong> Can they run it without your help?</li>
+        </ul>
+
+        <h3>What You Should Test</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Test Category</th>
+                    <th>What to Test</th>
+                    <th>Pass Criteria</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Input Validation</strong></td>
+                    <td>Null inputs, empty list, invalid types</td>
+                    <td>Clear error messages; no crash</td>
+                </tr>
+                <tr>
+                    <td><strong>Core Logic</strong></td>
+                    <td>Naming convention applied correctly</td>
+                    <td>All sheets follow expected pattern</td>
+                </tr>
+                <tr>
+                    <td><strong>Error Handling</strong></td>
+                    <td>Read-only parameters, duplicate names</td>
+                    <td>Errors logged; script continues if safe</td>
+                </tr>
+                <tr>
+                    <td><strong>Transaction</strong></td>
+                    <td>Commit on success; rollback on failure</td>
+                    <td>No partial modifications</td>
+                </tr>
+                <tr>
+                    <td><strong>Rollback</strong></td>
+                    <td>Backup parameter restored on failure</td>
+                    <td>Original names are restored</td>
+                </tr>
+                <tr>
+                    <td><strong>Performance</strong></td>
+                    <td>1000 sheets in under 30 seconds</td>
+                    <td>Acceptable for production</td>
+                </tr>
+                <tr>
+                    <td><strong>User Experience</strong></td>
+                    <td>Progress bar, logs, dry-run mode</td>
+                    <td>User knows what's happening</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="callout success">
+            <strong>✅ How to Know It's Correct:</strong>
+            <ul>
+                <li>All test cases pass</li>
+                <li>Logs show exactly what was changed</li>
+                <li>Rollback restores original state</li>
+                <li>A junior user can run it successfully</li>
+                <li>It works on multiple Revit versions</li>
+            </ul>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ════════════════════════════════════════════ -->
+        <!-- 18. FREQUENTLY ASKED QUESTIONS              -->
+        <!-- ════════════════════════════════════════════ -->
+        <h2>❓ Frequently Asked Questions</h2>
+
+        <details>
+            <summary><strong>Q: Is the AI actually "thinking"?</strong></summary>
+            <div class="content">
+                <p><strong>A:</strong> No. It is performing statistical pattern matching. It does not have
+                consciousness, understanding, or intent. It <em>simulates</em> thinking by generating text that
+                matches patterns it has learned.</p>
+                <p><strong>Implication:</strong> Treat it as a tool, not a colleague.</p>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Q: Why does my prompt sometimes produce completely different results?</strong></summary>
+            <div class="content">
+                <p><strong>A:</strong> Because the AI is probabilistic. Temperature and Top-P affect randomness.
+                Even with the same prompt, the AI may choose different but equally statistically probable tokens.</p>
+                <p><strong>Solution:</strong> For deterministic outputs, use temperature = 0.0 and be as specific as possible.</p>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Q: How do I know if the AI is hallucinating?</strong></summary>
+            <div class="content">
+                <p><strong>A:</strong> Hallucinations are when the AI generates plausible-sounding but false information.
+                To detect them:</p>
+                <ul>
+                    <li>Ask the AI to cite sources</li>
+                    <li>Verify API methods against official documentation</li>
+                    <li>Test the code in your environment</li>
+                    <li>Ask the AI to justify its reasoning (Chain of Thought)</li>
+                    <li>Use multiple AIs and compare outputs</li>
+                </ul>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Q: What's the best temperature for BIM code generation?</strong></summary>
+            <div class="content">
+                <p><strong>A:</strong> 0.0–0.2. You want deterministic, predictable code. Higher temperatures
+                introduce randomness that can lead to syntax errors or unexpected logic.</p>
+                <p><strong>Exception:</strong> If you're brainstorming architectural approaches, 0.5–0.7 can be useful.</p>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Q: How long should my prompt be?</strong></summary>
+            <div class="content">
+                <p><strong>A:</strong> As long as it needs to be, but no longer. Production prompts often exceed
+                500 words. The extra detail saves time in debugging and validation.</p>
+                <p><strong>Rule of thumb:</strong> If you can remove something without losing clarity, remove it.
+                If you're unsure, add it — you can always shorten later.</p>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Q: Can I use the same prompt for ChatGPT, Claude, and DeepSeek?</strong></summary>
+            <div class="content">
+                <p><strong>A:</strong> Generally yes, but with caveats:</p>
+                <ul>
+                    <li><strong>ChatGPT (GPT-4):</strong> Excellent at following complex instructions, good with code.</li>
+                    <li><strong>Claude:</strong> Excellent at reasoning and analysis, strong with structured outputs.</li>
+                    <li><strong>DeepSeek:</strong> Very good with code, strong performance for technical tasks.</li>
+                    <li><strong>Gemini:</strong> Good for multimodal tasks.</li>
+                </ul>
+                <p><strong>Recommendation:</strong> Test your prompt on multiple models. Each may interpret it slightly differently.</p>
+            </div>
+        </details>
+
+        <hr class="hr-divider">
+
+        <!-- ════════════════════════════════════════════ -->
+        <!-- 19. KNOWLEDGE CONNECTIONS                   -->
+        <!-- ════════════════════════════════════════════ -->
+        <h2>🔗 Knowledge Connections</h2>
+
+        <div class="grid-2">
+            <div class="card">
+                <strong>📚 Prerequisites for This Lesson</strong>
+                <ul>
+                    <li>Basic understanding of programming concepts</li>
+                    <li>Familiarity with Revit and Dynamo</li>
+                    <li>Curiosity about AI</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>➡️ What This Leads To</strong>
+                <ul>
+                    <li><strong>Level 1:</strong> Prompt Fundamentals</li>
+                    <li><strong>Level 2:</strong> Context Engineering</li>
+                    <li><strong>Level 3:</strong> Prime Directives &amp; Persona Prompting</li>
+                    <li><strong>Level 4:</strong> Structured Prompting</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>🔗 Related Topics</strong>
+                <ul>
+                    <li>RAG (Retrieval-Augmented Generation)</li>
+                    <li>AI Agents</li>
+                    <li>Function Calling</li>
+                    <li>Prompt Chaining</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>🧩 Dependencies</strong>
+                <ul>
+                    <li>Understanding LLMs is foundational for ALL prompt engineering</li>
+                    <li>This lesson applies to every other lesson in the curriculum</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ════════════════════════════════════════════ -->
+        <!-- 20. FUTURE LEARNING ROADMAP                 -->
+        <!-- ════════════════════════════════════════════ -->
+        <h2>🗺️ Future Learning Roadmap</h2>
+
+        <div class="mermaid">
+BEGINNER (Level 0-2)
+├── Level 0: What is AI?               ◄── YOU ARE HERE
+├── Level 1: Prompt Fundamentals
+└── Level 2: Context Engineering
+
+INTERMEDIATE (Level 3-6)
+├── Level 3: Prime Directives & Persona
+├── Level 4: Structured Prompting
+├── Level 5: Output Structuring
+└── Level 6: Few-Shot & Zero-Shot
+
+ADVANCED (Level 7-9)
+├── Level 7: Reasoning Strategies
+├── Level 8: RAG, ReAct, Reflection
+└── Level 9: Prompt Debugging
+
+EXPERT (Level 10-11)
+├── Level 10: AI Agents
+└── Level 11: Model Selection & Tuning
+
+MASTER (Level 12-13)
+├── Level 12: Enterprise Prompt Engineering
+└── Level 13: Capstone Project
+        </div>
+
+        <div class="callout info">
+            <strong>💡 Progression Tip:</strong> Master each level before moving on. Prompt engineering is not a
+            sprint — it's a skill that compounds. Each level builds on the previous one.
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ════════════════════════════════════════════ -->
+        <!-- 21. AI PROMPT ENGINEERING INSIGHTS          -->
+        <!-- ════════════════════════════════════════════ -->
+        <h2>✍️ AI Prompt Engineering Insights</h2>
+
+        <div class="card blue">
+            <strong>How This Lesson Changes Your Prompting</strong>
+            <ul>
+                <li>You now understand <em>why</em> specificity matters (the AI is probabilistic)</li>
+                <li>You now know <em>why</em> constraints are critical (the AI will fill gaps with assumptions)</li>
+                <li>You now recognise that <em>output format</em> is a tool to force the AI into useful patterns</li>
+            </ul>
+        </div>
+
+        <h3>Bad vs. Good vs. Expert vs. Production</h3>
+
+        <div class="prompt-ladder">
+            <div class="prompt-item bad">
+                <strong><span class="tag bad">BAD</span></strong><br>
+                <em>"How do I rename sheets in Revit with Dynamo?"</em>
+                <div class="small" style="margin-top:4px; color:#991b1b;">
+                    ❌ Vague. No context. No constraints. The AI will give a generic answer that may not work.
+                </div>
+            </div>
+            <div class="prompt-item good">
+                <strong><span class="tag good">GOOD</span></strong><br>
+                <em>"Act as a Dynamo expert. I need to rename sheets with a sequential number. Provide a workflow."</em>
+                <div class="small" style="margin-top:4px; color:#92400e;">
+                    ✅ Better. Role defined. Goal stated. But still lacks specifics (edge cases, format, validation).
+                </div>
+            </div>
+            <div class="prompt-item expert">
+                <strong><span class="tag expert">EXPERT</span></strong><br>
+                <em>"Act as a Senior Automation Specialist. Design a Dynamo workflow that renames sheets using 'Original Name N'. Provide: node list, Python code, error handling, performance optimisation for 1000+ sheets."</em>
+                <div class="small" style="margin-top:4px; color:#1e3a5f;">
+                    ✅✅ Excellent. Rich persona. Precise logic. Edge cases. Output format specified. Performance considered.
+                </div>
+            </div>
+            <div class="prompt-item production">
+                <strong><span class="tag production">PRODUCTION</span></strong><br>
+                <em>"System: Senior BIM Automation Architect. Task: Complete workflow with dry-run, rollback, CSV logging, validation, test matrix, progress bar, backup parameters. Output: Full code, node diagram, installation guide, validation results, performance analysis."</em>
+                <div class="small" style="margin-top:4px; color:#064e3b;">
+                    ✅✅✅ Everything in Expert + test strategy, rollback, logging, dry-run, compatibility matrices,
+                    user experience, and production safety constraints.
+                </div>
+            </div>
+            <div class="prompt-item master">
+                <strong><span class="tag master">MASTER</span></strong><br>
+                <em>Enterprise-grade prompt with: multi-version compatibility, CI/CD integration, automated testing,
+                user role-based access, integration with BIM standards, cloud logging, configurable via JSON,
+                and self-documenting code generation.</em>
+                <div class="small" style="margin-top:4px; color:#4c1d95;">
+                    🏆 Beyond production. Integrated into the organisation's toolchain. Designed for sustainability
+                    and scale.
+                </div>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ════════════════════════════════════════════ -->
+        <!-- 22. PROMPT IMPROVEMENT SUGGESTIONS         -->
+        <!-- ════════════════════════════════════════════ -->
+        <h2>📝 Prompt Improvement Suggestions</h2>
+
+        <h3>Your Initial Prompt (Baseline)</h3>
+        <div class="code-block">
+"Consider yourself as a expert in dynamo, I want you to tell me the node which can be applicable to create a dynamo script which tell me to change sheet name in revit or any other parameter in revit. I need clear workflow and steps as I do not have a experience in dynamo, But I have used it for running the script which are already build."
+        </div>
+
+        <p><strong>Weaknesses identified:</strong></p>
+        <ul>
+            <li>Assumes a single node (reveals limited understanding of Dynamo)</li>
+            <li>"Any other parameter" is too broad</li>
+            <li>Passive "tell me" instead of directive</li>
+            <li>Weak role prompting ("consider yourself")</li>
+            <li>No output format specified</li>
+            <li>No error handling</li>
+        </ul>
+
+        <h3>Your Expert Prompt (After Refinement)</h3>
+        <div class="code-block">
+"Act as a Senior BIM Automation Specialist with 15+ years of experience. Design a complete Dynamo workflow that renames sheets using 'Original Name N'. Accept a list of sheets. Number sequentially. Handle empty names → 'Null'. Use proper transaction handling. Provide: ASCII diagram, node list, Python code, installation instructions, validation checklist. Optimise for 1000+ sheets."
+        </div>
+
+        <p><strong>Improvements made:</strong></p>
+        <ul>
+            <li>✅ Specific role with years of experience</li>
+            <li>✅ Clear naming convention with examples</li>
+            <li>✅ Edge cases specified (null names)</li>
+            <li>✅ Transaction handling</li>
+            <li>✅ Multi-format output specification</li>
+            <li>✅ Performance consideration</li>
+            <li>✅ Validation checklist</li>
+        </ul>
+
+        <div class="callout success">
+            <strong>🏆 Why This Matters:</strong> Your prompt evolution from baseline to expert-level demonstrates
+            the power of iterative refinement. You now know how to systematically improve your prompts by:
+            <ul>
+                <li>Adding specificity (what exactly do you want?)</li>
+                <li>Adding constraints (what can't happen?)</li>
+                <li>Adding output format (what should the AI produce?)</li>
+                <li>Adding context (who is using this? what's the environment?)</li>
+                <li>Adding safety (error handling, rollback, validation)</li>
+            </ul>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ════════════════════════════════════════════ -->
+        <!-- 23. MY LEARNING ANALYSIS                   -->
+        <!-- ════════════════════════════════════════════ -->
+        <h2>📊 Your Learning Analysis</h2>
+
+        <div class="grid-2">
+            <div class="card green">
+                <strong>✅ Strengths Demonstrated</strong>
+                <ul>
+                    <li>You ask specific, actionable questions</li>
+                    <li>You provide relevant context (BIM, Dynamo, Revit)</li>
+                    <li>You absorb and apply feedback quickly</li>
+                    <li>You think about documentation (HTML summary request)</li>
+                    <li>You iterate on your prompts based on analysis</li>
+                    <li>You demonstrate a growth mindset</li>
+                </ul>
+            </div>
+            <div class="card amber">
+                <strong>🔶 Areas for Improvement</strong>
+                <ul>
+                    <li>Still occasionally rely on the AI to fill gaps (e.g., "custom parameter" ambiguity)</li>
+                    <li>Sometimes use subjective language ("clear and precise") without defining it</li>
+                    <li>Could be even more explicit about output format (sometimes it's implied)</li>
+                </ul>
+            </div>
+            <div class="card blue">
+                <strong>🧠 Thinking Quality</strong>
+                <ul>
+                    <li>You think systemically — you're not just asking for code, but for a workflow</li>
+                    <li>You consider the end-user (BIM Coordinator)</li>
+                    <li>You think about scale (1000+ sheets)</li>
+                    <li>You think about safety (error handling, rollback)</li>
+                </ul>
+            </div>
+            <div class="card purple">
+                <strong>🚀 Recommended Practice</strong>
+                <ul>
+                    <li>Practice writing prompts for different scenarios (don't just use one template)</li>
+                    <li>Try prompting for: documentation, proposals, management reports, and client emails</li>
+                    <li>Experiment with different AI models to see how they interpret your prompts</li>
+                    <li>Review your prompts from 3 months ago and see how you've improved</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="callout success">
+            <strong>🎯 Overall Assessment:</strong> You have moved from a "Good" prompter to an "Expert" prompter
+            within a single lesson. This is exceptional progress. Your ability to absorb feedback, apply it, and
+            then push further (by requesting the HTML summary) demonstrates advanced learning capability.
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ════════════════════════════════════════════ -->
+        <!-- 24. FINAL EXPERT TAKEAWAY                  -->
+        <!-- ════════════════════════════════════════════ -->
+        <h2>🎯 Final Expert Takeaway</h2>
+
+        <div class="card purple" style="border-left-color:#7c3aed; background:#f5f3ff;">
+            <h3 style="margin-top:0; color:#4c1d95;">📄 One Page of Advice from a 30-Year Mentor</h3>
+            <p style="font-size:1.1rem; line-height:1.7;">
+                <strong>You are not talking to a person. You are talking to a mirror.</strong>
+            </p>
+            <p>
+                The AI will reflect back exactly what you give it. If you give it ambiguity, it will reflect
+                ambiguity. If you give it precision, it will reflect precision. If you give it constraints,
+                it will reflect solutions that work within those constraints.
+            </p>
+            <p>
+                <strong>The secret:</strong> Spend 80% of your time on the prompt and 20% on the code.
+                The code is easy once the prompt is right. The prompt is the hard part — and it's where the real
+                value lies.
+            </p>
+            <p>
+                <strong>Your competitive advantage:</strong> You know Revit. You know Dynamo. You know construction.
+                The AI knows language. Together, you are unstoppable. But only if you learn to speak the AI's
+                language — which is precision, specificity, and structure.
+            </p>
+            <p style="margin-top:12px; font-weight:600; color:#4c1d95;">
+                🔥 Never stop refining. Never assume the AI understands. Always verify. Always iterate.
+            </p>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ════════════════════════════════════════════ -->
+        <!-- 25. MEMORY REVISION SHEET                   -->
+        <!-- ════════════════════════════════════════════ -->
+        <h2>📄 Memory Revision Sheet (5-Minute Review)</h2>
+
+        <div class="card" style="border-left-color:#8b5cf6; background:#faf5ff;">
+            <div class="grid-2" style="gap:8px;">
+                <div>
+                    <strong>🧠 Core Concept</strong>
+                    <ul style="margin:4px 0 0 18px; font-size:0.9rem;">
+                        <li>LLM = Probabilistic pattern-matching engine</li>
+                        <li>Predicts next token, doesn't "know" facts</li>
+                        <li>Output quality = Input quality</li>
+                    </ul>
+                </div>
+                <div>
+                    <strong>📝 Prompt Ladder</strong>
+                    <ul style="margin:4px 0 0 18px; font-size:0.9rem;">
+                        <li>Bad: Vague, no context</li>
+                        <li>Good: Clear goal, some context</li>
+                        <li>Expert: Rich role, constraints, output format</li>
+                        <li>Production: Test matrix, rollback, logging</li>
+                    </ul>
+                </div>
+                <div>
+                    <strong>🔑 Golden Rules</strong>
+                    <ul style="margin:4px 0 0 18px; font-size:0.9rem;">
+                        <li>Be explicit</li>
+                        <li>Be specific</li>
+                        <li>Provide context</li>
+                        <li>Anticipate errors</li>
+                        <li>Iterate relentlessly</li>
+                    </ul>
+                </div>
+                <div>
+                    <strong>🚫 Common Mistakes</strong>
+                    <ul style="margin:4px 0 0 18px; font-size:0.9rem;">
+                        <li>"You know what I mean"</li>
+                        <li>No error handling</li>
+                        <li>No output format</li>
+                        <li>Accepting output without verification</li>
+                    </ul>
+                </div>
+            </div>
+            <hr style="margin:10px 0; border-color:#e2e8f0;">
+            <div style="display:flex; justify-content:space-between; flex-wrap:wrap; font-size:0.85rem;">
+                <span><strong>Temperature:</strong> 0.0–0.2 for code, 0.5–0.7 for creative</span>
+                <span><strong>Context Window:</strong> 4K–1M tokens</span>
+                <span><strong>Token:</strong> ~0.75 words</span>
+                <span><strong>Golden Rule:</strong> Garbage in, garbage out</span>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ════════════════════════════════════════════ -->
+        <!-- 26. INTERVIEW PERSPECTIVE                   -->
+        <!-- ════════════════════════════════════════════ -->
+        <h2>🎤 Interview Perspective</h2>
+
+        <details>
+            <summary><strong>Technical Interview Question</strong></summary>
+            <div class="content">
+                <p><strong>Q:</strong> "How would you approach writing a prompt for a production-level Dynamo script?"</p>
+                <p><strong>Expert Answer:</strong></p>
+                <p>
+                    "I treat the prompt as a requirements document. I start by defining the system role — who the AI
+                    should be — to set the tone and expertise level. Then I specify the task with concrete examples.
+                    I list constraints: what can't happen, what edge cases need handling. I define the output format
+                    explicitly: what I expect to receive. I add error handling requirements and performance benchmarks.
+                    Finally, I include validation criteria so I know when the output is acceptable.
+                    The prompt itself becomes the documentation for the solution."
+                </p>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Management Interview Question</strong></summary>
+            <div class="content">
+                <p><strong>Q:</strong> "How would you ensure consistency across AI-generated code in your team?"</p>
+                <p><strong>Expert Answer:</strong></p>
+                <p>
+                    "I would create a prompt library with templates for common tasks. Each template would include
+                    required sections: system role, task, constraints, output format, validation criteria.
+                    I'd also implement a review process where prompts are reviewed before use, and outputs are
+                    validated after. This creates a feedback loop that continuously improves our prompts over time.
+                    The key is treating prompt engineering as a discipline, not an afterthought."
+                </p>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Client Meeting Question</strong></summary>
+            <div class="content">
+                <p><strong>Q:</strong> "How do you ensure the AI doesn't hallucinate on our project?"</p>
+                <p><strong>Expert Answer:</strong></p>
+                <p>
+                    "Hallucinations are the biggest risk when using AI. My approach is three-fold:
+                    <br>1) <strong>Prevention:</strong> My prompts are highly specific with clear constraints and
+                    explicit 'never' rules.
+                    <br>2) <strong>Detection:</strong> I always cross-reference AI-generated code against official
+                    documentation and test in a controlled environment.
+                    <br>3) <strong>Verification:</strong> I implement validation logic in the scripts themselves so
+                    they can detect inconsistencies and report them.
+                    <br>In production, we never run AI-generated code without human review and testing."
+                </p>
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Training Session Question</strong></summary>
+            <div class="content">
+                <p><strong>Q:</strong> "How do you teach junior team members to prompt effectively?"</p>
+                <p><strong>Expert Answer:</strong></p>
+                <p>
+                    "I start with the mental model: AI is Supercharged Autocomplete. It doesn't 'know' anything —
+                    it predicts text. Then I show them the Prompt Ladder: start with a Bad prompt, make it Good,
+                    then Expert, then Production. I have them do this exercise with their own real work.
+                    The key is to make them <em>feel</em> the difference when they add specificity and constraints.
+                    I also share my own prompt refinements so they can see the process in action."
+                </p>
+            </div>
+        </details>
+
+        <hr class="hr-divider">
+
+        <!-- ════════════════════════════════════════════ -->
+        <!-- 27. REAL-WORLD CASE STUDY                   -->
+        <!-- ════════════════════════════════════════════ -->
+        <h2>🏗️ Real-World Case Study</h2>
+
+        <h3>Scenario: The 500-Sheet Project</h3>
+        <p>
+            You are the BIM Manager on a large healthcare project. The project has 500+ sheets, and the client
+            has just requested a new naming convention. You need to rename all sheets quickly and reliably.
+        </p>
+
+        <h4>Step 1: Requirements Gathering</h4>
+        <ul>
+            <li>Client wants: <code>"A-1-D-01-000"</code> style naming</li>
+            <li>Current: <code>"A-1-D-01"</code> (without the final number)</li>
+            <li>You need to add a sequential number based on sheet order</li>
+        </ul>
+
+        <h4>Step 2: Prompt Engineering</h4>
+        <div class="code-block">
+"Act as a Senior BIM Automation Architect with 15+ years in Revit and Dynamo.
+
+TASK: Design a Dynamo workflow that renames 500+ sheets with sequential numbering.
+
+REQUIREMENTS:
+- Input: List of sheets in the order they should be numbered
+- Output: New sheet names = 'Original Name' + ' ' + Sequential Number
+- Edge Cases: Empty names → 'Null', duplicate names → append '_1'
+- Transaction: Single transaction, rollback on failure
+- Backup: Create '_BACKUP_OriginalName' parameter before changes
+- Logging: CSV output with Sheet ID, Original Name, New Name, Status
+- Dry Run: Boolean input to preview changes
+- Performance: Must handle 500 sheets without freezing Revit
+- Validation: Pre-run and post-run validation
+- User Experience: Progress bar
+
+OUTPUT FORMAT:
+1. Node diagram (ASCII)
+2. Node table
+3. Full Python code (production quality)
+4. Installation guide
+5. Test matrix
+6. Performance analysis
+
+CONSTRAINTS:
+- Use only built-in Dynamo nodes and Revit API
+- No external packages
+- Compatible with Revit 2022-2026
+- Compatible with Dynamo 2.13+
+
+If any requirement is impossible, state the limitation clearly."
+        </div>
+
+        <h4>Step 3: Testing</h4>
+        <ul>
+            <li>Test with 3 sheets first → passes</li>
+            <li>Test with 50 sheets → passes</li>
+            <li>Test with 500 sheets → passes (takes ~8 seconds)</li>
+            <li>Test dry-run mode → previews correctly, no changes</li>
+            <li>Test rollback → original names restored</li>
+        </ul>
+
+        <h4>Step 4: Deployment</h4>
+        <ul>
+            <li>Document the workflow with the AI-generated guide</li>
+            <li>Train a junior BIM coordinator to run it</li>
+            <li>Add to the project's automation toolkit</li>
+            <li>Monitor feedback and refine</li>
+        </ul>
+
+        <div class="callout success">
+            <strong>✅ Outcome:</strong> 500 sheets renamed in under 10 seconds. Zero errors. Full audit trail.
+            The client was impressed by the speed and accuracy. The junior coordinator felt empowered because
+            the tool was easy to use and had clear feedback.
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ════════════════════════════════════════════ -->
+        <!-- 28. CONTINUOUS IMPROVEMENT NOTES            -->
+        <!-- ════════════════════════════════════════════ -->
+        <h2>🔄 Continuous Improvement Notes</h2>
+
+        <div class="grid-2">
+            <div class="card">
+                <strong>📊 What to Review After Future Work</strong>
+                <ul>
+                    <li>Did the prompt produce what was expected?</li>
+                    <li>What assumptions did the AI make that I didn't anticipate?</li>
+                    <li>What edge cases did the script miss?</li>
+                    <li>How could the prompt be clearer for next time?</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>📈 Metrics to Track</strong>
+                <ul>
+                    <li>Number of prompt iterations before success</li>
+                    <li>Time from prompt to working solution</li>
+                    <li>Number of bugs found in AI-generated code</li>
+                    <li>User satisfaction with the tool</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>🤖 What to Automate</strong>
+                <ul>
+                    <li>Test execution (automated testing for scripts)</li>
+                    <li>Documentation generation (from prompts)</li>
+                    <li>Prompt library management</li>
+                    <li>User feedback collection</li>
+                </ul>
+            </div>
+            <div class="card">
+                <strong>🧠 What to Learn Next</strong>
+                <ul>
+                    <li>Level 1: Prompt Fundamentals</li>
+                    <li>Advanced prompting techniques (Chain of Thought, ReAct)</li>
+                    <li>RAG for BIM documentation</li>
+                    <li>AI Agents for construction workflows</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ════════════════════════════════════════════ -->
+        <!-- FOOTER                                       -->
+        <!-- ════════════════════════════════════════════ -->
+        <div style="text-align:center; font-size:0.8rem; color:#94a3b8; padding-top:20px; border-top:1px solid #e2e8f0;">
+            <strong>Level 0 — The Foundation: What is AI?</strong><br>
+            Expert Knowledge Document &bull; Prompt Engineering for BIM &amp; Construction Technology<br>
+            Created: 2026 &bull; Permanent Reference &bull; Version 1.0
+        </div>
+
+    </div>
+    <!-- End container -->
+</body>
+</html>
